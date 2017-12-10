@@ -1,0 +1,43 @@
+@media only screen and (max-width: 1264px) {
+  #nav {
+    position: fixed;
+    padding: 10px;
+    padding-top: 0;
+    top: 0;
+    width: 200px;
+    left: -240px;
+    transition: transform .3s ease-in-out;
+    background-color: #fff;
+    border-radius: 0 0 10% 0;
+  }
+
+  #nav:target {
+    transform: translateX(240px);
+  }
+
+   header .open {
+    display: block;
+    padding: 10px;
+  }
+
+  header .close {
+    display: block;
+    text-align: right;
+    padding: 10px;
+  }
+
+  .header-menu {
+    margin-top: -45px;;
+    border-radius: 10%;
+  }
+
+  .header-menu li {
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 1265px) {
+  .toggle {
+    display: none;
+  }
+}

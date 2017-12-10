@@ -1,0 +1,39 @@
+@font-face {
+font-family: 'Geometria Medium';
+src: url('Geometria-Medium.eot');
+src: url('Geometria-Medium.eot?#iefix') format('embedded-opentype'),
+url('Geometria-Medium.woff') format('woff'),
+url('Geometria-Medium.ttf') format('truetype');
+font-weight: normal;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'Geometria Bold';
+src: url('Geometria-Bold.eot');
+src: url('Geometria-Bold.eot?#iefix') format('embedded-opentype'),
+url('Geometria-Bold.woff') format('woff'),
+url('Geometria-Bold.ttf') format('truetype');
+font-weight: normal;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'Geometria Regular';
+src: url('Geometria.eot');
+src: url('Geometria.eot?#iefix') format('embedded-opentype'),
+url('Geometria.woff') format('woff'),
+url('Geometria.ttf') format('truetype');
+font-weight: normal;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'Geometria Light';
+src: url('Geometria-Light.eot');
+src: url('Geometria-Light.eot?#iefix') format('embedded-opentype'),
+url('Geometria-Light.woff') format('woff'),
+url('Geometria-Light.ttf') format('truetype');
+font-weight: normal;
+font-style: normal;
+}
