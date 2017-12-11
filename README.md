@@ -1,8 +1,8 @@
-# Website for selling dishes
+# Lightweight website with opportunity to browse catalog
 
 In this project we are building website for **studying** purposes.
 
 ### Developers:
-* [Klochkov S.](https://github.com/klochkovS)
-* [Litvinov K.](https://github.com/LitvinovKV)
-* [Kovechenkov V.](https://github.com/Sc4ramouche)
+* [Sergey K.](https://github.com/klochkovS)
+* [Kirill L.](https://github.com/LitvinovKV)
+* [Vladislav K.](https://github.com/Sc4ramouche)
