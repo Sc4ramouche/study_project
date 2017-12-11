@@ -1,4 +1,4 @@
-@media only screen and (max-width: 1264px) {
+@media only screen and (max-width: 1297px) {
   #nav {
     position: fixed;
     padding: 10px;
@@ -7,8 +7,9 @@
     width: 200px;
     left: -240px;
     transition: transform .3s ease-in-out;
-    background-color: #fff;
+    background-color: #eed7d7;
     border-radius: 0 0 10% 0;
+    z-index: 10;
   }
 
   #nav:target {
@@ -34,10 +35,35 @@
   .header-menu li {
     display: block;
   }
+
+  .container-header-bottom {
+    grid-template-areas: "l b s s s"
+                         "c c m m m";
+    grid-gap: 0;
+    margin-left: 20%;
+    grid-column-gap: 100px;
+  }
 }
 
-@media only screen and (min-width: 1265px) {
+@media only screen and (min-width: 1298px) {
   .toggle {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .container-header-bottom {
+    margin-left: auto;
+    grid-column-gap: 50px;
+  }
+
+  .jumbotron {
+    margin-top: 20px;
+  }
+}
+
+@media only screen and (max-width: 866px) {
+  .container-header-bottom {
+    grid-column-gap: 0px;
   }
 }

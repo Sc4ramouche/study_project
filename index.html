@@ -11,24 +11,62 @@
 </head>
 <body>
   <header>
-    <div class="container container-header">
-      <a class="toggle open" href="#nav">МЕНЮ</a>
-      <nav class="header-navigation" id="nav">
-        <a class="toggle close" href="#">X</a>
-        <ul class="header-menu">
-          <li><a href="#">Главная</a></li>
-          <li><a href="#">О нас</a></li>
-          <li><a href="#">Каталог товаров</a></li>
-          <li><a href="#">Новости</a></li>
-          <li><a href="#">Обратная связь</a></li>
-          <li><a href="#">Доставка</a></li>
-          <li><a href="#">Контакты</a></li>
-        </ul>
-      </nav>
-      <div class="header-auth">
-        <a href="#">Личный кабинет</a>
+    <div class="header-top">
+      <div class="container container-header-top">
+        <a class="toggle open" href="#nav">МЕНЮ</a>
+        <nav class="header-navigation" id="nav">
+          <a class="toggle close" href="#">X</a>
+          <ul class="header-menu">
+            <li><a href="#">Главная</a></li>
+            <li><a href="#">О нас</a></li>
+            <li><a href="#">Каталог товаров</a></li>
+            <li><a href="#">Новости</a></li>
+            <li><a href="#">Обратная связь</a></li>
+            <li><a href="#">Доставка</a></li>
+            <li><a href="#">Контакты</a></li>
+          </ul>
+        </nav>
+        <div class="header-auth">
+          <a href="#">Личный кабинет</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-bottom">
+      <div class="container container-header-bottom">
+        <div class="header-logo">
+          <img src="img/logo.svg" alt="Дом посуды">
+        </div>
+        <div class="header-brand">
+          <h1>Дом посуды</h1>
+          <p>Интернет-магазин уютной посуды</p>
+        </div>
+        <div class="header-search">
+          <form action="">
+            <input type="search" placeholder="Поиск">
+          </form>
+        </div>
+        <div class="header-cart">
+          <h4>Корзина</h4>
+          <p>15 товаров на 4500 &#8381;</p>
+        </div>
+        <div class="header-mobile">
+          <h4>8 812 934 17 41</h4>
+          <p>Контактный телефон</p>
+        </div>
       </div>
     </div>
   </header>
+
+  <section class="jumbotron">
+    <div class="promo">
+      <div class="promo-text">
+        <h2 class="promo-heading"><span class="promo-capture">Посуда, для уюта</span> <br> Вашего дома</h2>
+        <hr class="promo-line">
+        <h3 class="promo-slogan">Красивая посуда в каждой кухне</h3>
+        <a href="#" class="promo-catalog">Каталог товаров</a>
+      </div>
+    </div>
+  </section>
 </body>
 </html>
