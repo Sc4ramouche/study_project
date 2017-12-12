@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="css/stylesheet.css">
-  <link rel="stylesheet" href="css/media.css">
-  <link rel="stylesheet" href="fonts/fonts.css">
+  <link rel="stylesheet" href="{{ asset('css/stylesheet.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/media.css') }}">
+  <link rel="stylesheet" href="{{ asset('fonts/fonts.css') }}">
   <title>Дом Посуды</title>
 </head>
 <body>
@@ -17,17 +17,17 @@
         <nav class="header-navigation" id="nav">
           <a class="toggle close" href="#">X</a>
           <ul class="header-menu">
-            <li><a href="#">Главная</a></li>
-            <li><a href="#">О нас</a></li>
-            <li><a href="#">Каталог товаров</a></li>
-            <li><a href="#">Новости</a></li>
+            <li><a href="/">Главная</a></li>
+            <li><a href="/about">О нас</a></li>
+            <li><a href="/catalog">Каталог товаров</a></li>
+            <li><a href="/news">Новости</a></li>
             <li><a href="#">Обратная связь</a></li>
-            <li><a href="#">Доставка</a></li>
-            <li><a href="#">Контакты</a></li>
+            <li><a href="/delivery">Доставка</a></li>
+            <li><a href="/contacts">Контакты</a></li>
           </ul>
         </nav>
         <div class="header-auth">
-          <a href="#">Личный кабинет</a>
+          <a href="/account">Личный кабинет</a>
         </div>
       </div>
     </div>
@@ -58,15 +58,11 @@
     </div>
   </header>
 
-  <section class="jumbotron">
-    <div class="promo">
-      <div class="promo-text">
-        <h2 class="promo-heading"><span class="promo-capture">Посуда, для уюта</span> <br> Вашего дома</h2>
-        <hr class="promo-line">
-        <h3 class="promo-slogan">Красивая посуда в каждой кухне</h3>
-        <a href="#" class="promo-catalog">Каталог товаров</a>
-      </div>
-    </div>
-  </section>
+
+<!-- content -->
+@yield('content')
+<!-- /content -->
+
+
 </body>
 </html>
