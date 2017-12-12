@@ -255,18 +255,19 @@ header .toggle {
   font-size: 95px;
   font-family: "Monotype Corsiva";
   font-weight: normal;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 }
 
 .promo .promo-capture {
-  margin-bottom: 25px;
+  margin-bottom: 40px;
   display: block;
   font-size: 24px;
   font-family: "Geometria Regular";
   color: rgb(234, 34, 36);
+  text-transform: uppercase;
 }
 
-.promo .promo-line {
+.promo-line {
   width: 115px;
   display: block;
   margin: 0 auto;
@@ -274,7 +275,7 @@ header .toggle {
 }
 
 .promo .promo-slogan {
-  margin-top: 50px;
+  margin-top: 40px;
   margin-bottom: 50px;
   text-align: center;
   font-size: 24px;
@@ -295,4 +296,126 @@ header .toggle {
   font-size: 22px;
   text-transform: uppercase;
   font-family: "Geometria Medium";
+}
+
+.catalog-links {
+  width: 100%;
+  border-bottom: 2px solid rgb(242,242,242);
+}
+
+.catalog-navigation .catalog-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 165px 175px 205px 235px 190px 160px;
+  grid-gap: 30px;
+  justify-content: center;
+}
+
+.catalog-list li {
+}
+
+.catalog-list a {
+  box-sizing: border;
+  text-align: center;
+  display: block;
+  padding: 15px 0;
+  text-decoration: none;
+  color: rgb(41, 41, 41);
+  border-bottom: 2px solid transparent;
+  font-family: "Geometria Bold";
+  font-size: 14px;
+  text-transform: uppercase;
+  -webkit-transition: 0.25s;
+  -o-transition: 0.25s;
+  transition: 0.25s;
+}
+
+.catalog-list a:hover {
+  /*color: rgb(234, 34, 36);*/
+  border-bottom: 2px solid rgb(234, 34, 36);
+}
+
+.catalog {
+  margin-top: 140px;
+}
+
+.catalog h2 {
+  font-family: "Geometria Medium";
+  font-size: 46px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.catalog-container {
+  margin-top: 60px;
+}
+
+.catalog-tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    margin: 0 auto;
+}
+
+.catalog-tab button {
+    background-color: #fff;
+    float: left;
+    border: 1px solid rgb(242,242,242);
+    color: rgb(41, 41, 41);
+    font-family: "Geometria Medium";
+    text-transform: uppercase;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    width: 33%;
+}
+
+.catalog-tab button:hover {
+    background-color: rgb(234, 34, 36);
+    color: #fff;
+    border-top-color: rgb(234, 34, 36);
+    border-bottom-color: rgb(234, 34, 36);
+}
+
+.catalog-tab button.active {
+    background-color: rgb(234, 34, 36);
+    color: #fff;
+    border-top-color: rgb(234, 34, 36);
+    border-bottom-color: rgb(234, 34, 36);
+}
+
+.tabcontent {
+    display: none;
+    padding: 0;
+    border: 1px solid #ccc;
+    border-top: none;
+    -webkit-animation: fadeEffect 1s;
+    animation: fadeEffect 1s;
+}
+
+.catalog-new {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.catalog-item-new {
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgb(242,242,242);
+}
+
+.catalog-item-new h6 {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.catalog-item-new img {
+  display: block;
+  width: 240px;
+  height: 170px;
+  margin: 0 auto;
 }
