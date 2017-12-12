@@ -63,6 +63,10 @@
 @yield('content')
 <!-- /content -->
 
+<script src="{{ asset('js/common.js') }}"></script>
+ <script>
+ document.getElementById("defaultOpen").click();
+ </script>
 
 </body>
 </html>
