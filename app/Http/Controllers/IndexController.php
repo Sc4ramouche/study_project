@@ -27,7 +27,6 @@ class IndexController extends Controller
         return view('card_product');
     }
 
-
     public function news() {
 
         return view('news');
