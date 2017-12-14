@@ -20,13 +20,15 @@ class CreateProductTable extends Migration
             $table->integer('ID_BREND')->unsigned();
             $table->integer('ID_MODEL')->unsigned();
             $table->integer('ID_COUNTRY')->unsigned();
+            $table->integer('ID_PICTURE')->unsigned();
 
             $table->primary('VENDOR_CODE');
             $table->foreign('ID_SUBCATEGORY')->references('ID_SUBCATEGORY')->on('SUBCATEGORY');
             $table->foreign('ID_BREND')->references('ID_BREND')->on('BREND');
             $table->foreign('ID_MODEL')->references('ID_MODEL')->on('MODEL');
             $table->foreign('ID_COUNTRY')->references('ID_COUNTRY')->on('COUNTRY');
-            
+            $table->foreign('ID_PICTURE')->references('ID_PICTURE')->on('PICTURE');
+
             $table->integer('VENDOR_CODE_PROVIDER'); //код поставщика
             $table->double('Width');    //ширина
             $table->double('Height');   //высота
