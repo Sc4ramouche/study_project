@@ -41,10 +41,4 @@ class IndexController extends Controller
 
         return view('contacts');
     }
-
-    public function account() {
-
-        return view('account');
-    }
-
 }

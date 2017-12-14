@@ -2,8 +2,6 @@
 
 @section('content')
 
-<h1>Catalog</h1>
-
-<p>catalog goes here</p>
+<h1>AdminPanel</h1>
 
 @endsection()
