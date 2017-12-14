@@ -19,3 +19,6 @@ Route::get('/news', 'IndexController@news');
 Route::get('/delivery', 'IndexController@delivery');
 Route::get('/contacts', 'IndexController@contacts');
 Route::get('/account', 'IndexController@account');
+
+//Kirill adds
+Route::get('/adminpanel', 'AdminController@general');

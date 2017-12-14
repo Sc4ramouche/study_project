@@ -34,6 +34,9 @@ class CreateProductTable extends Migration
             $table->double('Height');   //высота
             $table->double('length');   //длина
             $table->double('Weight');   //вес
+            $table->boolean('IsNew');   //новинка
+            $table->boolean('IsLeader');    //лидер продаж
+            $table->boolean('IsRecomend');  //рекомендуем
             //$table->timestamps();
         });
     }
