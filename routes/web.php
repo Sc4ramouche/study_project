@@ -35,3 +35,6 @@ Route::get('/admin','AdminController@adminpanel'); //Если не залоги�
 Route::get('/admin/login', 'AuthAdmin\LoginController@showLoginForm');
 Route::post('/admin/login', 'AuthAdmin\LoginController@login');
 Route::get('/admin/logout', 'AuthAdmin\LoginController@logout');
+
+//Роуты для контроллера панели администратора
+Route::GET('/admin/ShowCategory', 'AdminController@ShowCategory');
