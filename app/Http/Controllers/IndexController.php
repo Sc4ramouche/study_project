@@ -43,6 +43,7 @@ class IndexController extends Controller
     }
 
     public function account() {
+
         return view('account');
     }
 }
