@@ -13,7 +13,7 @@
 
 Route::get('/', 'IndexController@home');
 Route::get('/about', 'IndexController@about');
-Route::get('/catalog', 'IndexController@catalog');
+Route::get('/catalog', 'CatalogController@catalog');
 Route::get('/card-product', 'IndexController@card_product');
 Route::get('/news', 'IndexController@news');
 Route::get('/delivery', 'IndexController@delivery');

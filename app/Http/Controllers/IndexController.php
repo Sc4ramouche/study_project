@@ -19,11 +19,6 @@ class IndexController extends Controller
         return view('about');
     }
 
-    public function catalog() {
-
-        return view('catalog');
-    }
-
     public function card_product() {
 
         return view('card_product');
