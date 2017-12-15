@@ -2,7 +2,6 @@
 
 @section('content')
 
-
 <section class="jumbotron">
   <div class="promo">
     <div class="promo-text">
@@ -153,7 +152,6 @@
     </div>
   </div>
 </section>
-<<<<<<< HEAD
 
 <section class="features">
   <div class="container">
@@ -232,6 +230,3 @@
 
 
 @endsection()
-=======
-@endsection
->>>>>>> d06cfce04dd816651a7cba3e34b3df7baee23bc5
