@@ -150,6 +150,7 @@ header .toggle {
 
 .header-search input {
   font-family: "Geometria Light";
+  font-weight: bold;
   padding: 12px 15px;
   background-size: 20px;
   background-image: url("../img/search.png");
@@ -271,7 +272,7 @@ header .toggle {
   width: 115px;
   display: block;
   margin: 0 auto;
-  border: 2px solid rgb(234, 34, 36);
+  border: 1px solid rgb(234, 34, 36);
 }
 
 .promo .promo-slogan {
@@ -346,76 +347,318 @@ header .toggle {
   font-size: 46px;
   text-transform: uppercase;
   text-align: center;
+  font-weight: normal;
 }
 
 .catalog-container {
-  margin-top: 60px;
+  margin-top: 80px;
 }
 
 .catalog-tab {
-    overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  margin: 0 auto;
 }
 
 .catalog-tab button {
-    background-color: #fff;
-    float: left;
-    border: 1px solid rgb(242,242,242);
-    color: rgb(41, 41, 41);
-    font-family: "Geometria Medium";
-    text-transform: uppercase;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-    width: 33%;
+  background-color: #fff;
+  float: left;
+  border: 1px solid rgb(242,242,242);
+  color: rgb(41, 41, 41);
+  font-family: "Geometria Medium";
+  text-transform: uppercase;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  width: 33%;
+}
+
+.catalog-tab button:last-child {
+  width: 34%;
 }
 
 .catalog-tab button:hover {
-    background-color: rgb(234, 34, 36);
-    color: #fff;
-    border-top-color: rgb(234, 34, 36);
-    border-bottom-color: rgb(234, 34, 36);
+  background-color: rgb(234, 34, 36);
+  color: #fff;
+  border-top-color: rgb(234, 34, 36);
+  border-bottom-color: rgb(234, 34, 36);
 }
 
 .catalog-tab button.active {
-    background-color: rgb(234, 34, 36);
-    color: #fff;
-    border-top-color: rgb(234, 34, 36);
-    border-bottom-color: rgb(234, 34, 36);
+  background-color: rgb(234, 34, 36);
+  color: #fff;
+  border-top-color: rgb(234, 34, 36);
+  border-bottom-color: rgb(234, 34, 36);
 }
 
 .tabcontent {
-    display: none;
-    padding: 0;
-    border: 1px solid #ccc;
-    border-top: none;
-    -webkit-animation: fadeEffect 1s;
-    animation: fadeEffect 1s;
+  display: none;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-top: none;
+  -webkit-animation: fadeEffect 1s;
+  animation: fadeEffect 1s;
+  margin-top: 60px;
 }
 
-.catalog-new {
+.catalog-home {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
-.catalog-item-new {
+.catalog-item {
   margin: 0;
   padding: 0;
   border: 1px solid rgb(242,242,242);
+  width: 100%;
+  height: 500px;
+  position: relative;
 }
 
-.catalog-item-new h6 {
+.catalog-item h6 {
   display: block;
   margin: 0;
-  padding: 0;
+  padding: 15px;
+  font-family: "Geometria Regular";
+  font-size: 20px;
+  color: rgb(234, 34, 36);
+  text-transform: uppercase;
 }
 
-.catalog-item-new img {
+.catalog-item img {
   display: block;
   width: 240px;
   height: 170px;
   margin: 0 auto;
+  margin-top: 60px;
+}
+
+.catalog-item p {
+  text-align: center;
+  font-family: "Geometria Light";
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 30px;
+}
+
+.catalog-item a {
+  text-decoration: none;
+  color: rgb(41, 41, 41);
+  font-weight: bold;
+}
+
+.catalog-item .catalog-item-cart {
+  box-sizing: border-box;
+  width: 100%;
+  position: absolute;
+  bottom: -68px;
+  padding: 20px;
+  color: #fff;
+  background-color: rgb(234, 34, 36);
+  text-align: center;
+  font-family: "Geometria Medium";
+  font-size: 22px;
+  text-transform: uppercase;
+  border: 1px solid rgb(234, 34, 36);
+  letter-spacing: 2px;
+  opacity: 0;
+  -webkit-transition: 0.25s;
+  -o-transition: 0.25s;
+  transition: 0.25s;
+}
+
+.catalog-item span {
+  text-transform: uppercase;
+}
+
+.catalog-item b {
+  margin-top: 30px;
+  display: block;
+  text-align: center;
+  font-family: "Geometria Regular";
+  font-size: 30px;
+  font-weight: normal;
+  color: rgb(41, 41, 41);
+}
+
+.catalog-home .promo-line {
+  width: 75px;
+}
+
+.catalog-item:hover .catalog-item-cart {
+  opacity: 1;
+}
+
+.features {
+  margin-top: 140px;
+}
+
+.features ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.feature-item {
+  position: relative;
+  text-align: center;
+  font-family: "Geometria Regular";
+  font-size: 18px;
+  color: rgb(41, 41, 41);
+  padding-top: 60px;
+  width: 100%;
+}
+
+.feature-range::before,
+.feature-age::before,
+.feature-quality::before,
+.feature-price::before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 43%;
+  height: 40px;
+  width: 40px;
+}
+
+.feature-age::before {
+  background: url("../img/15_years.png") no-repeat;
+}
+
+.feature-quality::before {
+  background: url("../img/quality.png") no-repeat 50% 50%;
+}
+
+.feature-price::before {
+  background: url("../img/prices.png") no-repeat 50% 50%;
+}
+
+.feature-range::before {
+  background: url("../img/range.png") no-repeat 50% 50%;
+}
+
+.news {
+  margin-top: 150px;
+}
+
+.news h2 {
+  text-align: center;
+  font-family: "Geometria Medium";
+  font-size: 46px;
+  color: rgb(41, 41, 41);
+  text-transform: uppercase;
+  font-weight: normal;
+}
+
+.news .container-news {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 30px;
+}
+
+.news-item {
+  margin-top: 60px;
+  height: 560px;
+  border: 1px solid rgb(242,242,242);
+}
+
+.news-item img {
+  width: 100%;
+  height: 265px;
+  object-fit: cover;
+}
+
+.news-item h3 {
+  padding: 5px 20px;
+  font-family: "Geometria Medium";
+  font-size: 18px;
+  font-weight: normal;
+  margin: 0;
+  margin-top: 40px;
+  letter-spacing: 1px;
+}
+
+.news-item p {
+  padding: 5px 20px;
+  padding-right: 40px;
+  font-family: "Geometria Light";
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0;
+  margin-top: 5px;
+  letter-spacing: 1px;
+  text-align: justify;
+}
+
+.news-item a {
+  font-family: "Geometria Light";
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 0 20px;
+  font-size: 14px;
+  text-decoration: none;
+  color: rgb(234, 34, 36);
+  display: block;
+  width: 130px;
+  margin-top: 30px;
+  background-image: url("../img/arrow.png");
+  background-repeat: no-repeat;
+  background-position: 135px 8px;
+}
+
+.about-us {
+  margin-top: 140px;
+}
+
+.about-us h2 {
+  font-family: "Geometria Medium";
+  font-size: 46px;
+  font-weight: normal;
+  text-align: center;
+  text-transform: uppercase;
+}
+.container-about-us {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 40px;
+}
+
+.about-us-image img {
+  width: 100%;
+}
+
+.about-us-description p {
+  font-size: 17px;
+  font-family: "Geometria Light";
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.about-us-description p:first-child::first-letter {
+  float: left;
+  line-height: 44px;
+  font-size: 50px;
+  font-family: "Roboto Medium";
+  color: rgb(236, 34, 36);
+  padding: 3px 3px 0 0;
+}
+
+.about-us .read-more {
+  font-family: "Geometria Light";
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 0 20px 0 0;
+  font-size: 14px;
+  text-decoration: none;
+  color: rgb(234, 34, 36);
+  display: block;
+  width: 130px;
+  margin-top: 0px;
+  background-image: url("../img/arrow.png");
+  background-repeat: no-repeat;
+  background-position: 115px 8px;
 }
