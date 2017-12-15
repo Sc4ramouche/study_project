@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="{{ asset('css/stylesheet.css') }}">
   <link rel="stylesheet" href="{{ asset('css/media.css') }}">
   <link rel="stylesheet" href="{{ asset('fonts/fonts.css') }}">
+  <script src="{{ asset('js/jquery/dist/jquery.js') }}"></script>
   <title>Дом Посуды</title>
 </head>
 <body>
@@ -67,6 +68,8 @@
  <script>
  document.getElementById("defaultOpen").click();
  </script>
+
+
 
 </body>
 </html>

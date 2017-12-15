@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use DB;
+
 class IndexController extends Controller
 {
 
@@ -15,11 +17,6 @@ class IndexController extends Controller
     public function about() {
 
         return view('about');
-    }
-
-    public function catalog() {
-
-        return view('catalog');
     }
 
     public function card_product() {
@@ -43,7 +40,7 @@ class IndexController extends Controller
     }
 
     public function account() {
-        
+
         return view('account');
     }
 }
