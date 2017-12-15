@@ -662,3 +662,58 @@ header .toggle {
   background-repeat: no-repeat;
   background-position: 115px 8px;
 }
+
+.catalog-category {
+  width: 400px;
+}
+
+.catalog-category i {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.catalog-category h2 {
+  width: 90%;
+  float: left;
+  margin: 0;
+  padding: 0;
+}
+
+.catalog-category p {
+  width: 10%;
+  float: left;
+  margin:0;
+  padding: 0;
+}
+
+.category-list {
+  width: 100%;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.category-list dt {
+  float: left;
+  width: 90%;
+  padding: 0;
+  margin: 0;
+}
+
+.category-list dd {
+  float: left;
+  width: 10%;
+  padding: 0;
+  margin: 0;
+}
+
+.catalog-brand input[type="checkbox"],
+.catalog-volume input[type="checkbox"],
+.catalog-material input[type="checkbox"],
+.catalog-color input[type="checkbox"] {
+  display: block;
+}
