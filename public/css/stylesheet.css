@@ -663,6 +663,238 @@ header .toggle {
   background-position: 115px 8px;
 }
 
+.home-subscribe {
+  width: 100%;
+  height: 400px;
+  background-image: url("../img/home-subscribe.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 14%;
+}
+
+.home-subscribe h3 {
+  font-family: "Geometria Medium";
+  text-transform: uppercase;
+  font-size: 32px;
+  padding-top: 222px;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 1px;
+  font-weight: normal;
+}
+
+.home-subscribe form {
+  text-align: center;
+}
+
+.home-subscribe input[type="email"] {
+  font-family: "Geometria Light";
+  font-size: 14px;
+  padding: 10px;
+  min-width: 300px;
+  margin-right: 20px;
+}
+
+.home-subscribe input[type="submit"] {
+  font-family: "Geometria Medium";
+  font-size: 16px;
+  font-weight: normal;
+  color: #fff;
+  padding: 10px 30px;
+  text-transform: uppercase;
+  background-color: rgb(236, 34, 36);
+  border: none;
+}
+
+.home-footer {
+  width: 100%;
+  background-color: #292929;
+  color: #fff;
+}
+
+.container-footer {
+  padding-top: 60px;
+  display: grid;
+  grid-template-columns: 1fr 0.9fr 1.1fr 1.05fr;
+  grid-gap: 20px;
+}
+
+.footer-brand h1 {
+  font-family: "Geometria Regular";
+  font-size: 50px;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  margin-top: 20px;
+  min-width: 308px;
+}
+
+.footer-brand p {
+  font-family: "Roboto Thin";
+  font-size: 19px;
+  margin: 0;
+  padding: 0;
+  margin-top: 20px;
+  min-width: 308px;
+}
+
+.footer-brand .footer-description {
+  font-family: "Roboto Thin";
+  font-size: 14px;
+  opacity: 0.75;
+  margin-top: 36px;
+  line-height: 16px;
+}
+
+.footer-promo-line {
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+  border: 1px solid #434343;
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+
+.promo-line-red {
+  width: 55px;
+  display: block;
+  margin: 0;
+  border: 1px solid rgb(236, 34, 36);
+  margin-top: 20px;
+}
+
+.footer-brand .footer-adress {
+  font-family: "Roboto Thin";
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  margin-top: 15px;
+}
+
+.footer-brand .footer-telephone {
+  font-family: "Roboto Thin";
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
+  margin-top: 15px;
+}
+
+.footer-brand a {
+  display: block;
+  font-family: "Roboto Light";
+  font-size: 14px;
+  color: rgb(236, 34, 36);
+  margin: 0;
+  padding: 0;
+  margin-top: 12px;
+}
+
+.footer-category {
+  padding-left: 20px;
+}
+
+.footer-category h2,
+.footer-feedback h2,
+.footer-social h2 {
+  font-family: "Geometria Bold";
+  font-size: 20px;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+.footer-category .footer-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-transform: uppercase;
+  margin-top: 38px;
+}
+
+.footer-menu li {
+  display: block;
+  margin-top: 6px;
+}
+
+.footer-menu a {
+  padding-top: 10px;
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Geometria Regular';
+  font-size: 16px;
+  margin-right: 35px;
+}
+
+.footer-feedback {
+  padding-right: 30px;
+}
+
+.footer-feedback-form {
+  margin-top: 46px;
+}
+
+.footer-feedback-form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  border: none;
+  padding: 10px 15px;
+  font-family: "Geometria Light"
+}
+
+.footer-feedback-form input[type="text"],
+.footer-feedback-form input[type="email"] {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 15px 15px;
+  font-family: "Geometria Light";
+  margin-bottom: 10px;
+}
+
+.footer-feedback-form input[type="submit"] {
+  padding: 15px;
+  font-family: "Geometria Medium";
+  font-size: 16px;
+  background-color: rgb(236, 34. 36);
+  font-weight: normal;
+  color: #fff;
+  text-transform: uppercase;
+  background-color: rgb(236, 34, 36);
+  border: none;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.footer-social .footer-gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 90px 90px 90px;
+  margin-top: 44px;
+}
+
+.footer-gallery img {
+  width: 100px;
+  height: 90px;
+  object-fit: cover;
+}
+
+.footer-copyright {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.footer-copyright p {
+  font-family: "Roboto Light";
+  font-size: 13px;
+  opacity: 0.6;
+  padding: 0;
+  margin: 0;
+  line-height: 18px;
+}
+
+.copyright-line {
+  margin-top: 50px;
+}
+
 .catalog-category {
   width: 400px;
 }
