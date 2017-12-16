@@ -13,8 +13,13 @@
 
 Route::get('/', 'IndexController@home');
 Route::get('/about', 'IndexController@about');
+<<<<<<< HEAD
 Route::get('/catalog', 'IndexController@catalog');
 Route::get('/productcard', 'IndexController@productcard');
+=======
+Route::get('/catalog', 'CatalogController@catalog');
+Route::get('/card-product', 'IndexController@card_product');
+>>>>>>> 1925e98c8f6e9baa2f54fd069a20e74c79dae56f
 Route::get('/news', 'IndexController@news');
 Route::get('/delivery', 'IndexController@delivery');
 Route::get('/contacts', 'IndexController@contacts');
