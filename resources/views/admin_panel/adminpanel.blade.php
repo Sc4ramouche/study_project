@@ -14,13 +14,17 @@
 	}
 
 	#LeftBlock {
-		width: 50%;
+		width: 40%;
 		float: left;
 	}
 
 	#RightBlock {
-		width: 50%;
+		width: 60%;
 		float: right;
+	}
+
+	td {
+		text-align: center;
 	}
 </style>
 
@@ -35,10 +39,7 @@
 		var elements = document.getElementsByTagName("span");
 		for (var i = 0; i < elements.length; i++) {
 			elements[i].style.display = "none";
-
-			var responseID = "Response" + (i + 1);
-			document.getElementById(responseID).style.display = "none";
-		}
+			}
 	}
 
 	//поменять значение display у элемента - span
@@ -62,15 +63,10 @@
 		
 
 		for (var i = 0; i < elements.length; i++) {
-			var responseID = "Response" + (i + 1);
-			if (CurrentElement != elements[i]) {
+			if (CurrentElement != elements[i]) 
 				elements[i].style.display = "none";
-				document.getElementById(responseID).style.display = "none";
-				document.getElementById(responseID).innerHTML = "";
-			}
-			else {
+			else 
 				document.getElementById(responseID).style.display = "block";
-			}
 		}
 	}
 
@@ -78,55 +74,30 @@
 	//Отослать JAX GET-запрос на сервер по url
 	//если статус ответа === 200, то вывести таблицу с категориями  
 	function ShowCategory() {
-		var request = new XMLHttpRequest();
-		var url = "/admin/ShowCategory";
-
-		request.open("GET", url, true);
-		request.send();
-		
-		request.onreadystatechange = function() {
-			if (request.readyState == 4 && request.status === 200){
-				alert("Таблица создалась!");
+		$.ajax({
+			type: "GET",
+			url: '/admin/ShowCategory',
+			success: function(data){
+				$("#Response").empty();
 				//преобразовать полученный JSON в массив объектов:
 				//параметры: ID_CATEGORY, Name
-				var AllCategory = JSON.parse(request.responseText);
-				
-				//Вывести название каждого объекта в HTML таблицу
-				//создать элемент таблицу
-				var table = document.createElement('table');
-				table.style.border = "1px solid black";
-				//получить доступ к теку с id = Response1 
-				var InnerTable = document.getElementById('Response1');
-				//добавить в тег с id = Response1 новый тег table
-				InnerTable.appendChild(table);
+				var AllCategory = JSON.parse(data);
 
-				//Задать шапку таблицы
-				var NameRow = document.createElement('tr');
-				var NameColumn1 = document.createElement('td');
-				NameColumn1.innerHTML = "Идентификатор";
-				var NameColumn2 = document.createElement('td');
-				NameColumn2.innerHTML = "Название категории";
-				table.appendChild(NameRow);
-				NameRow.appendChild(NameColumn1);
-				NameRow.appendChild(NameColumn2);
-				
-				//Из массива объектов записать в таблицу
-				//tr - стока (newTR), td - столбец в строке (newTD1, newTD2) 
+				//Создать таблицу в теге id = Response1
+				//С колонками Индекс и Наименование категории
+				$('#Response').append("<table width='500' border='1'></table");
+				$('#Response').find('table').append("<tr><td>Индекс</td><td>Наименование категории</td></tr>")
+
 				for (var i = 0; i < AllCategory.length; i++) {
-					var newTR = document.createElement('tr');
-					var newTD1 = document.createElement('td');
-					newTD1.innerHTML = AllCategory[i].ID_CATEGORY;
-					var newTD2 = document.createElement('td');
-					newTD2.innerHTML = AllCategory[i].Name;
-					table.appendChild(newTR);
-					newTR.appendChild(newTD1);
-					newTR.appendChild(newTD2);
-					newTR.style.border = "1px solid black";
-					newTD1.style.border = "1px solid black";
-					newTD2.style.border = "1px solid black";
+
+					$('#Response').find('table').append("<tr><td>" + AllCategory[i].ID_CATEGORY + "</td>" +
+															 "<td>" + AllCategory[i].Name + "</td></tr>")					
 				}
+			},
+			error: function(data){
+				alert('Error:' + data);
 			}
-		}
+		})
 	}
 </script>
 
@@ -138,7 +109,7 @@
 			<dt><a  onclick="hidetext('List1')" href="#" role="button">Категория</a></dt>
 				<span id="List1">
 					<dd><a onclick="ShowCategory()" href="#" role="button">Просмотреть</a></dd>
-					<dd><a href="#" role="button">Добавить</a></dd>
+					<dd><a onclick="AddCategory()" href="#" role="button">Добавить</a></dd>
 					<dd>
 					</dd>
 				</span>
@@ -184,19 +155,7 @@
 	</div>
 
 	<div id="RightBlock">
-		<div id="Response1">
-		</div>
-		<div id="Response2">
-		</div>
-		<div id="Response3">
-		</div>
-		<div id="Response4">
-		</div>
-		<div id="Response5">
-		</div>
-		<div id="Response6">
-		</div>
-		<div id="Response7">
+		<div id="Response">
 		</div>
 	</div>
 </div>

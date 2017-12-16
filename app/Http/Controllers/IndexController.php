@@ -22,9 +22,9 @@ class IndexController extends Controller
         return view('catalog');
     }
 
-    public function card_product() {
+    public function productcard() {
 
-        return view('card_product');
+        return view('productcard');
     }
 
     public function news() {
