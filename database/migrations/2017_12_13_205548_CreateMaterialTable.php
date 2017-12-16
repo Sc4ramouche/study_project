@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class FirstChangeTable extends Migration
+class CreateMaterialTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class FirstChangeTable extends Migration
      */
     public function up()
     {
-        Schema::table('PRODUCT', function (Blueprint $table) {
-            $table->double('Price'); //добавить цену
+        Schema::create('MATERIAL', function (Blueprint $table) {
+            $table->increments('ID_MATERIAL');
+            $table->string('Name');
+            // $table->timestamps();
         });
     }
 
@@ -25,8 +27,6 @@ class FirstChangeTable extends Migration
      */
     public function down()
     {
-        Schema::table('PRODUCT', function (Blueprint $table) {
-            $table->dropColumn('Price');
-        });
+        Schema::dropIfExists('MATERIAL');
     }
 }
