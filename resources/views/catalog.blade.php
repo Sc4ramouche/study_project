@@ -6,12 +6,10 @@
   <div class="container">
     <nav class="catalog-navigation">
       <ul class="catalog-list">
-        <li><a href="#">Наплитная посуда</a></li>
-        <li><a href="#">Формы для выпечки</a></li>
-        <li><a href="#">Кухонные инструменты</a></li>
-        <li><a href="#">Ножи и разделочные доски</a></li>
-        <li><a href="#">Предметы сервировки</a></li>
-        <li><a href="#">Системы хранения</a></li>
+        <li><a href="#">Посуда для приготовления</a></li>
+        <li><a href="#">Посуда для сервировки</a></li>
+        <li><a href="#">Хранение на кухне</a></li>
+        <li><a href="#">Кухонная утварь</a></li>
       </ul>
     </nav>
   </div>
@@ -31,49 +29,29 @@
 
 <div class="catalog-category">
   <form class="catalog-form" action="index.html" method="post">
-  <h2>Категория</h2>
+  <h2>Подкатегории</h2>
   <p><i class="arrow-down"></i></p>
   <dl class="category-list">
-    <dt>Наплитная посуда</dt>
-    <dd>35</dd>
-    <dt>Формы для выпечки</dt>
-    <dd>10</dd>
-    <dt>Кухонные инструменты</dt>
-    <dd>6</dd>
-    <dt>Ножи и разделочные доски</dt>
-    <dd>30</dd>
-    <dt>Предметы сервировки</dt>
-    <dd>11</dd>
-    <dt>Системы хранения</dt>
-    <dd>11</dd>
-    <dt>Наборы посуды</dt>
-    <dd>18</dd>
-    <dt>Аксессуары для декора</dt>
-    <dd>15</dd>
-    <dt>Посуда для напитков</dt>
-    <dd>8</dd>
-    <dt>Детская посуда</dt>
-    <dd>16</dd>
-    <dt>Одноразовая посуда</dt>
-    <dd>18</dd>
-    <dt>Столовые приборы</dt>
-    <dd>30</dd>
-    <dt>Крышки</dt>
-    <dd>17</dd>
+      @foreach ($all_subcategory as $name => $count)
+        <a href="#">
+        <dt>{{ $name }}</dt>
+        <dd>{{ $count }}</dd></a>
+      @endforeach
   </dl>
+
   <div class="catalog-brand">
     <label for="brand">Бренд</label>
     <p><i class="arrow-down"></i></p>
-    <input type="checkbox" name="brand" value="Taller">Taller</input>
-    <input type="checkbox" name="brand" value="Nadoba">Nadoba</input>
-    <input type="checkbox" name="brand" value="Rondel">Rondel</input>
+    @foreach($all_brands as $value)
+        <input type="checkbox" name="brand" value="Taller">{{ $value->name }}</input>
+    @endforeach
   </div>
   <div class="catalog-volume">
     <label for="volume">Объём</label>
     <p><i class="arrow-down"></i></p>
-    <input type="checkbox" name="volume" value="to2">До 2л</input>
-    <input type="checkbox" name="volume" value="from2to5">От 2 до 5л</input>
-    <input type="checkbox" name="volume" value="from5">Более 5л</input>
+    <input type="radio" name="volume" value="to2">До 2л</input>
+    <input type="radio" name="volume" value="from2to5">От 2 до 5л</input>
+    <input type="radio" name="volume" value="from5">Более 5л</input>
   </div>
   <div class="catalog-material">
     <label for="material">Материал</label>
@@ -105,5 +83,17 @@
   <input type="reset" name="reset" value="Сбросить"></input>
   </form>
 </div>
+
+<div class="">
+    <h1>HELLO</h1>
+    @foreach($products as $value)
+        {{ $value->subcategory_name }}
+        {{ $value->brand_name }}
+        {{ $value->Price }}руб
+        <img src="img/{{ $value->pic }}.jpg">
+    @endforeach
+</div>
+
+
 
 @endsection()
