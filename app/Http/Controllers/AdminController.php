@@ -31,7 +31,7 @@
        *  Получить список категорий
        *  и передать как ответ на запрос
        *  На вход: ничего
-       *  На выход: json файл 
+       *  На выход: JSON файл с категориями
        *  со всем категориями из таблицы CAREGORY 
        **/
       public function ShowCategory() {
@@ -58,6 +58,20 @@
           'msg' => $request->message,
         );
         return response()->json($response);
+      }
+
+      /**
+      * Получить список список подкатегория
+      * На вход: ничего
+      * На выходе: JSON файл с категориями и подкатегориями
+      * из таблица CATEGORY, SUBCATEGORY
+      **/
+      public function ShowSubCategory() {
+        $SubCategory = DB::table('SUBCATEGORY')->get();
+        for ($i = 0; $i < sizeof($SubCategory); $i++) { 
+          $SubCategory[$i]->NameCategory = (DB::table('CATEGORY')->where('ID_CATEGORY', $SubCategory[$i]->ID_CATEGORY))->Name;
+        }
+        print_r($SubCategory);
       }
 
     }

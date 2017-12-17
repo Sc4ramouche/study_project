@@ -44,8 +44,8 @@
 				</span>
 			<dt><a onclick="hidetext('List2')" href="#" role="button">Подкатегории</a></dt>
 				<span id="List2">
-					<dd>Просмотреть</dd>
-					<dd>Добавить</dd>
+					<dd><a onclick="ShowSubCategory()" href="#" role="button">Просмотреть</a></dd>
+					<dd><a>Добавить</a></dd>
 				</span>
 			<dt><a onclick="hidetext('List3')" href="#" role="button">Товар</a></dt>
 				<span id="List3">
@@ -122,8 +122,7 @@
 						alert("Новая категория добавлена!");
 					},
 					error: function(data) {
-						// alert('Error:' + data);
-						alert(data);
+						alert('Ошибка при передаче запроса на сервер!');
 					}
 				});
 			}
@@ -175,8 +174,8 @@
 	};
 
 	//Отобразить перечень категорий
-	//Отослать JAX GET-запрос на сервер по url
-	//если статус ответа === 200, то вывести таблицу с категориями  
+	//Отослать AJAX GET-запрос на сервер по url
+	//если respose == success, то вывести таблицу с категориями  
 	function ShowCategory() {
 		$.ajax({
 			type: "GET",
@@ -199,7 +198,7 @@
 				}
 			},
 			error: function(data){
-				alert('Error:' + data);
+				alert('Ошибка при передаче запроса на сервер!');
 			}
 		})
 	};
@@ -210,6 +209,23 @@
 		$('#Response').append("<label>Введите название категории: </label>");
 		$('#Response').append("<input type='text' id='CategoryName'/>");
 		$('#Response').append("<br><button id='InsertCategoryTable'>Добавить</button>")
+	}
+
+	//Отобразить перечень категорий и их подкатегорий
+	//Отослать AJAX GET - запрос на сервер по url
+	//создать динамичекски таблицу с полученными данными от сервера
+	function ShowSubCategory() {
+		$.ajax({
+			type: "GET",
+			url: "/admin/ShowSubCategory",
+			success: function(data) {
+				$("#Response").empty();
+
+			},
+			error: function(data) {
+				alert('Ошибка при передаче запроса на сервер!');
+			}
+		})
 	}
 </script>
 

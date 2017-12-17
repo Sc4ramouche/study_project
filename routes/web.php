@@ -40,3 +40,4 @@ Route::get('/admin/logout', 'AuthAdmin\LoginController@logout');
 //Роуты для контроллера панели администратора
 Route::GET('/admin/ShowCategory', 'AdminController@ShowCategory');
 Route::POST('/admin/AddCategory', 'AdminController@AddCategory');
+Route::GET('/admin/ShowSubCategory', 'AdminController@ShowSubCategory');
