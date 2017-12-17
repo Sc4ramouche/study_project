@@ -13,8 +13,9 @@
 
 Route::get('/', 'IndexController@home');
 Route::get('/about', 'IndexController@about');
+Route::get('/catalog', 'IndexController@catalog');
+Route::get('/productcard', 'IndexController@productcard');
 Route::get('/catalog', 'CatalogController@catalog');
-Route::get('/card-product', 'IndexController@card_product');
 Route::get('/news', 'IndexController@news');
 Route::get('/delivery', 'IndexController@delivery');
 Route::get('/contacts', 'IndexController@contacts');
@@ -38,3 +39,4 @@ Route::get('/admin/logout', 'AuthAdmin\LoginController@logout');
 
 //Роуты для контроллера панели администратора
 Route::GET('/admin/ShowCategory', 'AdminController@ShowCategory');
+Route::POST('/admin/AddCategory', 'AdminController@AddCategory');
