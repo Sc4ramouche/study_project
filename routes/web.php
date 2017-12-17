@@ -38,6 +38,17 @@ Route::post('/admin/login', 'AuthAdmin\LoginController@login');
 Route::get('/admin/logout', 'AuthAdmin\LoginController@logout');
 
 //Роуты для контроллера панели администратора
-Route::GET('/admin/ShowCategory', 'AdminController@ShowCategory');
+//Для категорий
+Route::GET('/admin/GetCategory', 'AdminController@GetCategory');
 Route::POST('/admin/AddCategory', 'AdminController@AddCategory');
-Route::GET('/admin/ShowSubCategory', 'AdminController@ShowSubCategory');
+
+//Для подкатегорий
+Route::GET('/admin/GetSubCategory', 'AdminController@GetSubCategory');
+Route::POST('/admin/AddSubCategory', 'AdminController@AddSubCategory');
+
+//Для характеристик подкатегорий
+Route::GET('/admin/GetSubCatChar', 'AdminController@GetSubCatChar');
+Route::POST('/admin/AddSubCatChar', 'AdminController@AddSubCatChar');
+
+//Для названий характеристик
+Route::GET('/admin/GetCharacteristic', 'AdminController@GetCharacteristic');
