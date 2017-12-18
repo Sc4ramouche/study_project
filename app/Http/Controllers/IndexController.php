@@ -48,4 +48,9 @@ class IndexController extends Controller
 
         return view('account');
     }
+
+    public function cart() {
+
+        return view('cart');
+    }
 }
