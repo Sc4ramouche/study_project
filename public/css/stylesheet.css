@@ -787,6 +787,10 @@ header .toggle {
   margin-top: 20px;
 }
 
+.cart-page-line {
+  margin-top: 0;
+}
+
 .footer-brand .footer-adress {
   font-family: "Roboto Thin";
   font-size: 14px;
@@ -1258,6 +1262,65 @@ ul.breadcrumb li a {
   background: #7e3661;
 }
 
+.checkbox-container {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding-left: 40px;
+  font-weight: bold;
+}
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+}
+
+.cart-checkbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #fff;
+  border: 1px solid rgb(236, 34, 36);
+}
+
+.checkbox-container:hover input ~ .cart-checkbox:after {
+  opacity: 1;
+}
+
+.checkbox-container input:checked ~ .cart-checkbox {
+  opacity: 1;
+}
+
+.cart-checkbox:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container input:checked ~ .cart-checkbox:after {
+  display: block;
+}
+
+.checkbox-container .cart-checkbox:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  border-color: rgb(236, 34, 36);
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
 #blue:after {
   background: #2c82c9;
 }
@@ -1477,4 +1540,150 @@ div#Reviews blockquote time {
   float: left;
   padding: 0;
   margin: 0;
+}
+
+.cart-page-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.cart-page {
+  font-family: "Geometria Light";
+}
+
+.cart-page .cart-auth {
+  color: rgb(236, 34, 36);
+}
+
+.cart-page h3 {
+  font-size: 18px;
+}
+
+.cart-page .form-phone:valid {
+  color: green;
+}
+
+.cart-page .form-phone:invalid {
+  color: green;
+}
+
+.form__error {
+	color: red;
+	text-align: left;
+	font-size: 12px;
+	display: block;
+	margin-top: 3px;
+	display: none;
+}
+
+input:valid:not(:placeholder-shown) {
+	border-color: green;
+}
+
+input:invalid:not(:placeholder-shown) {
+	border-color: red;
+}
+input:invalid:not(:placeholder-shown) + .form__error {
+	display: block;
+}
+
+.form-username input,
+.form-phone input,
+.form-email input,
+.form-adress input {
+  padding: 10px;
+  font-family: "Geometria Light";
+  font-weight: bold;
+  margin-bottom: 20px;
+  width: 90%;
+}
+
+.form-select select {
+  padding: 10px;
+  margin-bottom: 20px;
+  font-family: "Geometria Light";
+  font-weight: bold;
+  width: 94%;
+}
+
+.form-buttons {
+  margin-top: 20px;
+}
+
+.form-buttons button {
+  margin-right: 20px;
+  text-align: center;
+  width: 260px;
+}
+
+.form-select .checkbox-container {
+  font-size: 16px;
+}
+
+.form-buttons button:last-child {
+  margin-right: 0;
+}
+
+.container-item {
+  border-top: 1px solid rgb(242, 242, 242);
+  border-bottom: 1px solid rgb(242, 242, 242);
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  color: rgb(41, 41, 41);
+}
+
+.container-item img {
+  width: 140px;
+  height: 110px;
+}
+
+.container-item-description h4
+ {
+   display: inline-block;
+   font-family: "Geometria Bold";
+   font-size: 14px;
+   text-transform: uppercase;
+   margin: 0;
+   margin-top: 30px;
+   margin-bottom: 5px;
+}
+
+.container-item-description b {
+  margin-left: 10px;
+  font-family: "Geometria Bold";
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.container-item-description .quantity {
+  color: rgb(236, 34, 36);
+}
+
+.container-item-description .price {
+  font-family: "Geometria Regular";
+  font-size: 18px;
+  display: block;
+  margin: 0;
+  margin-top: 5px;
+}
+
+.cart-aftermath {
+  margin-top: 30px;
+  color: rgb(42, 42, 42);
+}
+
+.cart-items .to-pay {
+  text-transform: uppercase;
+  font-family: "Geometria Regular";
+  font-size: 14px;
+  display: inline-block;
+  margin: 0;
+}
+
+.cart-items .result {
+  font-family: "Geometria Bold";
+  font-size: 40px;
+  display: inline-block;
+  float: right;
+
 }

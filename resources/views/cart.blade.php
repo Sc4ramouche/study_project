@@ -2,6 +2,11 @@
 
 @section('content')
 
-<h1>cart</h1>
+<div class="container">
+  <ul class="breadcrumb">
+    <li><a href="#">Главная</a></li>
+    <li>Корзина</li>
+  </ul>
+</div>
 
 @endsection()

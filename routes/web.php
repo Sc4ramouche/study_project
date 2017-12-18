@@ -20,6 +20,7 @@ Route::get('/news', 'IndexController@news');
 Route::get('/delivery', 'IndexController@delivery');
 Route::get('/contacts', 'IndexController@contacts');
 Route::get('/account', 'IndexController@account');//Если не залогинено кидает на /account/login
+Route::get('/checkout', 'IndexController@checkout');
 Route::get('/cart', 'IndexController@cart');
 
 //Auth::routes();
