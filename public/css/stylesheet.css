@@ -403,6 +403,30 @@ header .toggle {
   margin-top: 60px;
 }
 
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.card-additional .catalog-tab {
+  border: none;
+  border-bottom: 1px solid rgb(242, 242, 242);
+  margin-top: 20px;
+}
+
+.card-additional .catalog-tab button {
+  border: none;
+  color: rgb(41, 41, 41);
+  background-color: #fff;
+  width: 200px;
+  border: 1px solid transparent;
+}
+
+.card-additional .catalog-tab button:hover {
+  color: rgb(236, 34, 36);
+  border-bottom: 1px solid rgb(236, 34, 36);
+}
+
 .catalog-home {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -763,6 +787,10 @@ header .toggle {
   margin-top: 20px;
 }
 
+.cart-page-line {
+  margin-top: 0;
+}
+
 .footer-brand .footer-adress {
   font-family: "Roboto Thin";
   font-size: 14px;
@@ -1105,6 +1133,10 @@ ul.breadcrumb li a {
   border: 1px solid rgb(236, 34, 36);
 }
 
+.card-info {
+  padding-left: 20px;
+}
+
 .card-page .card-info h1 {
   text-transform: uppercase;
   display: inline-block;
@@ -1147,6 +1179,10 @@ ul.breadcrumb li a {
   height: 20px;
 }
 
+.card-info .card-line-red {
+  margin-top: 40px;
+}
+
 .card-info .card-price {
   font-family: "Geometria Medium";
   font-size: 36px;
@@ -1159,9 +1195,6 @@ ul.breadcrumb li a {
   margin-top: 35px;
 }
 
-.card-info-color {
-}
-
 .card-info-form label {
   display: block;
   font-family: "Geometria Regular";
@@ -1170,16 +1203,217 @@ ul.breadcrumb li a {
   text-transform: uppercase;
 }
 
-.card-form-color label:not(:first-child) {
-  display: none;
-}
-
-.card-form-quanity {
+.card-form-container {
+  display: inline-block;
+  margin-right: 40px;
   margin-top: 20px;
 }
 
+.checkmark-container {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.card-form-color {
+  height: 85px;
+}
+
+.card-form-color input {
+  position: absolute;
+  opacity: 0;
+}
+
+.card-checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 40px;
+  width: 40px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 1px solid transparent;
+}
+
+.checkmark-container:hover input ~ .card-checkmark {
+  border: 1px solid rgb(236, 34, 36);
+}
+
+.card-checkmark:after {
+  content: "";
+  position: absolute;
+}
+
+.checkmark-container input:checked ~ .card-checkmark {
+  border: 1px solid rgb(236, 34, 36);
+}
+
+.checkmark-container .card-checkmark:after {
+  top: 4px;
+  left: 4px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #7e3661;
+}
+
+.checkbox-container {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding-left: 40px;
+  font-weight: bold;
+}
+
+
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+}
+
+.cart-checkbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #fff;
+  border: 1px solid rgb(236, 34, 36);
+}
+
+.checkbox-container:hover input ~ .cart-checkbox:after {
+  opacity: 1;
+}
+
+.checkbox-container input:checked ~ .cart-checkbox {
+  opacity: 1;
+}
+
+.cart-checkbox:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container input:checked ~ .cart-checkbox:after {
+  display: block;
+}
+
+.checkbox-container .cart-checkbox:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  border-color: rgb(236, 34, 36);
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+#blue:after {
+  background: #2c82c9;
+}
+
+.quantity {
+  position: relative;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button
+{
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number]
+{
+  -moz-appearance: textfield;
+}
+
+.quantity input {
+  width: 90px;
+  height: 42px;
+  line-height: 1.65;
+  float: left;
+  display: block;
+  padding: 0;
+  margin: 0;
+  padding-left: 0px;
+  padding-right: 12px;
+  text-align: center;
+  border: 1px solid #eee;
+}
+
+.quantity input:focus {
+  outline: 0;
+}
+
+.quantity-nav {
+  float: left;
+  position: relative;
+  height: 42px;
+}
+
+.quantity-button {
+  position: relative;
+  cursor: pointer;
+  border-left: 1px solid #eee;
+  width: 20px;
+  text-align: center;
+  color: #333;
+  font-size: 13px;
+  font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+  line-height: 1.7;
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.quantity-button.quantity-up {
+  position: absolute;
+  height: 50%;
+  top: 0;
+  border-bottom: 1px solid #eee;
+  background-color: rgb(236, 34, 36);
+  color: #fff;
+}
+
+.quantity-button.quantity-down {
+  position: absolute;
+  bottom: -1px;
+  height: 50%;
+}
+
+.card-form-quantity {
+  display: block;
+  margin-top: 20px;
+  height: 50px;
+}
+
+.card-form-quantity label {
+  margin-bottom: 20px;
+}
+
 .card-form-submit {
-  margin-top: 45px;
+  margin-top: 70px;
+  display: block;
 }
 
 .card-form-submit button {
@@ -1201,6 +1435,95 @@ ul.breadcrumb li a {
   border: 1px solid rgb(236, 34, 36);
 }
 
+.card-additional .tabcontent {
+  border: none;
+  border-bottom: 1px solid rgb(242, 242, 242);
+  margin: 0;
+}
+
+.card-additional button.active {
+  color: rgb(236, 34, 36);
+  border-bottom-color: rgb(236, 34, 36);
+}
+
+.card-additional .card-paragraph{
+  font-family: "Geometria Regular";
+  font-size: 20px;
+  padding: 0;
+  margin: 0;
+  padding: 30px 0;
+}
+
+.card-paragraph .item-name {
+  font-weight: bold;
+}
+
+div#Characteristics {
+  padding: 30px 0;
+}
+
+div#Characteristics dl {
+  font-family: "Geometria Medium";
+  font-size: 20px;
+}
+
+div#Characteristics dd {
+  padding-left: 10px;
+  font-family: "Geometria Light";
+}
+
+div#Reviews {
+  padding: 30px 0;
+}
+
+div#Reviews .card-stars {
+  height: 20px;
+  width: 68px;
+  background: url("../img/star.png");
+  background-repeat: repeat-x;
+}
+
+div#Reviews blockquote {
+  font-family: "Geometria Regular";
+  margin: 0;
+  padding: 10px 0;
+}
+
+div#Reviews blockquote p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+div#Reviews blockquote cite {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+div#Reviews blockquote time {
+  opacity: 0.6;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.card-similar {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+.card-similar h2 {
+  font-family: "Geometria Medium";
+  font-size: 46px;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: normal;
+}
+
+.card-similar .catalog-home {
+  margin-top: 70px;
+}
+
+
 .card-characteristics {
   width: 60%;
   overflow: hidden;
@@ -1210,14 +1533,256 @@ ul.breadcrumb li a {
 
 .card-characteristics dt {
   float: left;
-  width: 50%;
   padding: 0;
   margin: 0;
+  clear: left;
 }
 
 .card-characteristics dd {
   float: left;
-  width: 50%;
   padding: 0;
   margin: 0;
+}
+
+.cart-page-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.cart-page {
+  font-family: "Geometria Light";
+}
+
+.cart-page .cart-auth {
+  color: rgb(236, 34, 36);
+}
+
+.cart-page h3 {
+  font-size: 18px;
+}
+
+.cart-page .form-phone:valid {
+  color: green;
+}
+
+.cart-page .form-phone:invalid {
+  color: green;
+}
+
+.form__error {
+	color: red;
+	text-align: left;
+	font-size: 12px;
+	display: block;
+	margin-top: 3px;
+	display: none;
+}
+
+input:valid:not(:placeholder-shown) {
+	border-color: green;
+}
+
+input:invalid:not(:placeholder-shown) {
+	border-color: red;
+}
+input:invalid:not(:placeholder-shown) + .form__error {
+	display: block;
+}
+
+.form-username input,
+.form-phone input,
+.form-email input,
+.form-adress input {
+  padding: 10px;
+  font-family: "Geometria Light";
+  font-weight: bold;
+  margin-bottom: 20px;
+  width: 90%;
+}
+
+.form-select select {
+  padding: 10px;
+  margin-bottom: 20px;
+  font-family: "Geometria Light";
+  font-weight: bold;
+  width: 94%;
+}
+
+.form-buttons {
+  margin-top: 20px;
+}
+
+.form-buttons button {
+  margin-right: 20px;
+  text-align: center;
+  width: 260px;
+}
+
+.form-select .checkbox-container {
+  font-size: 16px;
+}
+
+.form-buttons button:last-child {
+  margin-right: 0;
+}
+
+.container-item {
+  border-top: 1px solid rgb(242, 242, 242);
+  border-bottom: 1px solid rgb(242, 242, 242);
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  color: rgb(41, 41, 41);
+}
+
+.container-item img {
+  width: 140px;
+  height: 110px;
+}
+
+.container-item-description h4
+ {
+   display: inline-block;
+   font-family: "Geometria Bold";
+   font-size: 14px;
+   text-transform: uppercase;
+   margin: 0;
+   margin-top: 30px;
+   margin-bottom: 5px;
+}
+
+.container-item-description b {
+  margin-left: 10px;
+  font-family: "Geometria Bold";
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.container-item-description .quantity {
+  color: rgb(236, 34, 36);
+}
+
+.container-item-description .price {
+  font-family: "Geometria Regular";
+  font-size: 18px;
+  display: block;
+  margin: 0;
+  margin-top: 5px;
+}
+
+.cart-aftermath {
+  margin-top: 30px;
+  color: rgb(42, 42, 42);
+}
+
+.cart-items .to-pay {
+  text-transform: uppercase;
+  font-family: "Geometria Regular";
+  font-size: 14px;
+  display: inline-block;
+  margin: 0;
+}
+
+.cart-items .result {
+  font-family: "Geometria Bold";
+  font-size: 40px;
+  display: inline-block;
+  float: right;
+}
+
+.checkout-item h2 {
+  font-family: "Geometria Bold";
+  text-transform: uppercase;
+  font-size: 14px;
+  color: rgb(42, 42, 42);
+  display: inline-block;
+}
+
+.checkout-item .container-item-description h4 {
+  display: block;
+  margin: 0;
+  position: relative;
+  padding-left: 25px;
+  color: rgb(42, 42, 42);
+  opacity: 0.5;
+}
+
+.checkout-item .container-item-description h4::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 4px;
+  left: 0;
+  background: url("../img/card-check-mark-grey.png") no-repeat;
+  background-size: 20px;
+  width: 20px;
+  height: 20px;
+  opacity: 0.5;
+}
+
+.checkout-item .price {
+  font-family: "Geometria Regular";
+  font-size: 14px;
+  opacity: 0.5;
+}
+
+.quantity input[type="number"] {
+  border-color: rgb(242, 242, 242);
+}
+
+.quantity label {
+  display: block;
+  font-family: "Geometria Regular";
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 10px 0;
+  margin-top: 15px;
+}
+
+.checkout-summ h4 {
+  display: block;
+  font-family: "Geometria Regular";
+  font-size: 12px;
+  text-transform: uppercase;
+  margin: 10px 0;
+  margin-top: 15px;
+}
+
+.checkout-summ .price {
+  font-family: "Geometria Bold";
+  font-size: 18px;
+  opacity: 1;
+}
+
+.checkout-item {
+  display: grid;
+  grid-template-columns: 1fr 2.5fr 1fr 1fr;
+  grid-gap: 10px;
+}
+
+.checkout-items .cart-aftermath .to-pay {
+  display: block;
+  float: right;
+  padding-right: 74px;
+}
+
+.checkout-items .cart-aftermath {
+  padding-right: 100px;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.checkout-items .cart-aftermath .result {
+  display: block;
+  float: right;
+  clear: both;
+}
+
+.checkout-items .card-form-submit {
+  float: right;
+  margin-top: 30px;
 }
