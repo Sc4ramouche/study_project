@@ -145,7 +145,7 @@
           $Value = DB::table('VALUESUBC')->where('ID_VALUESUBC', $AllCharacteristicsSub[$i]->ID_VALUESUBC)->first()->Name;
 
           //занести данных о характеристике в ассоциативный массив
-          $OneCharacteristic = ['Characteristic' => $Characteristic, 'Value' => $Value];
+          $OneCharacteristic = ['Characteristic' => $Characteristic, 'Value' => $Value, 'ID_SubChar' => $AllCharacteristicsSub[$i]->ID_ALLCHARACTERISTICS];
           //Занести массив с характеристикой в ответ на запрос
           array_push($Response, $OneCharacteristic);
         }
@@ -222,4 +222,189 @@
         return json_encode($Characteristics);
       }
 
+      /**
+      * Редактировать выбранную характеристику подкатегории
+      * На вход: request с ID_характеристики и новые значения для замены
+      * На выходе: ответ на успешный и обработанный PUT-запрос.
+      **/
+      public function RedactSubCatChar(Request $request) {
+
+        //Найти по идентификатору поля всех характеристик ключи характеристики и значения
+        $Characteristic = DB::table('ALLCHARACTERISTICS')->where('ID_ALLCHARACTERISTICS', $request->id_CharSub)->first();
+
+        //Поменять по ключу название характеристики
+        DB::table('CHARACTERISTICSUBC')
+                            ->where('ID_CHARACTERISTICSUBC', $Characteristic->ID_CHARACTERISTICSUBC)
+                            ->update(['Name' => $request->nameChar]);
+
+        //Поменять по ключу название значения характеристики
+        DB::table('VALUESUBC')
+                      ->where('ID_VALUESUBC', $Characteristic->ID_VALUESUBC)
+                      ->update(['Name' => $request->valueChar]);
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
+
+      /**
+      * Удалить выбранную характеристику покдатегории
+      * На вход: request с ID_характеристики для удаления
+      * На выходе: ответ на успешный и обработанный DELETE-запрос.
+      **/
+      public function DeleteSubCatChar(Request $request) {
+
+        //Удалить из таблицы ALLCHARACTERISTICS запись с совпавшим идентификатором
+        DB::table('ALLCHARACTERISTICS')
+                          ->where('ID_ALLCHARACTERISTICS', $request->id_CharSub)
+                          ->delete();
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
+
+      /**
+      * Получить весь спиков брендов из БД
+      * На вход: ничего
+      * На выход: JSON файл с перчнем брендов из таблицы BREND
+      **/
+      public function GetBrend(Request $request) {
+        $AllBrend = DB::table('BREND')->get();
+        return json_encode($AllBrend);
+      }
+
+      /**
+      * Добавить новый брен в БД
+      * На вход: название бренда
+      * На выход: ответ на успешный и обработанный POST-запрос.
+      **/
+      public function AddBrend(Request $request) {
+
+        //Добавить новый бренд в таблицу
+        DB::table('BREND')->insert(
+          ['Name' => $request->BrandName]
+        );
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response); 
+      }
+
+      /**
+      * Удалить выбранный бренд из БД
+      * На вход: идентификатор бренда
+      * На выход: ответ на успешный и обработанный DELETE-запрос.
+      **/
+      public function DeleteBrend(Request $request) {
+
+        DB::table('BREND')
+                          ->where('ID_BREND', $request->id_Brend)
+                          ->delete();
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response); 
+      }
+
+      /**
+      * Обновить выбранный бренд в БД
+      * На вход: идентификатор и название бренда
+      * На выходе: ответ на успешлый и обработанный PUT-запрос
+      **/
+      public function UpdateBrend(Request $request) {
+
+        //обновить поле в таблице по идентификатору
+        DB::table('BREND')
+                      ->where('ID_BREND', $request->id_Brend)
+                      ->update(['Name' => $request->BrendName]);
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
+
+      /**
+      * Получить весь спиков материалов из БД
+      * На вход: ничего
+      * На выход: JSON файл с перчнем материалов из таблицы MATERIAL
+      **/
+      public function GetMaterial(Request $request) {
+        $AllMaterials = DB::table('MATERIAL')->get();
+        return json_encode($AllMaterials);
+      }
+
+      /**
+      * Добавить новый материал в БД
+      * На вход: название материала
+      * На выход: ответ на успешный и обработанный POST-запрос.
+      **/
+      public function AddMaterial(Request $request) {
+        //Добавить новый материал в таблицу
+        DB::table('MATERIAL')->insert(
+          ['Name' => $request->MaterialName]
+        );
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
+
+      /**
+      * Удалить выбранный материал из БД
+      * На вход: идентификатор материала
+      * На выход: ответ на успешный и обработанный DELETE-запрос.
+      **/
+      public function DeleteMaterial(Request $request) {
+
+        //удалить из таблицы MATERIAL строку по идентификатору
+        DB::table('MATERIAL')
+                          ->where('ID_MATERIAL', $request->id_Material)
+                          ->delete();
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
+
+      /**
+      * Обновить выбранный материал в БД
+      * На вход: идентификатор и название материала
+      * На выходе: ответ на успешлый и обработанный PUT-запрос
+      **/
+      public function UpdateMaterial(Request $request) {
+
+        //обновить поле в таблице по идентификатору
+        DB::table('MATERIAL')
+                      ->where('ID_MATERIAL', $request->id_Material)
+                      ->update(['Name' => $request->MaterialName]);
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
     }

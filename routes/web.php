@@ -49,6 +49,22 @@ Route::POST('/admin/AddSubCategory', 'AdminController@AddSubCategory');
 //Для характеристик подкатегорий
 Route::GET('/admin/GetSubCatChar', 'AdminController@GetSubCatChar');
 Route::POST('/admin/AddSubCatChar', 'AdminController@AddSubCatChar');
+Route::PUT('/admin/RedactSubCatChar', 'AdminController@RedactSubCatChar');
+Route::DELETE('/admin/DeleteSubCatChar', 'AdminController@DeleteSubCatChar');
 
 //Для названий характеристик
 Route::GET('/admin/GetCharacteristic', 'AdminController@GetCharacteristic');
+
+//Для Брендов
+Route::GET('/admin/GetBrend', 'AdminController@GetBrend');
+Route::POST('/admin/AddBrend', 'AdminController@AddBrend');
+Route::DELETE('/admin/DeleteBrend', 'AdminController@DeleteBrend');
+Route::PUT('/admin/UpdateBrend', 'AdminController@UpdateBrend');
+
+//Для Материалов
+Route::GET('/admin/GetMaterial', 'AdminController@GetMaterial');
+Route::POST('/admin/AddMaterial', 'AdminController@AddMaterial');
+Route::DELETE('/admin/DeleteMaterial', 'AdminController@DeleteMaterial');
+Route::PUT('/admin/UpdateMaterial', 'AdminController@UpdateMaterial');
+
+//Для Стран
