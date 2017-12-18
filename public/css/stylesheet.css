@@ -1275,6 +1275,8 @@ ul.breadcrumb li a {
   font-weight: bold;
 }
 
+
+
 .checkbox-container input {
   position: absolute;
   opacity: 0;
@@ -1685,5 +1687,102 @@ input:invalid:not(:placeholder-shown) + .form__error {
   font-size: 40px;
   display: inline-block;
   float: right;
+}
 
+.checkout-item h2 {
+  font-family: "Geometria Bold";
+  text-transform: uppercase;
+  font-size: 14px;
+  color: rgb(42, 42, 42);
+  display: inline-block;
+}
+
+.checkout-item .container-item-description h4 {
+  display: block;
+  margin: 0;
+  position: relative;
+  padding-left: 25px;
+  color: rgb(42, 42, 42);
+  opacity: 0.5;
+}
+
+.checkout-item .container-item-description h4::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 4px;
+  left: 0;
+  background: url("../img/card-check-mark-grey.png") no-repeat;
+  background-size: 20px;
+  width: 20px;
+  height: 20px;
+  opacity: 0.5;
+}
+
+.checkout-item .price {
+  font-family: "Geometria Regular";
+  font-size: 14px;
+  opacity: 0.5;
+}
+
+.quantity input[type="number"] {
+  border-color: rgb(242, 242, 242);
+}
+
+.quantity label {
+  display: block;
+  font-family: "Geometria Regular";
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 10px 0;
+  margin-top: 15px;
+}
+
+.checkout-summ h4 {
+  display: block;
+  font-family: "Geometria Regular";
+  font-size: 12px;
+  text-transform: uppercase;
+  margin: 10px 0;
+  margin-top: 15px;
+}
+
+.checkout-summ .price {
+  font-family: "Geometria Bold";
+  font-size: 18px;
+  opacity: 1;
+}
+
+.checkout-item {
+  display: grid;
+  grid-template-columns: 1fr 2.5fr 1fr 1fr;
+  grid-gap: 10px;
+}
+
+.checkout-items .cart-aftermath .to-pay {
+  display: block;
+  float: right;
+  padding-right: 74px;
+}
+
+.checkout-items .cart-aftermath {
+  padding-right: 100px;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.checkout-items .cart-aftermath .result {
+  display: block;
+  float: right;
+  clear: both;
+}
+
+.checkout-items .card-form-submit {
+  float: right;
+  margin-top: 30px;
 }
