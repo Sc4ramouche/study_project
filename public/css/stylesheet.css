@@ -404,8 +404,8 @@ header .toggle {
 }
 
 @keyframes fadeEffect {
-    from {opacity: 0;}
-    to {opacity: 1;}
+  from {opacity: 0;}
+  to {opacity: 1;}
 }
 
 .card-additional .catalog-tab {
@@ -1209,6 +1209,8 @@ ul.breadcrumb li a {
   margin-top: 20px;
 }
 
+/* Styling custom radio buttons */
+
 .checkmark-container {
   display: inline-block;
   position: relative;
@@ -1262,6 +1264,8 @@ ul.breadcrumb li a {
   background: #7e3661;
 }
 
+/* Styling custom checkboxes */
+
 .checkbox-container {
   display: block;
   position: relative;
@@ -1274,8 +1278,6 @@ ul.breadcrumb li a {
   padding-left: 40px;
   font-weight: bold;
 }
-
-
 
 .checkbox-container input {
   position: absolute;
@@ -1570,23 +1572,23 @@ div#Reviews blockquote time {
 }
 
 .form__error {
-	color: red;
-	text-align: left;
-	font-size: 12px;
-	display: block;
-	margin-top: 3px;
-	display: none;
+  color: red;
+  text-align: left;
+  font-size: 12px;
+  display: block;
+  margin-top: 3px;
+  display: none;
 }
 
 input:valid:not(:placeholder-shown) {
-	border-color: green;
+  border-color: green;
 }
 
 input:invalid:not(:placeholder-shown) {
-	border-color: red;
+  border-color: red;
 }
 input:invalid:not(:placeholder-shown) + .form__error {
-	display: block;
+  display: block;
 }
 
 .form-username input,
@@ -1640,14 +1642,14 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .container-item-description h4
- {
-   display: inline-block;
-   font-family: "Geometria Bold";
-   font-size: 14px;
-   text-transform: uppercase;
-   margin: 0;
-   margin-top: 30px;
-   margin-bottom: 5px;
+{
+  display: inline-block;
+  font-family: "Geometria Bold";
+  font-size: 14px;
+  text-transform: uppercase;
+  margin: 0;
+  margin-top: 30px;
+  margin-bottom: 5px;
 }
 
 .container-item-description b {
@@ -1785,4 +1787,121 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .checkout-items .card-form-submit {
   float: right;
   margin-top: 30px;
+}
+
+/* Styling modal auth on checkout page */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.modal-content .modal-close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.modal-content .modal-close:hover,
+.modal-content .modal-close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* styling modal button to look like a link on checkout page */
+
+.cart-page #authBtn {
+  border: none;
+  background: #fff;
+  font-family: "Geometria Regular";
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: underline;
+  color: rgb(236, 34, 36);
+  cursor: pointer;
+}
+
+.modal-content {
+  width: 370px;
+}
+
+.modal-auth {
+  padding-left: 10px;
+  padding-right: 20px;
+}
+
+.modal-social {
+  display: grid;
+  grid-template-columns: 120px 40px 40px 40px 40px;
+  grid-gap: 15px;
+  margin-top: 20px;
+}
+
+/* Styling social buttons */
+
+.social-button {
+  margin-top: 12px;
+  width: 30px;
+  height: 30px;
+  background-color: rgb(236, 34, 36);
+  border-radius: 50%;
+  padding: 2px;
+}
+
+.social-button a {
+  color: white;
+  display: block;
+  padding-left: 0px;
+  padding-top: 3px;
+  text-align: center;
+}
+
+/* Styling checkbox inside modal */
+
+.modal-form .checkbox-container {
+  font-size: 14px;
+}
+
+/* inputs inside modal */
+
+.modal-username input,
+.modal-email input,
+.modal-password input {
+  padding: 10px;
+  font-family: "Geometria Light";
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal form > div {
+  margin-top: 20px;
+}
+
+.modal-submit input[type="submit"] {
+  padding: 16px 10px;
+  background-color: rgb(236, 34, 36);
+  font-family: "Geometria Bold";
+  font-size: 16px;
+  width: 100%;
+  text-transform: uppercase;
+  color: #fff;
+  border: 1px solid rgb(236, 34, 36);
 }
