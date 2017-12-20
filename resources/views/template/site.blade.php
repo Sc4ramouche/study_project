@@ -36,7 +36,7 @@
     <div class="header-bottom">
       <div class="container container-header-bottom">
         <div class="header-logo">
-          <img src="img/logo.svg" alt="Дом посуды">
+          <img src="{{ asset('img/logo.svg') }}" alt="Дом посуды">
         </div>
         <div class="header-brand">
           <h1>Дом посуды</h1>
