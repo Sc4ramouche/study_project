@@ -27,7 +27,60 @@
 
 <section class="cart-page">
   <div class="container">
-    <h3>Заполните форму или <a href="#" class="cart-auth">авторизуйтесь</a></h3>
+    <h3>Заполните форму или <button id="authBtn">авторизируйтесь</button></h3>
+    <div id="authModal" class="modal">
+      <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        <div class="modal-auth">
+          <div class="modal-social">
+            <p>Войти через:</p>
+            <div class="social-vk social-button">
+              <a href="#"><i class="fa fa-vk" aria-hidden="true"></i></a>
+            </div>
+            <div class="social-od social-button">
+              <a href="#"><i class="fa fa-odnoklassniki" aria-hidden="true"></i></a>
+            </div>
+            <div class="social-fb social-button">
+              <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            </div>
+            <div class="social-in social-button">
+              <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+            </div>
+          </div>
+          <div class="modal-form-container">
+            <form class="modal-form" action="index.html" method="post">
+              <div class="modal-username">
+                <label for="username"></label>
+                <input type="text" name="username" placeholder="ФИО">
+              </div>
+              <div class="modal-email">
+                <label for="email"></label>
+                <input type="email" name="email" placeholder="Email">
+              </div>
+              <div class="modal-password">
+                <label for="password"></label>
+                <input type="password" name="password" placeholder="Придумайте пароль">
+              </div>
+              <div class="form-acceptance">
+                <label class="checkbox-container">
+                  <input type="checkbox">Даю согласие на обработку персональных данных.</input>
+                  <span class="cart-checkbox" unchecked></span>
+                </label>
+              </div>
+              <div class="form-acceptance">
+                <label class="checkbox-container">
+                  <input type="checkbox">Хочу получать интересные предложения от Дом Посуды</input>
+                  <span class="cart-checkbox" unchecked></span>
+                </label>
+              </div>
+              <div class="modal-submit">
+                <input type="submit" value="Зарегистрироваться">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="container cart-page-container">
     <div class="container-form">
@@ -62,8 +115,9 @@
           <label for="delivery"></label>
           <select name="delivery">
             <option value="" disabled selected hidden>Способ доставки</option>
-            <option value="hurr">1</option>
-            <option value="first">2</option>
+            <option>Самовывоз</option>
+            <option>Доставка курьеров</option>
+            <option>Доставка почтой</option>
           </select>
         </div>
         <div class="form-acceptance">

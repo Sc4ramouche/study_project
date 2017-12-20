@@ -404,8 +404,8 @@ header .toggle {
 }
 
 @keyframes fadeEffect {
-    from {opacity: 0;}
-    to {opacity: 1;}
+  from {opacity: 0;}
+  to {opacity: 1;}
 }
 
 .card-additional .catalog-tab {
@@ -1209,6 +1209,8 @@ ul.breadcrumb li a {
   margin-top: 20px;
 }
 
+/* Styling custom radio buttons */
+
 .checkmark-container {
   display: inline-block;
   position: relative;
@@ -1262,6 +1264,8 @@ ul.breadcrumb li a {
   background: #7e3661;
 }
 
+/* Styling custom checkboxes */
+
 .checkbox-container {
   display: block;
   position: relative;
@@ -1275,8 +1279,6 @@ ul.breadcrumb li a {
   font-weight: bold;
 }
 
-
-
 .checkbox-container input {
   position: absolute;
   opacity: 0;
@@ -1286,10 +1288,11 @@ ul.breadcrumb li a {
   position: absolute;
   top: 0;
   left: 0;
-  height: 25px;
-  width: 25px;
+  height: 22px;
+  width: 22px;
   background-color: #fff;
   border: 1px solid rgb(236, 34, 36);
+  border-radius: 10%;
 }
 
 .checkbox-container:hover input ~ .cart-checkbox:after {
@@ -1311,8 +1314,8 @@ ul.breadcrumb li a {
 }
 
 .checkbox-container .cart-checkbox:after {
-  left: 9px;
-  top: 5px;
+  left: 8px;
+  top: 3px;
   width: 5px;
   height: 10px;
   border: solid white;
@@ -1570,23 +1573,23 @@ div#Reviews blockquote time {
 }
 
 .form__error {
-	color: red;
-	text-align: left;
-	font-size: 12px;
-	display: block;
-	margin-top: 3px;
-	display: none;
+  color: red;
+  text-align: left;
+  font-size: 12px;
+  display: block;
+  margin-top: 3px;
+  display: none;
 }
 
 input:valid:not(:placeholder-shown) {
-	border-color: green;
+  border-color: green;
 }
 
 input:invalid:not(:placeholder-shown) {
-	border-color: red;
+  border-color: red;
 }
 input:invalid:not(:placeholder-shown) + .form__error {
-	display: block;
+  display: block;
 }
 
 .form-username input,
@@ -1640,14 +1643,14 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .container-item-description h4
- {
-   display: inline-block;
-   font-family: "Geometria Bold";
-   font-size: 14px;
-   text-transform: uppercase;
-   margin: 0;
-   margin-top: 30px;
-   margin-bottom: 5px;
+{
+  display: inline-block;
+  font-family: "Geometria Bold";
+  font-size: 14px;
+  text-transform: uppercase;
+  margin: 0;
+  margin-top: 30px;
+  margin-bottom: 5px;
 }
 
 .container-item-description b {
@@ -1785,4 +1788,344 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .checkout-items .card-form-submit {
   float: right;
   margin-top: 30px;
+}
+
+/* Styling modal auth on checkout page */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.modal-content .modal-close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.modal-content .modal-close:hover,
+.modal-content .modal-close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* styling modal button to look like a link on checkout page */
+
+#authBtn {
+  border: none;
+  background: #fff;
+  font-family: "Geometria Regular";
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: underline;
+  color: rgb(236, 34, 36);
+  cursor: pointer;
+}
+
+.modal-content {
+  width: 370px;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Modal animation */
+
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+.modal-auth {
+  padding-left: 10px;
+  padding-right: 20px;
+}
+
+.modal-social {
+  display: grid;
+  grid-template-columns: 120px 40px 40px 40px 40px;
+  grid-gap: 15px;
+  margin-top: 20px;
+}
+
+/* Styling social buttons */
+
+.social-button {
+  margin-top: 12px;
+  width: 30px;
+  height: 30px;
+  background-color: rgb(236, 34, 36);
+  border-radius: 50%;
+  padding: 2px;
+}
+
+.social-button a {
+  color: white;
+  display: block;
+  padding-left: 0px;
+  padding-top: 3px;
+  text-align: center;
+}
+
+/* Styling checkbox inside modal */
+
+.modal-form .checkbox-container {
+  font-size: 14px;
+}
+
+/* inputs inside modal */
+
+.modal-username input,
+.modal-email input,
+.modal-password input {
+  padding: 10px;
+  font-family: "Geometria Light";
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal form > div {
+  margin-top: 20px;
+}
+
+.modal-submit input[type="submit"] {
+  padding: 16px 10px;
+  background-color: rgb(236, 34, 36);
+  font-family: "Geometria Bold";
+  font-size: 16px;
+  width: 100%;
+  text-transform: uppercase;
+  color: #fff;
+  border: 1px solid rgb(236, 34, 36);
+}
+
+/* tablinks on account page */
+
+.account-page .tablinks {
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 22px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* layout of acconut page */
+.account-container {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-gap: 50px;
+}
+
+.user-navigation {
+  border: 1px solid rgb(242, 242, 242);
+}
+
+.user-navigation .user-image {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.account-container .tabcontent {
+  border: none;
+  margin: 0;
+}
+
+/* styling login welcome */
+
+.tabcontent h4 {
+  font-family: "Geometria Regular";
+  font-size: 22px;
+  text-transform: uppercase;
+  margin: 0;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(242, 242, 242);
+}
+
+#login h3 {
+  font-family: "Geometria Light";
+  font-size: 18px;
+}
+
+.account-login-form input[type="email"],
+.account-login-form input[type="password"] {
+  padding: 10px;
+  font-family: "Geometria Light";
+  font-size: 16px;
+  margin: 10px auto;
+  width: 370px;
+  box-sizing: border-box;
+}
+
+.account-login-form label {
+  font-family: "Geometria Light";
+}
+
+.account-login-form button[type="submit"] {
+  font-family: "Geometria Bold";
+  font-size: 16px;
+  text-transform: uppercase;
+  padding: 15px 20px;
+  display: block;
+  color: #fff;
+  background-color: rgb(236, 34, 36);
+  border: 1px solid rgb(236, 34, 36);
+  width: 370px;
+}
+
+.account-login-form .form-acceptance {
+  margin: 15px 0;
+}
+
+.account-login-form a {
+  font-family: "Geometria Light";
+  opacity: 0.7;
+  font-size: 14px;
+  margin-left: 140px;
+  color: black;
+}
+
+/* Styling user navigation buttons */
+.account-page .catalog-tab {
+  border:none;
+}
+
+.account-page .tablinks {
+  padding: 15px 10px;
+  padding-left: 25px;
+  border: 1px solid rgb(242, 242, 242);
+}
+
+.account-page .tablinks:last-child {
+  width: 100%;
+}
+
+/*hiding initial button*/
+.account-page .tablinks:first-child {
+  display: none;
+}
+
+.account-page .user-image {
+  padding-top: 20px;
+  padding-bottom: 40px;
+  border: 1px solid rgb(242, 242, 242);
+}
+
+.account-page .user-image figcaption {
+  text-transform: uppercase;
+  font-family: "Geometria Light";
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.user-navigation {
+  border: none;
+}
+
+.account-personal {
+  margin-top: 20px;
+}
+
+.personal-info input {
+  padding: 10px;
+  width: 370px;
+  margin-bottom: 20px;
+  font-family: "Geometria Light";
+  font-size: 16px;
+}
+
+.account-date {
+  width: 394px;
+}
+
+.account-date .day,
+.account-date .month,
+.account-date .year {
+  margin: 0;
+  padding: 0;
+  width: 30%;
+  display: inline-block;
+  box-sizing: border-box;
+  margin-right: 15px;
+}
+
+.account-date .year {
+  margin-right: 0;
+}
+
+.account-date select {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Geometria Light";
+  font-size: 16px;
+  padding: 10px;
+  width: 100%;
+}
+
+.account-personal .account-save input,
+.account-personal .password-change input {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-top: 35px;
+  margin-bottom: 30px;
+  color: rgb(42, 42, 42);
+  background-color: #fff;
+  border: 2px solid rgb(236, 34, 36);
+  text-align: center;
+  font-family: "Geometria Bold";
+  text-transform: uppercase;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.account-personal .password-change input {
+  margin-top: 15px;
+}
+
+/* puchase history styling */
+.history-item {
+  display: grid;
+  grid-auto-columns: 1fr 1fr 1fr 1fr;
+  border-bottom: 1px solid rgb(242, 242, 242);
+}
+
+.history-item .container-item img {
+  border: none;
+}
+
+.history-item h4 {
+  border: none;
+  font-family: "Geometria Regular";
+  font-size: 13px;
+  text-transform: uppercase;
+  margin: 12px 0;
+  padding: 0;
+}
+
+.history-item time,
+.history-item b {
+  font-family: "Geometria Bold";
+  font-size: 18px;
 }

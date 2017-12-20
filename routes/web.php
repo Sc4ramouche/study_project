@@ -15,13 +15,20 @@ Route::get('/', 'IndexController@home');
 Route::get('/about', 'IndexController@about');
 Route::get('/catalog', 'IndexController@catalog');
 Route::get('/productcard', 'IndexController@productcard');
-Route::get('/catalog', 'CatalogController@catalog');
 Route::get('/news', 'IndexController@news');
 Route::get('/delivery', 'IndexController@delivery');
 Route::get('/contacts', 'IndexController@contacts');
 Route::get('/account', 'IndexController@account');//Если не залогинено кидает на /account/login
 Route::get('/checkout', 'IndexController@checkout');
 Route::get('/cart', 'IndexController@cart');
+
+//Catalog Routs
+Route::get('/catalog', 'CatalogController@catalog');
+Route::get('/catalog/{category}', 'CatalogController@catalog_category');
+Route::get('/catalog/{category}/{subcategory}', 'CatalogController@catalog_subcategory');
+Route::POST('/catalog/filter', 'CatalogController@ajax_filter');
+Route::get('/sss', 'CatalogController@test');
+
 
 //Auth::routes();
 
@@ -69,6 +76,7 @@ Route::DELETE('/admin/DeleteMaterial', 'AdminController@DeleteMaterial');
 Route::PUT('/admin/UpdateMaterial', 'AdminController@UpdateMaterial');
 
 //Для Стран
+<<<<<<< HEAD
 Route::GET('/admin/GetCountry', 'AdminController@GetCountry');
 Route::POST('/admin/AddCountry', 'AdminController@AddCountry');
 Route::DELETE('/admin/DeleteCountry', 'AdminController@DeleteCountry');
@@ -79,3 +87,5 @@ Route::GET('/admin/GetModel', 'AdminController@GetModel');
 Route::POST('/admin/AddModel', 'AdminController@AddModel');
 Route::DELETE('/admin/DeleteModel', 'AdminController@DeleteModel');
 Route::PUT('/admin/UpdateModel', 'AdminController@UpdateModel');
+=======
+>>>>>>> a2e1f06bd87ae11f9b358e0a0eaa4ae6a8bdef51

@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="{{ asset('css/stylesheet.css') }}">
   <link rel="stylesheet" href="{{ asset('css/media.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/font-awesome-4.7.0/css/font-awesome.min.css') }}">
   <link rel="stylesheet" href="{{ asset('fonts/fonts.css') }}">
   <script src="{{ asset('js/jquery/dist/jquery.js') }}"></script>
   <title>Дом Посуды</title>
@@ -36,7 +37,7 @@
     <div class="header-bottom">
       <div class="container container-header-bottom">
         <div class="header-logo">
-          <img src="img/logo.svg" alt="Дом посуды">
+          <img src="{{ asset('img/logo.svg') }}" alt="Дом посуды">
         </div>
         <div class="header-brand">
           <h1>Дом посуды</h1>
@@ -65,6 +66,9 @@
 <!-- /content -->
 
 <script src="{{ asset('js/common.js') }}"></script>
+<script src="{{ asset('js/auth.js') }}"></script>
+
+</script>
  <script>
  document.getElementById("defaultOpen").click();
  </script>
