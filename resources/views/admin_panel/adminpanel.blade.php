@@ -77,17 +77,17 @@
 				</span>
 			<dt><a onclick="hidetext('List7')" href="#" role="button">Модели</a></dt>
 				<span id="List7">
-					<dd>Просмотреть</dd>
-					<dd>Добавить</dd>
-					<dd>Удалить</dd>
-					<dd>Редактировать</dd>
+					<dd><a onclick="ShowAllModels()" href="#" role="button">Просмотреть</a></dd>
+					<dd><a onclick="AddModel()" href="#" role="button">Добавить</dd>
+					<dd><a onclick="DeleteModel()" href="#" role="button">Удалить</a></dd>
+					<dd><a onclick="UpdateModel()" href="#" role="button">Редактировать</a></dd>
 				</span>
 			<dt><a onclick="hidetext('List8')" href="#" role="button">Страны</a></dt>
 				<span id="List8">
-					<dd>Просмотреть</dd>
-					<dd>Добавить</dd>
-					<dd>Удалить</dd>
-					<dd>Редактировать</dd>
+					<dd><a onclick="ShowAllCountrys()" href="#" role="button">Просмотреть</a></dd>
+					<dd><a onclick="AddCountry()" href="#" role="button">Добавить</a></dd>
+					<dd><a onclick="DeleteCountry()" href="#" role="button">Удалить</a></dd>
+					<dd><a onclick="UpdateCountry()" href="#" role="button">Редактировать</a></dd>
 				</span>
 			<dt><a onclick="hidetext('List9')" href="#" role="button">Заказы</a></dt>
 				<span id="List9">
@@ -349,6 +349,80 @@
 		//Передать в запрос: идентификатор материала и отредактированное название материала
 		$('body').on("click", "#UpdateNameMaterialButton", function() {
 			UpdateMaterialName($('input[name=Material]:checked').val(), $('#NameMaterial').val());
+		});
+
+		//Отловить нажатие на динамическую кнопку с id = AddMaterialName
+		//Отправить AJAX POST-запрос, чтобы добавить новый материал в БД
+		//Передать по запросу значение элемента input=text id="MaterialName"
+		$('body').on("click", "#AddCountryName", function() {
+			if ( $('#CountryName').val() == '' ) {
+				alert("Введите название страны!");
+				return;
+			}
+			AddCountryName( $('#CountryName').val() );
+		});
+
+		//Отловить нажатие на динамическую кнопку с id = DeleteMaterialName
+		//Отправить AJAX DELETE-запрос, чтобы удалить выбранный материал из таблицы
+		//Передать по запросу выбранный <radio> элемент из таблицы
+		$('body').on("click", "#DeleteCountryName", function() {
+			//если <radio> не был выбран == undefined
+			if ( $('input[name=Country]:checked').val() == undefined)  {
+				alert("Вы не выбрали страну для удаления!");
+				return;
+			}
+			//функция на отправку запроса на удаление бренда
+			DeleteCountryName( $('input[name=Country]:checked').val() );
+		});
+
+		//Отловить изменения input <radio> с name = Country
+		//Присвоить полю название страны для редактирования из таблицы
+		$('body').on("click", 'input[name=Country]:checked', function() {
+			$('#NameCountry').attr('value', $('#CountryName' + $('input[name=Country]:checked').val()).text() );
+		});
+
+		//Отловить нажатие на динамическую кнопку с id = UpdateNameCountryButton
+		//Отправить AJAX PUT-запрос, чтобы редактировать выбранную страну из таблицы
+		//Передать в запрос: идентификатор страны и отредактированное название страны
+		$('body').on("click", "#UpdateNameCountryButton", function() {
+			UpdateCountryName($('input[name=Country]:checked').val(), $('#NameCountry').val());
+		});
+
+		//Отловить нажатие на динамическую кнопку с id = AddModelName
+		//Отправить AJAX POST-запрос, чтобы добавить новую модель в БД
+		//Передать по запросу значение элемента input=text id="ModelName"
+		$('body').on("click", "#AddModelName", function() {
+			if ( $('#ModelName').val() == '' ) {
+				alert("Введите название модели!");
+				return;
+			}
+			AddModelName( $('#ModelName').val() );
+		});
+
+		//Отловить нажатие на динамическую кнопку с id = DeleteModelName
+		//Отправить AJAX DELETE-запрос, чтобы удалить выбранную модель из таблицы
+		//Передать по запросу выбранный <radio> элемент из таблицы
+		$('body').on("click", "#DeleteModelName", function() {
+			//если <radio> не был выбран == undefined
+			if ( $('input[name=Model]:checked').val() == undefined)  {
+				alert("Вы не выбрали модель для удаления!");
+				return;
+			}
+			//функция на отправку запроса на удаление бренда
+			DeleteModelName( $('input[name=Model]:checked').val() );
+		});
+
+		//Отловить изменения input <radio> с name = Model
+		//Присвоить полю название модели для редактирования из таблицы
+		$('body').on("click", 'input[name=Model]:checked', function() {
+			$('#NameModel').attr('value', $('#ModelName' + $('input[name=Model]:checked').val()).text() );
+		});
+
+		//Отловить нажатие на динамическую кнопку с id = UpdateNameModelButton
+		//Отправить AJAX PUT-запрос, чтобы редактировать выбранную модель из таблицы
+		//Передать в запрос: идентификатор модели и отредактированное название модели
+		$('body').on("click", "#UpdateNameModelButton", function() {
+			UpdateModelName($('input[name=Model]:checked').val(), $('#NameModel').val());
 		});
 	});
 
@@ -716,6 +790,154 @@
 		});
 	}
 
+	//функция, которая отправляет AJAX GET-запрос на сервер
+	//Если response === 200, то возвращает перечень всех стран из БД, как массив объектов
+	//Параметры массива: ID_COUNTRY, Name
+	function GetAllCountrys(AllCountrys) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "GET",
+			url: "/admin/GetCountry",
+			data: {_token: CSRF_TOKEN},
+			success: function(data) {
+				AllCountrys(JSON.parse(data));
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	};
+
+	//Функция, которгая отсылает AJAX POST-запрос на сервер
+	//Если response === 200, то добавляет новый материал в БД
+	//Параметры, которые надо передать на сервер: Название материала
+	function AddCountryName(CountryName) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "POST",
+			url: "/admin/AddCountry",
+			data: {_token: CSRF_TOKEN, CountryName: CountryName},
+			success: function(data) {
+				alert("Новая страна успешно добавлена!");
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+	//Функция, которая посылает AJAX DELETE-запрос на сервер
+	//Если response === 200, то удаляет выбранную ранее страну из БД
+	//Параметры, которые надо передать на сервер: Идентификатор страны, которую надо удалить
+	function DeleteCountryName(id_Country) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "DELETE",
+			url: "/admin/DeleteCountry",
+			data: {_token: CSRF_TOKEN, id_Country: id_Country},
+			dataType: 'JSON',
+			success: function(data) {
+				alert("Выбранная страна успешно удалена!");
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+	//Функция, которая посылает AJAX PUT-запрос на сервер
+	//Если response === 200, то изменяет выбранную ранее страну в БД
+	//Параметры, которые надо передать на сервер: Идентификатор страны, новое название страны
+	function UpdateCountryName(id_Country, CountryName) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "PUT",
+			url: "/admin/UpdateCountry",
+			data: {_token: CSRF_TOKEN, id_Country: id_Country, CountryName: CountryName},
+			dataType: 'JSON',
+			success: function(data) {
+				alert("Выбранная страна успешно изменена!");
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+	//функция, которая отправляет AJAX GET-запрос на сервер
+	//Если response === 200, то возвращает перечень всех моделей из БД, как массив объектов
+	//Параметры массива: ID_MODEL, Name
+	function GetAllModels(AllModels) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "GET",
+			url: "/admin/GetModel",
+			data: {_token: CSRF_TOKEN},
+			success: function(data) {
+				AllModels(JSON.parse(data));
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	};
+
+	//Функция, которгая отсылает AJAX POST-запрос на сервер
+	//Если response === 200, то добавляет новую модель в БД
+	//Параметры, которые надо передать на сервер: Название модели
+	function AddModelName(ModelName) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "POST",
+			url: "/admin/AddModel",
+			data: {_token: CSRF_TOKEN, ModelName: ModelName},
+			success: function(data) {
+				alert("Новая модель успешно добавлена!");
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+	//Функция, которая посылает AJAX DELETE-запрос на сервер
+	//Если response === 200, то удаляет выбранную ранее модель из БД
+	//Параметры, которые надо передать на сервер: Идентификатор модели, которую надо удалить
+	function DeleteModelName(id_Model) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "DELETE",
+			url: "/admin/DeleteModel",
+			data: {_token: CSRF_TOKEN, id_Model: id_Model},
+			dataType: 'JSON',
+			success: function(data) {
+				alert("Выбранная модель успешно удалена!");
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+	//Функция, которая посылает AJAX PUT-запрос на сервер
+	//Если response === 200, то изменяет выбранную ранее модель в БД
+	//Параметры, которые надо передать на сервер: Идентификатор модели, новое название модели
+	function UpdateModelName(id_Model, ModelName) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "PUT",
+			url: "/admin/UpdateModel",
+			data: {_token: CSRF_TOKEN, id_Model: id_Model, ModelName: ModelName},
+			dataType: 'JSON',
+			success: function(data) {
+				alert("Выбранная модель успешно изменена!");
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
 	//Отобразить перечень категорий в виде таблицы
 	//Вызвать функцию GetAllCategory и занести полученные данные в таблицу 
 	function ShowCategory() {
@@ -982,13 +1204,129 @@
 		});
 	};
 
-	//Отобразить форму для редактирования выбранного из таблицы материала
+	//Отобразить форму для редактирования выбранного материала из таблицы
 	function UpdateMaterial() {
 		GetAllMaterials(function(AllMaterials) {
 			MaterialsTable(AllMaterials);
 			$('#ResponseTable').append("<label>Исправьте название материала: </label>");
 			$('#ResponseTable').append("<input type='text' id='NameMaterial'/>  ");
 			$('#ResponseTable').append("<br><button id='UpdateNameMaterialButton'>Редактировать</button>")
+		});
+	}
+
+	//Функция для вывода таблицы стран.
+	//На вход посутпает массив стран с полями: ID_COUNTRY, Name.
+	function CountrysTable(AllCountrys) {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		$('#ResponseTable').append("<table width='700' border='1'></table>")
+		$('#ResponseTable').find('table').append("<tr><td>№</td><td>Наименование страны</td>");
+		for (var i = 0; i < AllCountrys.length; i++) {
+			$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
+														"<td id='CountryName" + AllCountrys[i].ID_COUNTRY + "'>" + 
+																		AllCountrys[i].Name + "</td>" + 
+														"<td><input name='Country' type='radio' value='" + 
+																AllCountrys[i].ID_COUNTRY + "'</td></tr>");
+		}
+	}
+
+	//Отобразить перечень стран в виде таблицы
+	//Вызвать функцию GetAllCountrys и занести полученные данные в таблицу
+	function ShowAllCountrys() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllCountrys(function(AllCountrys) {
+			$('#ResponseTable').append("<table width='700' border='1'></table>")
+			$('#ResponseTable').find('table').append("<tr><td>№</td><td>Наименование страны</td>");
+			for (var i = 0; i < AllCountrys.length; i++) {
+				$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
+															"<td>" + AllCountrys[i].Name + "</td></tr>");
+			}
+		});
+	}
+
+	//Отобразить форму для добавления новой страны
+	function AddCountry() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		$('#Response').append("<label>Введите название страны: </label>");
+		$('#Response').append("<input type='text' id='CountryName'/>");
+		$('#Response').append("<br><button id='AddCountryName'>Добавить</button>")
+	}
+
+	//Отобразить форму для удаления выбранной страны из таблицы
+	function DeleteCountry() {
+		GetAllCountrys(function(AllCountrys) {
+			CountrysTable(AllCountrys);
+			$('#ResponseTable').append("<button id='DeleteCountryName'>Удалить</button>");
+		});
+	}
+
+	//Отобразить форму для редактирования выбранной страны из таблицы
+	function UpdateCountry() {
+		GetAllCountrys(function(AllCountrys) {
+			CountrysTable(AllCountrys);
+			$('#ResponseTable').append("<label>Исправьте название страны: </label>");
+			$('#ResponseTable').append("<input type='text' id='NameCountry'/>  ");
+			$('#ResponseTable').append("<br><button id='UpdateNameCountryButton'>Редактировать</button>")
+		});
+	}
+
+	//Функция для вывода таблицы моделей.
+	//На вход посутпает массив стран с полями: ID_MODEL, Name.
+	function ModelsTable(AllModels) {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		$('#ResponseTable').append("<table width='700' border='1'></table>")
+		$('#ResponseTable').find('table').append("<tr><td>№</td><td>Наименование модели</td>");
+		for (var i = 0; i < AllModels.length; i++) {
+			$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
+														"<td id='ModelName" + AllModels[i].ID_MODEL + "'>" + 
+																		AllModels[i].Name + "</td>" + 
+														"<td><input name='Model' type='radio' value='" + 
+																AllModels[i].ID_MODEL + "'</td></tr>");
+		}
+	}
+
+	//Отобразить перечень моделей в виде таблицы
+	//Вызвать функцию GetAllModels и занести полученные данные в таблицу
+	function ShowAllModels() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllModels(function(AllModels) {
+			$('#ResponseTable').append("<table width='700' border='1'></table>")
+			$('#ResponseTable').find('table').append("<tr><td>№</td><td>Наименование модели</td>");
+			for (var i = 0; i < AllModels.length; i++) {
+				$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
+															"<td>" + AllModels[i].Name + "</td></tr>");
+			}
+		});
+	}
+
+	//Отобразить форму для добавления новой модели
+	function AddModel() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		$('#Response').append("<label>Введите название модели: </label>");
+		$('#Response').append("<input type='text' id='ModelName'/>");
+		$('#Response').append("<br><button id='AddModelName'>Добавить</button>")
+	}
+
+	//Отобразить форму для удаления выбранной страны из таблицы
+	function DeleteModel() {
+		GetAllModels(function(AllModels) {
+			ModelsTable(AllModels);
+			$('#ResponseTable').append("<button id='DeleteModelName'>Удалить</button>");
+		});
+	}
+
+	//Отобразить форму для редактирования выбранной страны из таблицы
+	function UpdateModel() {
+		GetAllModels(function(AllCountrys) {
+			ModelsTable(AllCountrys);
+			$('#ResponseTable').append("<label>Исправьте название модели: </label>");
+			$('#ResponseTable').append("<input type='text' id='NameModel'/>  ");
+			$('#ResponseTable').append("<br><button id='UpdateNameModelButton'>Редактировать</button>")
 		});
 	}
 </script>

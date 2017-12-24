@@ -76,3 +76,16 @@ Route::DELETE('/admin/DeleteMaterial', 'AdminController@DeleteMaterial');
 Route::PUT('/admin/UpdateMaterial', 'AdminController@UpdateMaterial');
 
 //Для Стран
+<<<<<<< HEAD
+Route::GET('/admin/GetCountry', 'AdminController@GetCountry');
+Route::POST('/admin/AddCountry', 'AdminController@AddCountry');
+Route::DELETE('/admin/DeleteCountry', 'AdminController@DeleteCountry');
+Route::PUT('/admin/UpdateCountry', 'AdminController@UpdateCountry');
+
+//Для моделей
+Route::GET('/admin/GetModel', 'AdminController@GetModel');
+Route::POST('/admin/AddModel', 'AdminController@AddModel');
+Route::DELETE('/admin/DeleteModel', 'AdminController@DeleteModel');
+Route::PUT('/admin/UpdateModel', 'AdminController@UpdateModel');
+=======
+>>>>>>> a2e1f06bd87ae11f9b358e0a0eaa4ae6a8bdef51

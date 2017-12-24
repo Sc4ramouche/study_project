@@ -407,4 +407,138 @@
         );
         return response()->json($response);
       }
+
+      /**
+      * Получить весь спиков стран из БД
+      * На вход: ничего
+      * На выход: JSON файл с перчнем стран из таблицы COUNTRY
+      **/
+      public function GetCountry(Request $request) {
+        $AllCountrys = DB::table('COUNTRY')->get();
+        return json_encode($AllCountrys);
+      }
+
+      /**
+      * Добавить новую страну в БД
+      * На вход: название страны
+      * На выход: ответ на успешный и обработанный POST-запрос.
+      **/
+      public function AddCountry(Request $request) {
+        //Добавить новый материал в таблицу
+        DB::table('COUNTRY')->insert(
+          ['Name' => $request->CountryName]
+        );
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
+
+      /**
+      * Удалить выбранную страну из БД
+      * На вход: идентификатор страны
+      * На выход: ответ на успешный и обработанный DELETE-запрос.
+      **/
+      public function DeleteCountry(Request $request) {
+        //удалить из таблицы MATERIAL строку по идентификатору
+        DB::table('COUNTRY')
+                          ->where('ID_COUNTRY', $request->id_Country)
+                          ->delete();
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
+
+      /**
+      * Обновить выбранную страну в БД
+      * На вход: идентификатор и название страны
+      * На выходе: ответ на успешлый и обработанный PUT-запрос
+      **/
+      public function UpdateCountry(Request $request) {
+        //обновить поле в таблице по идентификатору
+        DB::table('COUNTRY')
+                      ->where('ID_COUNTRY', $request->id_Country)
+                      ->update(['Name' => $request->CountryName]);
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
+
+      /**
+      * Получить весь спиков моделей из БД
+      * На вход: ничего
+      * На выход: JSON файл с перчнем моделей из таблицы MODEL
+      **/
+      public function GetModel(Request $request) {
+        $AllModels = DB::table('MODEL')->get();
+        return json_encode($AllModels);
+      }
+
+      /**
+      * Добавить новую модель в БД
+      * На вход: название модели
+      * На выход: ответ на успешный и обработанный POST-запрос.
+      **/
+      public function AddModel(Request $request) {
+        //Добавить новый материал в таблицу
+        DB::table('MODEL')->insert(
+          ['Name' => $request->ModelName]
+        );
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
+
+      /**
+      * Удалить выбранную модель из БД
+      * На вход: идентификатор модели
+      * На выход: ответ на успешный и обработанный DELETE-запрос.
+      **/
+      public function DeleteModel(Request $request) {
+        //удалить из таблицы MODEL строку по идентификатору
+        DB::table('MODEL')
+                          ->where('ID_MODEL', $request->id_Model)
+                          ->delete();
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
+
+      /**
+      * Обновить выбранную модель в БД
+      * На вход: идентификатор и название модели
+      * На выходе: ответ на успешлый и обработанный PUT-запрос
+      **/
+      public function UpdateModel(Request $request) {
+        //обновить поле в таблице по идентификатору
+        DB::table('MODEL')
+                      ->where('ID_MODEL', $request->id_Model)
+                      ->update(['Name' => $request->ModelName]);
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
     }
