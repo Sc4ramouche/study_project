@@ -436,6 +436,10 @@ function filter_with_category($id_category, $f){
                                                 $query->whereIn('MATERIAL.Name', $arr['material']);
                                          });
                                 })
+                                ->where(function($query) use($arr){
+                                    if($arr['price_min'] !== "" && $arr['price_max'] !== "")
+                                        $query->whereBetween('Price',[$arr['price_min'], $arr['price_max']]);
+                                })
                                 ->join('PICTURE', 'PRODUCT.ID_PICTURE', '=', 'PICTURE.ID_PICTURE')
                                 ->select('PRODUCT.*', 'SUBCATEGORY.Type as type', 'BREND.Name as brand', 'PICTURE.Name as pic', 'MODEL.Name as model')
                                 ->whereIn('PRODUCT.ID_SUBCATEGORY', $arr_id_subcat)
@@ -453,7 +457,6 @@ function filter_with_subcategory($id_subcategory, $f){
                                          ->where(function($query) use ($arr){
                                             if((array_key_exists('country', $arr)) && (count($arr['country']) > 0))
                                                 $query->whereIn('COUNTRY.Name', $arr['country']);
-
                                          });
                                 })
                                 ->join('BREND', function($join) use ($arr){
@@ -461,7 +464,6 @@ function filter_with_subcategory($id_subcategory, $f){
                                          ->where(function($query) use ($arr){
                                             if((array_key_exists('brand', $arr)) && (count($arr['brand']) > 0))
                                                 $query->whereIn('BREND.Name', $arr['brand']);
-
                                          });
                                 })
                                 ->join('MODEL', function($join) use ($arr){
@@ -477,6 +479,10 @@ function filter_with_subcategory($id_subcategory, $f){
                                              if((array_key_exists('material', $arr)) && (count($arr['material']) > 0))
                                                 $query->whereIn('MATERIAL.Name', $arr['material']);
                                          });
+                                })
+                                ->where(function($query) use($arr){
+                                    if($arr['price_min'] !== "" && $arr['price_max'] !== "")
+                                        $query->whereBetween('Price',[$arr['price_min'], $arr['price_max']]);
                                 })
                                 ->join('PICTURE', 'PRODUCT.ID_PICTURE', '=', 'PICTURE.ID_PICTURE')
                                 ->select('PRODUCT.*', 'SUBCATEGORY.Type as type', 'BREND.Name as brand', 'PICTURE.Name as pic', 'MODEL.Name as model')

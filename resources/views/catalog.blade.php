@@ -93,15 +93,15 @@
     <input type="radio" name="volume" value="to2">До 2л</input>
     <input type="radio" name="volume" value="from2to5">От 2 до 5л</input>
     <input type="radio" name="volume" value="from5">Более 5л</input>
-  </div>
+  </div> -->
 
   <div class="catalog-price">
     <label for="">Цена</label>
     <p><i class="arrow-down"></i></p>
-    <br>От<input type="text" name="price_min" value="" placeholder="{{ $filters['price_min'] }}"></input>
-    <br>До<input type="text" name="price_max" value="" placeholder="{{ $filters['price_max'] }}"></input>
+    <br>От<input type="text" id="price_min" name="price_min" value="" placeholder="{{ $filters['price_min'] }}"></input>
+    <br>До<input type="text" id="price_max" name="price_max" value="" placeholder="{{ $filters['price_max'] }}"></input>
   </div>
-  <div class="catalog-color">
+  <!-- <div class="catalog-color">
     <label for="color">Цвет</label>
     <p><i class="arrow-down"></i></p>
     <input type="checkbox" name="color" value="blue">blue</input>

@@ -30,6 +30,8 @@ $(document).ready(function(){
             'brand': brand,
             'model': model,
             'material': material,
+            'price_min': $('#price_min').val(),
+            'price_max': $('#price_max').val(),
         };
         //data.push(country);
 
