@@ -309,7 +309,7 @@ header .toggle {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: 165px 175px 205px 235px 190px 160px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-gap: 30px;
   justify-content: center;
 }
@@ -1235,8 +1235,8 @@ ul.breadcrumb li a {
   position: absolute;
   top: 0;
   left: 0;
-  height: 40px;
-  width: 40px;
+  height: 41px;
+  width: 42px;
   background-color: #fff;
   border-radius: 50%;
   border: 1px solid transparent;
@@ -1257,7 +1257,7 @@ ul.breadcrumb li a {
 
 .checkmark-container .card-checkmark:after {
   top: 4px;
-  left: 4px;
+  left: 5px;
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -1328,6 +1328,22 @@ ul.breadcrumb li a {
 
 #blue:after {
   background: #2c82c9;
+}
+
+#violet:after {
+  background: #7e3661;
+}
+
+#salad:after {
+  background: #2cc990;
+}
+
+#yellow:after {
+  background: #fec606;
+}
+
+#orange:after {
+  background: #fd5b03;
 }
 
 .quantity {
@@ -2128,4 +2144,305 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .history-item b {
   font-family: "Geometria Bold";
   font-size: 18px;
+}
+
+/* making up catalog page */
+
+.catalog-page-container {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-gap: 35px;
+}
+
+.catalog-category h2 {
+  position: relative;
+}
+
+.catalog-category h2::after {
+  content:"";
+  border: 10px solid transparent;
+  border-top-color: #ccc;
+  position: absolute;
+  right: -15px;
+}
+
+.show {
+  display: none;
+}
+
+.catalog-category h2 {
+  font-family: "Geometria Medium";
+  font-size: 24px;
+  text-transform: uppercase;
+  margin: 20px 0;
+  display: block;
+  width: 100%;
+  color: rgb(42, 42, 42);
+}
+
+.category-list {
+  font-family: "Geometria Light";
+  font-size: 20px;
+}
+
+.catalog-filter-form {
+  width: 100%;
+  min-width: 230px;
+}
+
+.catalog-filter-form label {
+  display: block;
+  position: relative;
+  font-family: "Geometria Medium";
+  font-size: 24px;
+  color: rgb(42, 42, 42);
+}
+
+.catalog-category h2::after {
+  content:"";
+  border: 10px solid transparent;
+  border-top-color: rgb(42, 42, 42);
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
+.catalog-country label,
+.catalog-brand label,
+.catalog-model label,
+.catalog-material label,
+.catalog-volume label,
+.catalog-price label,
+.catalog-color label {
+  font-family: "Geometria Light";
+  font-size: 20px;
+  display: inline-block;
+}
+
+.catalog-filter-form input[type="checkbox"] {
+  display: inline-block;
+  margin: 10px 0;
+}
+
+.value-container {
+  display: block;
+}
+
+.catalog-page-container .card-form-color {
+  height: 150px;
+}
+
+.catalog-page-container .checkmark-container .card-checkmark:after {
+  top: 6px;
+  left: 5px;
+  width: 31px;
+}
+
+.catalog-page-container .catalog-category {
+  width: 100%;
+  min-width: 200px;
+}
+
+.category-list dd {
+  text-align: center;
+}
+
+.catalog-slider {
+  display: block;
+}
+
+.catalog-slider input,
+.catalog-slider label {
+  display: block;
+  color: rgb(42, 42, 42);
+  margin: 10px 0;
+  font-family: "Geometria Light";
+  font-size: 16px;
+}
+
+.catalog-price h2 {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.card-form-color {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.catalog-filter-form input[type="submit"],
+.catalog-filter-form input[type="reset"] {
+  padding: 10px;
+  font-family: "Geometria Medium";
+  font-size: 16px;
+  border: 2px solid rgb(236, 34, 36);
+  width: 130px;
+  cursor: pointer;
+}
+
+.catalog-filter-form input[type="submit"] {
+  background-color: rgb(236, 34, 36);
+  color: #fff;
+  margin-right: 50px;
+  margin-bottom: 20px;
+}
+
+.catalog-filter-form input[type="reset"] {
+  background-color: #fff;
+  color: rgb(42, 42, 42);
+}
+
+.visited-img {
+  margin: 0 auto;
+}
+
+.visited-img img {
+  width: 80px;
+  height: 100px;
+  object-fit: cover;
+  border: 1px solid rgb(242, 242, 242);
+}
+
+.visited-item {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  margin-bottom: 20px;
+}
+
+.visited-info {
+  margin-left: 40px;
+}
+
+.visited-info h4 {
+  font-family: "Geometria Medium";
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-top: 15px;
+  margin-bottom: 0px;
+  width: 120px;
+  line-height: 16px;
+}
+
+.visited-item .promo-line-red {
+  margin-top: 12px;
+}
+
+.visited-price {
+  font-family: "Geometria Regular";
+  font-size: 18px;
+  color: rgb(236, 34, 36);
+  margin-top: 10px;
+  display: block;
+}
+
+.catalog-visited h3 {
+  font-family: "Geometria Bold";
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+/* Styling catalog grid */
+
+.catalog-header,
+.catalog-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  font-family: "Geometria Light";
+}
+
+.product-quanity,
+.product-sort {
+  padding: 8px;
+  font-family: "Geometria Light";
+  font-size: 18px;
+  margin-left: 15px;
+}
+
+.catalog-amount {
+  padding: 8px;
+}
+
+.catalog-grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 500px 500px 500px 500px;
+}
+
+.catalog-grid-item {
+  border: 1px solid rgb(242, 242, 242);
+  text-align: center;
+}
+
+.catalog-amount p {
+  margin: 0;
+}
+
+.grid-item-img img {
+  max-width: 300px;
+  max-height: 250px;
+  object-fit: cover;
+}
+
+.grid-item-img {
+  margin: 90px auto 35px auto;
+}
+
+.grid-item-name {
+  font-family: "Geometria Light";
+  font-size: 20px;
+}
+
+.brand-name {
+  text-transform: uppercase;
+}
+
+.grid-item-price {
+  font-family: "Geometria Regular";
+  font-size: 30px;
+  margin-top: 30px;
+  display: block;
+}
+
+.catalog-grid-item .promo-line {
+  border: 1px solid rgb(236, 34, 36);
+}
+
+.catalog-footer {
+  text-align: center;
+  margin-top: 30px;
+  vertical-align: middle;
+}
+
+.catalog-footer .catalog-amount {
+  padding-top: 15px;
+}
+
+.switch-page {
+  border: 1px solid rgb(242, 242, 242);
+  background-color: #fff;
+  font-family: "Geometria Light";
+  margin-right: 10px;
+  padding: 10px 16px;
+  box-sizing: border-box;
+}
+
+.switch-active {
+  background-color: rgb(236, 34, 36);
+  color: #fff;
+  border-color: rgb(236, 34, 36);
+}
+
+.catalog-pages,
+.catalog-show-all {
+  padding: 8px;
+}
+
+.show-all {
+  font-family: "Geometria Regular";
+  font-size: 16px;
+  background-color: #fff;
+  border: 1px solid rgb(242, 242, 242);
+  padding: 10px 35px;
+  cursor: pointer;
 }
