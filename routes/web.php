@@ -91,3 +91,4 @@ Route::PUT('/admin/UpdateModel', 'AdminController@UpdateModel');
 Route::GET('/admin/GetProduct', 'AdminController@GetProduct');
 Route::POST('/admin/AddProduct', 'AdminController@AddProduct');
 Route::DELETE('/admin/DeleteProduct', 'AdminController@DeleteProduct');
+
