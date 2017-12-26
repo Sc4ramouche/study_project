@@ -14,12 +14,12 @@
 	}
 
 	#LeftBlock {
-		width: 40%;
+		width: 30%;
 		float: left;
 	}
 
 	#RightBlock {
-		width: 60%;
+		width: 70%;
 		float: right;
 	}
 
@@ -56,10 +56,9 @@
 				</span>	
 			<dt><a onclick="hidetext('List4')" href="#" role="button">Товар</a></dt>
 				<span id="List4">
-					<dd>Просмотреть</dd>
-					<dd>Добавить</dd>
-					<dd>Удалить</dd>
-					<dd>Редактировать</dd>
+					<dd><a onclick="ShowAllProducts()" href="#" role="button">Просмотреть</a></dd>
+					<dd><a onclick="AddProduct()" href="#" role="button">Добавить</a></dd>
+					<dd><a onclick="DeleteProduct()" href="#" role="button">Удалить</a></dd>
 				</span>
 			<dt><a onclick="hidetext('List5')" href="#" role="button">Бренды</a></dt>
 				<span id="List5">
@@ -94,6 +93,11 @@
 					<dd>Просмотреть</dd>
 					<dd>Редактировать</dd>
 					<dd>Удалить</dd>
+				</span>
+			<dt><a onclick="hidetext('List10')" href="#" role="button">Количество товара</a></dt>
+				<span id="List10">
+					<dd><a onclick="ShowCountProduct()" href="#" role="button">Просмотреть</a></dd>
+					<dd><a onclick="UpdateCountProduct()" href="#" role="button">Редактировать</a></dd>
 				</span>
 		</dl>	
 	</div>
@@ -423,6 +427,167 @@
 		//Передать в запрос: идентификатор модели и отредактированное название модели
 		$('body').on("click", "#UpdateNameModelButton", function() {
 			UpdateModelName($('input[name=Model]:checked').val(), $('#NameModel').val());
+		});
+
+		//Отловить нажатие на динамическу кнопку с id = ShowProductsTable
+		//Отправить AJAX GET-запрос, чтобы отобразить таблицу продуктов выбранной подкатегории
+		//Передать в запрос: идентификатор подкатегории
+		$('body').on('click', "#ShowProductsTable", function() {
+			$('#ResponseTable').empty();
+			// alert($('#SubCategoryForChar').val());
+			GetAllProducts(function(AllProducts) {
+				$('#ResponseTable').append("<table width='700' border='1'></table>")
+				$('#ResponseTable').find('table').append("<tr><td>№</td><td>Артикул товара</td>" + 
+														"<td>Артикул поставщика</td><td>Подкатегория</td>" + 
+														"<td>Наименование бренда</td><td>Наименование модели</td>" + 
+														"<td>Наименование страны</td>" + "<td>Наименвоание материала</td>"+ 
+														"<td>Наименование изображения</td>" + 
+														"<td>Ширина</td><td>Всоты</td><td>Длина</td><td>Вес</td>" + 
+														"<td>Статус</td></tr>");
+				for (var i = 0; i < AllProducts.length; i++) {
+					$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" +
+																"<td>" + AllProducts[i]['VendoreCode'] + "</td>" +
+																"<td>" + AllProducts[i]['VendoreCodeProvider'] + "</td>" +
+																"<td>" + AllProducts[i]['SubName'] + "</td>" + 
+																"<td>" + AllProducts[i]['BrendName'] + "</td>" +
+																"<td>" + AllProducts[i]['ModelName'] + "</td>" +
+																"<td>" + AllProducts[i]['CountryName'] + "</td>" +
+																"<td>" + AllProducts[i]['MaterialName'] + "</td>" +
+																"<td>" + AllProducts[i]['GeneralPic'] + "</td>" +
+																"<td>" + AllProducts[i]['Weight'] + "</td>" +
+																"<td>" + AllProducts[i]['Height'] + "</td>" +
+																"<td>" + AllProducts[i]['Length'] + "</td>" +
+																"<td>" + AllProducts[i]['Width'] + "</td>" +
+																"<td>" + AllProducts[i]['Status'] + "</td></tr>");
+				}
+			}, $('#SubCategoryForChar').val());
+		});
+
+		//Вывести перечень продукторв в таблице с radio batton отправив для этого 
+		//AJAX GET-запрос на получение перечня подкатегорий
+		$('body').on("click", "#ShowProductsTableForDelete", function() {
+			$('#ResponseTable').empty();
+			// alert($('#SubCategoryForChar').val());
+			GetAllProducts(function(AllProducts) {
+				$('#ResponseTable').append("<table width='700' border='1'></table>")
+				$('#ResponseTable').find('table').append("<tr><td>№</td><td>Артикул товара</td>" + 
+														"<td>Артикул поставщика</td><td>Подкатегория</td>" + 
+														"<td>Наименование бренда</td><td>Наименование модели</td>" + 
+														"<td>Наименование страны</td>" + "<td>Наименование материала</td>" +
+														"<td>Наименование изображения</td>" + 
+														"<td>Ширина</td><td>Всоты</td><td>Длина</td><td>Вес</td>" + 
+														"<td>Статус</td></tr>");
+				for (var i = 0; i < AllProducts.length; i++) {
+					$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" +
+																"<td>" + AllProducts[i]['VendoreCode'] + "</td>" +
+																"<td>" + AllProducts[i]['VendoreCodeProvider'] + "</td>" +
+																"<td>" + AllProducts[i]['SubName'] + "</td>" + 
+																"<td>" + AllProducts[i]['BrendName'] + "</td>" +
+																"<td>" + AllProducts[i]['ModelName'] + "</td>" +
+																"<td>" + AllProducts[i]['CountryName'] + "</td>" +
+																"<td>" + AllProducts[i]['MaterialName'] + "</td>" +
+																"<td>" + AllProducts[i]['GeneralPic'] + "</td>" +
+																"<td>" + AllProducts[i]['Weight'] + "</td>" +
+																"<td>" + AllProducts[i]['Height'] + "</td>" +
+																"<td>" + AllProducts[i]['Length'] + "</td>" +
+																"<td>" + AllProducts[i]['Width'] + "</td>" +
+																"<td>" + AllProducts[i]['Status'] + "</td>" +
+																"<td><input name='VendorProduct' type='radio' value='" +
+																	AllProducts[i]['VendoreCode'] + "'</td></tr>");
+				}
+				$('#ResponseTable').append("<button id='DeleteCurrentProduct'>Удалить</button>");
+			}, $('#SubCategoryForChar').val());
+		});
+
+		//Отловить нажатие на динамическую кнопку с id = AddProduct
+		//Отправить AJAX POST-запрос, чтобы добавить новый продукт в БД
+		//Передать по запросу значение: 
+		$('body').on("click", "#AddProduct", function() {
+			;
+			if ( $('#VendoreCode').val() != '' ) {
+				if ( $('#VendoreCodeProvider').val() != '' ) {
+					if ( $('#WeightProduct').val() != '' ) {
+						if ( $('#WeightProduct').val() >= 0 ) {
+							if ( $('#HeightProduct').val() != '' ) {
+								if ( $('#HeightProduct').val() >= 0 ) {
+									if ( $('#LengthProduct').val() != '' ) {
+										if ( $('#LengthProduct').val() >= 0 ) {
+											if ( $('#PriceProduct').val() != '' ) {
+												if ( $('#PriceProduct').val() >= 0 ) {
+													if (($('#BrendSelect').val() != null) && 
+														($('#ModelSelect').val() != null) && 
+														($('#CountrySelect').val() != null) && 
+														($('#MaterialSelect').val() != null) &&
+														($('#SubCategorySelect').val() != null)) {
+															if ( $('#WidthProduct').val() != '' ) {
+																if ( $('#WidthProduct').val() >= 0 ) {
+																	AddNewProduct( 
+																		$('#VendoreCode').val(),
+																		$('#VendoreCodeProvider').val(),
+																		$('input[name=NameFile]').val(),
+																		$('#WeightProduct').val(),
+																		$('#HeightProduct').val(),
+																		$('#LengthProduct').val(),
+																		$('#WidthProduct').val(),
+																		$('input[name=CharacteristicProduct]:checked').val(),
+																		$('#PriceProduct').val(),
+																		$('#ModelSelect').val(),
+																		$('#BrendSelect').val(),
+																		$('#CountrySelect').val(),
+																		$('#SubCategorySelect').val(),
+																		$('#MaterialSelect').val()
+																	);
+																}
+																else
+																	alert("Ввееден не корректный вес товара");
+															}
+															else
+																alert("Введие вес продукта");
+														}
+														else
+															alert("Выберите все характеристики товара!");
+												}
+												else
+													alert("Введена не корректная цена");
+											}
+											else
+												alert("Введите цену продукта");
+										}
+										else
+											alert("Введено не корректное значение длины");
+									}
+									else
+										alert("Введите длину продукта");
+								}
+								else 
+									alert("Введено не корректное значение высоты");
+							}
+							else
+								alert("Введите высоту продукта");
+						}
+						else
+							alert("Введено не корректное значение ширины");
+					}
+					else
+						alert("Введите ширину продукта");
+				}
+				else
+					alert("Введите артикул поставщика")
+			}
+			else
+				alert("Введите артикул продукта");
+		});
+
+		//Отловить нажатие на динамическую кнопку с id = DeleteCurrentProduct
+		//Отправить AJAX DELETE-запрос, чтобы удалить выбранный продукт из таблицы
+		//Передать по запросу выбранный <radio> элемент из таблицы
+		$('body').on("click", "#DeleteCurrentProduct", function() {
+			DeleteCurentProduct( $('input[name=VendorProduct]:checked').val() );
+		});
+
+		GetAllSubCategory(function(AllSubCategory) {
+			ResponeForChar(AllSubCategory);
+			$('#Response').append("<button id='ShowProductsTableForDeleteUpdate'>Показать</button>");
 		});
 	});
 
@@ -938,6 +1103,71 @@
 		});
 	}
 
+	//Функция, которая посылает AJAX GET-запрос на север
+	//Если response === 200, то возвращает перечень всех продуктов в БД,как массив объектов
+	//Параметры массива: VENDORE_CODE, SubName, BrendName, ModelName, CountryName, PictureName, VendoreCodeProvide,
+	//					Width, Length, Height, Weight, Status, Price, MaterialName, SecondPicArray
+	function GetAllProducts(AllProducts, id_SubCategory) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "GET",
+			url: "/admin/GetProduct",
+			data: {_token: CSRF_TOKEN, id_SubCategory: id_SubCategory},
+			success: function(data) {
+				AllProducts(JSON.parse(data));
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+	//Функция, которгая отсылает AJAX POST-запрос на сервер
+	//Если response === 200, то добавляет новую модель в БД
+	//Параметры, которые надо передать на сервер: Артикул продукта, Артикул поставщика, путь главной картинки,
+													// ширину продукта, высоту продукта, длину продукта, вес продукта,
+													// категорию, цену продукта, идентификатор модели, идентификатор бренда,
+													// идентификатор страны, идентификатор подкатегории, идентификатор материала
+	function AddNewProduct(VendoreCode, VendoreProvider, FileName, Weight, Height, Length, Width, CategoryNumber, Price,
+						id_Model, id_Brend, id_Country, id_SubCategory, id_Material) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "POST",
+			url: "/admin/AddProduct",
+			data: {_token: CSRF_TOKEN, VendoreCode: VendoreCode, VendoreProvider: VendoreProvider,
+										FileName: FileName, Weight: Weight, Height: Height, Length: Length,
+										Width: Width, CategoryNumber: CategoryNumber, Price: Price,
+										id_Model: id_Model, id_Brend: id_Brend, id_Country: id_Country, 
+										id_SubCategory: id_SubCategory, id_Material: id_Material},
+			dataType: 'JSON',
+			success: function(data) {
+				alert("Новый товар успешно добавлен!");
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+	//Функция, которая посылает AJAX DELETE-запрос на сервер
+	//Если response === 200, то удаляет выйбранный товар  из БД
+	//Параметры, которые надо передать на сервер: Артикул товара
+	function DeleteCurentProduct(VendoreCode) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "DELETE",
+			url: "/admin/DeleteProduct",
+			data: {_token: CSRF_TOKEN, VendoreCode: VendoreCode},
+			dataType: 'JSON',
+			success: function(data) {
+				alert("Выбранный товар успешно удален!");
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
 	//Отобразить перечень категорий в виде таблицы
 	//Вызвать функцию GetAllCategory и занести полученные данные в таблицу 
 	function ShowCategory() {
@@ -1327,6 +1557,108 @@
 			$('#ResponseTable').append("<label>Исправьте название модели: </label>");
 			$('#ResponseTable').append("<input type='text' id='NameModel'/>  ");
 			$('#ResponseTable').append("<br><button id='UpdateNameModelButton'>Редактировать</button>")
+		});
+	}
+
+	//отобразить таблицу со всем товаром
+	function ShowAllProducts() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllSubCategory(function(AllSubCategory) {
+			ResponeForChar(AllSubCategory);
+			$('#Response').append("<button id='ShowProductsTable'>Показать</button>");
+		});
+	}
+
+	//отобразить форму добавления нового товара
+	function AddProduct() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		$('#Response').append("<label>Введите Артикул продукта: </label>");
+		$('#Response').append("<input type='text' id='VendoreCode'/>");
+
+		$('#Response').append("<br><label>Введите Артикул поставщика: </label>");
+		$('#Response').append("<input type='text' id='VendoreCodeProvider'/>");
+
+		$('#Response').append("<br><label>Выберите лицевое изображение товара: </label>");
+		$('#Response').append("<input type='file' accept='jpeg' name='NameFile'>");
+
+		$('#Response').append("<br><label>Введите ширину продукта: </label>");
+		$('#Response').append("<input type='text' id='WidthProduct'/>");
+
+		$('#Response').append("<br><label>Введите высоту продукта: </label>");
+		$('#Response').append("<input type='text' id='HeightProduct'/>");
+
+		$('#Response').append("<br><label>Введите длину продукта: </label>");
+		$('#Response').append("<input type='text' id='LengthProduct'/>");
+
+		$('#Response').append("<br><label>Введите вес продукта: </label>");
+		$('#Response').append("<input type='text' id='WeightProduct'/>");
+
+		$('#Response').append("<br><label>Выберите категорию: </label>");
+		$('#Response').append("<input name='CharacteristicProduct' type='radio' value='1'> Новинка");
+		$('#Response').append("<input name='CharacteristicProduct' type='radio' value='2'> Рекомендация");
+		$('#Response').append("<input name='CharacteristicProduct' type='radio' value='3'> Лидер");
+		$('#Response').append("<input name='CharacteristicProduct' type='radio' value='4' checked> Ничего");
+
+		$('#Response').append("<br><label>Введите цену продукта: </label>");
+		$('#Response').append("<input type='text' id='PriceProduct'/>");
+
+
+		GetAllBrends(function(AllBrends) {
+			$('#Response').append("<br><select id='BrendSelect'></select>");
+			$('#BrendSelect').append("<option selected='selected' disabled>Выберите бренд</option>");
+			for (var i = 0; i < AllBrends.length; i++) {
+				$('#BrendSelect').append("<option value=" + AllBrends[i].ID_BREND + ">" + 
+																		AllBrends[i].Name + "</option>");
+			}
+		});
+		GetAllModels(function(AllModels) {
+			$('#Response').append("<br><select id='ModelSelect'></select>");
+			$('#ModelSelect').append("<option selected='selected' disabled>Выберите модель</option>");
+			for (var i = 0; i < AllModels.length; i++) {
+				$('#ModelSelect').append("<option value=" + AllModels[i].ID_MODEL + ">" + 
+																		AllModels[i].Name + "</option>");
+			}
+		});
+		GetAllCountrys(function(AllCountrys) {
+			$('#Response').append("<br><select id='CountrySelect'></select>");
+			$('#CountrySelect').append("<option selected='selected' disabled>Выберите страну</option>");
+			for (var i = 0; i < AllCountrys.length; i++) {
+				$('#CountrySelect').append("<option value=" + AllCountrys[i].ID_COUNTRY + ">" + 
+																		AllCountrys[i].Name + "</option>");
+			}
+		});
+		GetAllMaterials(function(AllMaterials) {
+			$('#Response').append("<br><select id='MaterialSelect'></select>");
+			$('#MaterialSelect').append("<option selected='selected' disabled>Выберите материал</option>");
+			for (var i = 0; i < AllMaterials.length; i++) {
+				$('#MaterialSelect').append("<option value=" + AllMaterials[i].ID_MATERIAL + ">" + 
+																		AllMaterials[i].Name + "</option>");
+			}
+		});
+		GetAllSubCategory(function(AllSubCategory) {
+			$('#Response').append("<br><select id='SubCategorySelect'></select>");
+			$('#SubCategorySelect').append("<option selected='selected' disabled>Выберите подкатегорию</option>");
+			for (var i = 0; i < AllSubCategory.length; i++) {
+				for (var j = 0; j < AllSubCategory[i].SubCategoryArray.length; j++) {
+					$('#SubCategorySelect').append("<option value=" + AllSubCategory[i].SubCategoryArray[j].ID_SUBCATEGORY + ">" + 
+																		AllSubCategory[i].SubCategoryArray[j].Name + "</option>");
+
+				}
+			}
+		});
+
+		$('#ResponseTable').append("<button id='AddProduct'>Добавить</button>");
+	}
+
+	//отобразить форму удаления выбранного товара
+	function DeleteProduct() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllSubCategory(function(AllSubCategory) {
+			ResponeForChar(AllSubCategory);
+			$('#Response').append("<button id='ShowProductsTableForDelete'>Показать</button>");
 		});
 	}
 </script>

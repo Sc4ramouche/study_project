@@ -541,4 +541,218 @@
         );
         return response()->json($response);
       }
+
+      /**
+      * Получить весь спиков моделей из БД
+      * На вход: ничего
+      * На выход: JSON файл с перчнем товаров из таблицы PRODUCT
+      **/
+      public function GetProduct(Request $request) {
+        /*Ответ будет выглядеть следующим образом:
+        [
+          'Product' => ...,
+          'ArraySecondPic' => ...
+        ]*/
+        $Response = [];
+
+        $AllProducts = DB::table('PRODUCT')->where('ID_SUBCATEGORY', $request->id_SubCategory)->get();
+        //пройтись по каждому продукту в таблице
+        for ($i = 0; $i < sizeof($AllProducts); $i++) {
+          
+          $Status = ($AllProducts[$i]->IsNew === $AllProducts[$i]->IsLeader ? 'Рекомендация' : ($AllProducts[$i]->IsNew > $AllProducts[$i]->IsLeader ? 'Новинка' : 'Лидер')); 
+
+          $OneProduct = [
+            'VendoreCode' => $AllProducts[$i]->VENDOR_CODE,
+            'SubName' => DB::table('SUBCATEGORY')->where('ID_SUBCATEGORY', $AllProducts[$i]->ID_SUBCATEGORY)->first()->Name,
+            'BrendName' => DB::table('BREND')->where('ID_BREND', $AllProducts[$i]->ID_BREND)->first()->Name,
+            'ModelName' => DB::table('MODEL')->where('ID_MODEL', $AllProducts[$i]->ID_MODEL)->first()->Name,
+            'CountryName' => DB::table('COUNTRY')->where('ID_COUNTRY', $AllProducts[$i]->ID_COUNTRY)->first()->Name,
+            'MaterialName' => DB::table('MATERIAL')->where('ID_MATERIAL', $AllProducts[$i]->ID_MATERIAL)->first()->Name,
+            'GeneralPic' => DB::table('PICTURE')->where('ID_PICTURE', $AllProducts[$i]->ID_PICTURE)->first()->Name,
+            'VendoreCodeProvider' => $AllProducts[$i]->VENDOR_CODE_PROVIDER,
+            'Weight' => $AllProducts[$i]->Weight,
+            'Height' => $AllProducts[$i]->Height,
+            'Length' => $AllProducts[$i]->length,
+            'Width' => $AllProducts[$i]->Width,
+            'Status' => $Status,
+            'Price' => $AllProducts[$i]->Price,
+          ];
+
+          array_push($Response, $OneProduct);
+        }
+
+        return json_encode($Response);
+      }
+
+
+      /**
+      * Добавить новый товар в БД
+      * На вход: Артикул продукта(VendoreCode), Артикул поставщика(VendoreProvider), Путь изображения (FileName),
+      *           Ширина (Weight), Высота (Height), Длина (Length), Вес (Weight), Номер категории (CategoryNumber),
+                  Цена (Price), Идентификатор модели (id_Model), Идентификатор бренда (id_Brend),
+                  Идентификатор страны (id_Country), Идентификатор подкатегории (id_SubCategory), 
+                  Идентификатор материала (id_Material).
+      * На выход: ответ на успешный и обработанный POST-запрос.
+      **/
+      public function AddProduct(Request $request) {
+
+        $AllPictures = DB::table('PICTURE')->get();
+        $FileName = $this->CutFileName($request->FileName);
+        $isFile = NULL;
+
+        //проверка на наличие подобного названия в таблице PICTURE
+        for ($i = 0; $i < sizeof($AllPictures); $i++) { 
+          if ($AllPictures[$i]->Name == $FileName) {
+            $isFile = true;
+            break;
+          }
+        }
+
+        //если совпадений не нашлось, то добавить запись
+        if (is_null($isFile) == true) {
+          DB::table('PICTURE')->insert(
+            ['Name' => $FileName]
+          );
+        }
+
+        $id_FilePicture = DB::table('PICTURE')->where('Name', $FileName)->first()->ID_PICTURE;
+
+        // если новинка
+        if ($request->CategoryNumber == 1) {
+          DB::table('PRODUCT')->insert(
+              [
+                'VENDOR_CODE' => $request->VendoreCode,
+                'ID_SUBCATEGORY' => $request->id_SubCategory,
+                'ID_BREND' => $request->id_Brend,
+                'ID_MODEL' => $request->id_Model,
+                'ID_COUNTRY' => $request->id_Country,
+                'ID_PICTURE' => $id_FilePicture,
+                'VENDOR_CODE_PROVIDER' => $request->VendoreProvider,
+                'Width' => $request->Width,
+                'Height' => $request->Height,
+                'length' => $request->Length,
+                'Weight' => $request->Weight,
+                'IsNew' => 1,
+                'IsLeader' => 0,
+                'IsRecomend' => 0,
+                'Price' => $request->Price,
+                'ID_MATERIAL' => $request->id_Material,
+                'Count' => 0
+              ]
+            );   
+        }
+        //если рекоминдация магазина
+        else if ($request->CategoryNumber == 2) {
+          DB::table('PRODUCT')->insert(
+            [
+              'VENDOR_CODE' => $request->VendoreCode,
+              'ID_SUBCATEGORY' => $request->id_SubCategory,
+              'ID_BREND' => $request->id_Brend,
+              'ID_MODEL' => $request->id_Model,
+              'ID_COUNTRY' => $request->id_Country,
+              'ID_PICTURE' => $id_FilePicture,
+              'VENDOR_CODE_PROVIDER' => $request->VendoreProvider,
+              'Width' => $request->Width,
+              'Height' => $request->Height,
+              'length' => $request->Length,
+              'Weight' => $request->Weight,
+              'IsNew' => 0,
+              'IsLeader' => 0,
+              'IsRecomend' => 1,
+              'Price' => $request->Price,
+              'ID_MATERIAL' => $request->id_Material,
+              'Count' => 0
+            ]
+          );
+        }
+        //если лидер
+        else if ($request->CategoryNumber == 3) {
+          DB::table('PRODUCT')->insert(
+            [
+              'VENDOR_CODE' => $request->VendoreCode,
+              'ID_SUBCATEGORY' => $request->id_SubCategory,
+              'ID_BREND' => $request->id_Brend,
+              'ID_MODEL' => $request->id_Model,
+              'ID_COUNTRY' => $request->id_Country,
+              'ID_PICTURE' => $id_FilePicture,
+              'VENDOR_CODE_PROVIDER' => $request->VendoreProvider,
+              'Width' => $request->Width,
+              'Height' => $request->Height,
+              'length' => $request->Length,
+              'Weight' => $request->Weight,
+              'IsNew' => 0,
+              'IsLeader' => 1,
+              'IsRecomend' => 0,
+              'Price' => $request->Price,
+              'ID_MATERIAL' => $request->id_Material,
+              'Count' => 0
+            ]
+         );
+        }
+        //иначе просто товар
+        else {
+          DB::table('PRODUCT')->insert(
+            [
+              'VENDOR_CODE' => $request->VendoreCode,
+              'ID_SUBCATEGORY' => $request->id_SubCategory,
+              'ID_BREND' => $request->id_Brend,
+              'ID_MODEL' => $request->id_Model,
+              'ID_COUNTRY' => $request->id_Country,
+              'ID_PICTURE' => $id_FilePicture,
+              'VENDOR_CODE_PROVIDER' => $request->VendoreProvider,
+              'Width' => $request->Width,
+              'Height' => $request->Height,
+              'length' => $request->Length,
+              'Weight' => $request->Weight,
+              'IsNew' => 0,
+              'IsLeader' => 0,
+              'IsRecomend' => 0,
+              'Price' => $request->Price,
+              'ID_MATERIAL' => $request->id_Material,
+              'Count' => 0
+            ]
+          );
+        }
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
+
+      /**
+      * Функция, которая оставляет только название файла удаляя его путь
+      * На вход: Название файла с его дирректорией
+      * На выходе: Название файла
+      **/
+      public function CutFileName($FileName) {
+        $answer = "";
+        for ($i = strlen($FileName) - 1; $i >= 0; $i--) {
+          if (($FileName[$i] == '/') || ($FileName[$i] == '\\'))
+            return strrev($answer);
+          $answer .= $FileName[$i];
+        }
+      }
+
+      /**
+      * Удалить выбранный продукт из БД
+      * На вход: артикул продукта
+      * На выход: ответ на успешный и обработанный DELETE-запрос.
+      **/
+      public function DeleteProduct(Request $request) {
+
+        DB::table('PRODUCT')
+                            ->where('VENDOR_CODE', $request->VendoreCode)
+                            ->delete();
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
+
     }

@@ -76,7 +76,6 @@ Route::DELETE('/admin/DeleteMaterial', 'AdminController@DeleteMaterial');
 Route::PUT('/admin/UpdateMaterial', 'AdminController@UpdateMaterial');
 
 //Для Стран
-<<<<<<< HEAD
 Route::GET('/admin/GetCountry', 'AdminController@GetCountry');
 Route::POST('/admin/AddCountry', 'AdminController@AddCountry');
 Route::DELETE('/admin/DeleteCountry', 'AdminController@DeleteCountry');
@@ -87,5 +86,8 @@ Route::GET('/admin/GetModel', 'AdminController@GetModel');
 Route::POST('/admin/AddModel', 'AdminController@AddModel');
 Route::DELETE('/admin/DeleteModel', 'AdminController@DeleteModel');
 Route::PUT('/admin/UpdateModel', 'AdminController@UpdateModel');
-=======
->>>>>>> a2e1f06bd87ae11f9b358e0a0eaa4ae6a8bdef51
+
+//Для товара
+Route::GET('/admin/GetProduct', 'AdminController@GetProduct');
+Route::POST('/admin/AddProduct', 'AdminController@AddProduct');
+Route::DELETE('/admin/DeleteProduct', 'AdminController@DeleteProduct');
