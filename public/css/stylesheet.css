@@ -2234,8 +2234,15 @@ input:invalid:not(:placeholder-shown) + .form__error {
 
 .catalog-page-container .checkmark-container .card-checkmark:after {
   top: 6px;
-  left: 5px;
-  width: 31px;
+  left: 6px;
+  width: 35px;
+  height: 35px;
+}
+
+.catalog-page-container .card-checkmark {
+  height: 46px;
+  width: 47px;
+  border: none;
 }
 
 .catalog-page-container .catalog-category {
@@ -2268,6 +2275,10 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .card-form-color {
   margin-top: 40px;
   margin-bottom: 20px;
+}
+
+.card-form-color .card-form-container {
+  margin-right: 50px;
 }
 
 .catalog-filter-form input[type="submit"],
@@ -2445,4 +2456,56 @@ input:invalid:not(:placeholder-shown) + .form__error {
   border: 1px solid rgb(242, 242, 242);
   padding: 10px 35px;
   cursor: pointer;
+}
+
+.news-page-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(380px, 4);
+  grid-gap: 40px;
+}
+
+.newspage-item {
+  display: grid;
+  grid-template-columns: 0.4fr 0.88fr;
+  border: 1px solid rgb(242, 242, 242);
+  height: 380px;
+}
+
+.news-img img {
+  object-fit: cover;
+  height: 380px;
+}
+
+.news-content-container {
+  margin-left: 20px;
+  width: 100%;
+}
+
+.news-date {
+  font-family: "Geometria Light";
+  color: rgb(236, 34, 36);
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  margin-top: 50px;
+  display: block;
+}
+
+.news-header {
+  font-family: "Geometria Medium";
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
+  display: block;
+  margin-top: 25px;
+}
+
+.news-content {
+  font-family: "Geometria Light";
+  font-size: 14px;
+  font-weight: bold;
+  display: block;
+  margin: 30px 0 0 0;
 }
