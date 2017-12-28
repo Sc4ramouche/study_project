@@ -87,4 +87,8 @@ Route::POST('/admin/AddModel', 'AdminController@AddModel');
 Route::DELETE('/admin/DeleteModel', 'AdminController@DeleteModel');
 Route::PUT('/admin/UpdateModel', 'AdminController@UpdateModel');
 
+//Для товара
+Route::GET('/admin/GetProduct', 'AdminController@GetProduct');
+Route::POST('/admin/AddProduct', 'AdminController@AddProduct');
+Route::DELETE('/admin/DeleteProduct', 'AdminController@DeleteProduct');
 
