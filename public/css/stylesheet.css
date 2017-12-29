@@ -2534,6 +2534,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
   max-width: 1200px;
   margin: 0 auto;
   padding-top: 10px;
+  padding-bottom: 55px;
 }
 
 .timeline::after {
@@ -2586,7 +2587,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
   padding: 10px 50px;
   position: relative;
   font-family: "Geometria Light";
-  font-weight: 550;
+  font-weight: 600;
 }
 
 /* Media queries - Responsive timeline on screens less than 600px wide */
@@ -2704,4 +2705,168 @@ input:invalid:not(:placeholder-shown) + .form__error {
   text-decoration: none;
   text-align: center;
   margin-bottom: 20px;
+}
+
+/* styling contacts page */
+
+.contacts-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 120px;
+  padding: 0;
+}
+
+.contact {
+  border: 2px solid rgb(242, 242, 242);
+  padding: 30px 0px 30px 90px;
+  max-width: 500px;
+  box-sizing: border-box;
+}
+
+.contact p,
+.contacts-card p {
+  font-family: "Geometria Regular";
+  font-size: 20px;
+  margin: 0;
+  position: relative;
+}
+
+.contacts-phone {
+  position: relative;
+  display: block;
+  font-family: "Roboto Medium";
+  font-size: 28px;
+  text-decoration: none;
+  color: rgb(42, 42, 42);
+}
+
+.contacts-container .contacts-time {
+  margin: 18px 0;
+}
+
+.contact-adress::before,
+.contacts-time::before,
+.contacts-phone::before {
+  content: "";
+  width: 25px;
+  height: 27px;
+  left: -28px;
+  top: 4px;
+  position: absolute;
+}
+
+.contact-adress::before {
+  background: url("../img/contacts-location.png") no-repeat;
+  background-size: 18px;
+}
+
+.contacts-time::before {
+  background: url("../img/contacts-time.png") no-repeat;
+  background-size: 18px;
+}
+
+.contacts-phone::before {
+  background: url("../img/contacts-phone.png") no-repeat;
+  background-size: 18px;
+}
+
+.contacts-map {
+  background: url("../img/contacts-map.jpg") no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 720px;
+  margin-top: 50px;
+}
+
+.contacts-card {
+  width: 520px;
+  height: 720px;
+  background-color: #fff;
+  padding-left: 40px;
+  padding-top: 60px;
+  border-top: 2px solid rgb(242, 242, 242);
+  border-bottom: 2px solid rgb(242, 242, 242);
+  box-sizing: border-box;
+}
+
+.contacts-card p {
+  margin-left: 28px;
+  margin-top: 25px;
+  display: block;
+}
+
+.contacts-card h2 {
+  font-family: "Geometria Bold";
+  font-size: 40px;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+
+.contacts-card h3 {
+  font-family: "Geometria Regular";
+  font-size: 24px;
+  text-transform: uppercase;
+  color: rgb(236, 34, 36);
+  margin-top: 40px;
+}
+
+.contacts-email,
+.contacts-vk {
+  position: relative;
+  font-family: "Geometria Regular";
+  font-size: 18px;
+  color: rgb(42, 42, 42);
+  margin-left: 28px;
+  margin-top: 25px;
+  display: block;
+}
+
+.contacts-email::before {
+  content: "";
+  width: 25px;
+  height: 27px;
+  left: -28px;
+  top: 4px;
+  position: absolute;
+  background: url("../img/contacts-mail.png") no-repeat;
+  background-size: 18px;
+}
+
+.contacts-vk {
+  text-decoration: none;
+}
+
+.contacts-vk::before {
+  content: "";
+  width: 25px;
+  height: 27px;
+  left: -28px;
+  top: 4px;
+  position: absolute;
+  background: url("../img/contacts-vk.png") no-repeat;
+  background-size: 18px;
+}
+
+.contacts-card .contacts-phone {
+  color: rgb(236, 34, 36);
+  font-size: 36px;
+  margin-top: 30px;
+}
+
+.contacts-card .contacts-phone::before {
+  display: none;
+}
+
+.contacts-to-catalog {
+  width: 300px;
+  display: block;
+  font-family: "Geometria Bold";
+  font-size: 18px;
+  text-transform: uppercase;
+  text-align: center;
+  color: #fff;
+  padding: 15px 10px;
+  background-color: rgb(236, 34, 36);
+  margin-top: 30px;
+  text-decoration: none;
 }
