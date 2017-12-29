@@ -1007,6 +1007,7 @@ ul.breadcrumb li a {
 .about-page-container {
   position: relative;
   background-color: #fff;
+  min-width: 1270px;
 }
 
 .about-page-image {
@@ -2738,6 +2739,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
   font-size: 28px;
   text-decoration: none;
   color: rgb(42, 42, 42);
+  min-width: 245px;
 }
 
 .contacts-container .contacts-time {
@@ -2869,4 +2871,81 @@ input:invalid:not(:placeholder-shown) + .form__error {
   background-color: rgb(236, 34, 36);
   margin-top: 30px;
   text-decoration: none;
+}
+
+#carouselExampleControls{
+  width: 800px;
+  margin: 0 auto;
+}
+
+.container-custom {
+  width: 90%;
+  margin: 0 auto;
+}
+
+ul.breadcrumb-c {
+  padding: 8px 0px;
+  list-style: none;
+  font-family: "Geometria Light";
+  font-size: 16px;
+  font-weight: bold;
+}
+
+ul.breadcrumb-c li {
+  display: inline;
+  color: rgb(41, 41, 41);
+}
+
+ul.breadcrumb-c li+li:before {
+  padding: 8px;
+  content: "";
+  background: url("../img/arrow-right.png") no-repeat 50% 50%;
+  background-size: 5px;
+  margin-right: 5px;
+}
+ul.breadcrumb-c li a {
+  color: rgb(41, 41, 41);
+  opacity: 0.5;
+  text-decoration: none;
+}
+
+.carousel .active {
+  border: none;
+}
+
+.about-slider {
+  margin-top: 90px;
+  width: 1000px;
+  background-color: #f2f2f2;
+  padding: 20px 50px;
+}
+
+.about-us-description {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 30px;
+}
+
+.about-us-description p,
+.about-us-description h2 {
+  display: block;
+}
+
+.about-us-description h2 {
+  font-family: "Geometria Bold";
+  font-size: 90px;
+}
+
+.about-us-description p {
+  font-family: "Geometria Light";
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 30px;
+}
+
+.img-fluid {
+  width: 800px;
+  height: 550px;
+  margin: 0 auto;
+  border: 10px solid #fff;
 }
