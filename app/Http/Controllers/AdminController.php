@@ -755,4 +755,138 @@
         return response()->json($response);
       }
 
-    }
+      /**
+      * Получить артикул товаров и количество товара в магазине  из БД
+      * На вход: идентификатор подкатегории
+      * На выход: JSON файл с перчнем товаров из таблицы PRODUCT
+      **/
+      public function CountProduct(Request $request) {
+
+        $Response = [];
+        $AllProducts = DB::table('PRODUCT')->where('ID_SUBCATEGORY', $request->id_SubCategory)->get();
+        
+        for ($i = 0; $i < sizeof($AllProducts); $i++) { 
+          $LocalResponse = [
+            'VendoreCode' => $AllProducts[$i]->VENDOR_CODE, 
+            'Count' => $AllProducts[$i]->Count,
+          ];
+
+          array_push($Response, $LocalResponse);
+        }
+
+        return json_encode($Response);
+      }
+
+      /**
+      * Обновить количество выбранного товара в БД
+      * На вход: артикул товара и его количество
+      * На выходе: ответ на успешлый и обработанный PUT-запрос
+      **/
+      public function UpdateCountProduct(Request $request) {
+        DB::table('PRODUCT')
+                            ->where('VENDOR_CODE', $request->VendoreCode)
+                            ->update(['Count' => $request->Count]);
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
+
+      /**
+      * Получить список заказов и их статус из БД
+      * На вход: ничего
+      * На выход: JSON файл с перчнем заказов из таблицы ORDER
+      **/
+      public function GetOrdersStatus(Request $request) {
+
+        $Response = [];
+
+        $AllOrders = DB::table('ORDER')->get();
+        for ($i = 0; $i < sizeof($AllOrders); $i++) { 
+          $StatusOrder = DB::table('STATUSORDER')->where('ID_STATUSORDER', $AllOrders[$i]->ID_STATUSORDER)->first()->Name;
+          $Telephone = DB::table('users')->where('email', $AllOrders[$i]->email)->first()->Telephone;
+
+          $LocalResponse = [
+            'id_Order' => $AllOrders[$i]->ID_ORDER,
+            'email' => $AllOrders[$i]->email,
+            'status' => $StatusOrder,
+            'telephone' => $Telephone,
+          ];
+
+          array_push($Response, $LocalResponse);
+        }
+
+        return json_encode($Response);
+      }
+
+      /**
+      * Получить список продуктов определенного заказа из БД
+      * На вход: идентификатор заказа
+      * На выход: JSON файл с перчнем продуктов заказа из таблицы ORER_PRODUCT
+      **/
+      public function GetOrdersProducts(Request $request) {
+
+        $Response = [];
+
+        $AllOrders = DB::table('ORER_PRODUCT')->where('ID_ORDER', $request->id_Order)->get();
+
+        for ($i = 0; $i < sizeof($AllOrders); $i++) {
+          $SubProductID = DB::table('PRODUCT')->where('VENDOR_CODE', $AllOrders[$i]->VENDOR_CODE)->first()->ID_SUBCATEGORY;
+          $SubCategoryName = DB::table('SUBCATEGORY')->where('ID_SUBCATEGORY', $SubProductID)->first()->Name;
+
+          $LocalResponse = [
+            'VendoreCode' => $AllOrders[$i]->VENDOR_CODE,
+            'SubCategoryName' => $SubCategoryName,
+            'Count' => $AllOrders[$i]->Count,
+          ];
+
+          array_push($Response, $LocalResponse);
+        }
+
+        return json_encode($Response);
+      }
+
+      /**
+      * Получить список статусов для заказов из БД
+      * На вход: ничего
+      * На выход: JSON файл с перчнем статусов заказа из таблицы STATUSORDER
+      **/
+      public function GetAllStatus(Request $request) {
+        $AllStatus = DB::table('STATUSORDER')->get();
+
+        return json_encode($AllStatus);
+      }
+
+      /**
+      * Обновить стутус товара в БД
+      * На вход: номер заказа, новый статус заказа
+      * На выходе: ответ на успешлый и обработанный PUT-запрос
+      **/
+      public function UpdateStatusOrder(Request $request) {
+        //если заказ отменен, тогда увеличить количество имеющегося товара в таблице PRODUCT
+        if ($request->id_Status == 2) {
+          //получить все продукты выбранного заказа
+          $AllProductsOrder = DB::table('ORER_PRODUCT')->where('ID_ORDER', $request->id_Order)->get();
+          for ($i = 0; $i < sizeof($AllProductsOrder); $i++) {
+            //найти количество выбранного продукта в БД
+            $ProductCount = DB::table('PRODUCT')->where('VENDOR_CODE', $AllProductsOrder[$i]->VENDOR_CODE)->first()->Count;
+            DB::table('PRODUCT')
+                              ->where('VENDOR_CODE', $AllProductsOrder[$i]->VENDOR_CODE)
+                              ->update(['Count' => (int)($ProductCount + $AllProductsOrder[$i]->Count)]);
+          }
+        }
+        DB::table('ORDER')
+                        ->where('ID_ORDER', $request->id_Order)
+                        ->update(['ID_STATUSORDER' => $request->id_Status]);
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
+  }

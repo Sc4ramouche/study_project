@@ -91,4 +91,11 @@ Route::PUT('/admin/UpdateModel', 'AdminController@UpdateModel');
 Route::GET('/admin/GetProduct', 'AdminController@GetProduct');
 Route::POST('/admin/AddProduct', 'AdminController@AddProduct');
 Route::DELETE('/admin/DeleteProduct', 'AdminController@DeleteProduct');
+Route::GET('admin/CountProduct', 'AdminController@CountProduct');
+Route::PUT('/admin/UpdateCountProduct', 'AdminController@UpdateCountProduct');
 
+//Для заказов
+Route::GET('/admin/GetOrdersStatus', 'AdminController@GetOrdersStatus');
+Route::GET('/admin/GetOrdersProducts', 'AdminController@GetOrdersProducts');
+Route::GET('/admin/GetAllStatus', 'AdminController@GetAllStatus');
+Route::PUT('/admin/UpdateStatusOrder', 'AdminController@UpdateStatusOrder');
