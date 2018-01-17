@@ -24,11 +24,6 @@ class IndexController extends Controller
         return view('catalog');
     }
 
-    public function productcard() {
-
-        return view('productcard');
-    }
-
     public function news() {
 
         return view('news');

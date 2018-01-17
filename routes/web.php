@@ -14,7 +14,7 @@
 Route::get('/', 'IndexController@home');
 Route::get('/about', 'IndexController@about');
 Route::get('/catalog', 'IndexController@catalog');
-Route::get('/productcard', 'IndexController@productcard');
+Route::get('/productcard/{vendor_code}', 'CatalogController@productcard');
 Route::get('/news', 'IndexController@news');
 Route::get('/delivery', 'IndexController@delivery');
 Route::get('/contacts', 'IndexController@contacts');
@@ -76,7 +76,6 @@ Route::DELETE('/admin/DeleteMaterial', 'AdminController@DeleteMaterial');
 Route::PUT('/admin/UpdateMaterial', 'AdminController@UpdateMaterial');
 
 //Для Стран
-
 Route::GET('/admin/GetCountry', 'AdminController@GetCountry');
 Route::POST('/admin/AddCountry', 'AdminController@AddCountry');
 Route::DELETE('/admin/DeleteCountry', 'AdminController@DeleteCountry');
@@ -87,3 +86,16 @@ Route::GET('/admin/GetModel', 'AdminController@GetModel');
 Route::POST('/admin/AddModel', 'AdminController@AddModel');
 Route::DELETE('/admin/DeleteModel', 'AdminController@DeleteModel');
 Route::PUT('/admin/UpdateModel', 'AdminController@UpdateModel');
+
+//Для товара
+Route::GET('/admin/GetProduct', 'AdminController@GetProduct');
+Route::POST('/admin/AddProduct', 'AdminController@AddProduct');
+Route::DELETE('/admin/DeleteProduct', 'AdminController@DeleteProduct');
+Route::GET('admin/CountProduct', 'AdminController@CountProduct');
+Route::PUT('/admin/UpdateCountProduct', 'AdminController@UpdateCountProduct');
+
+//Для заказов
+Route::GET('/admin/GetOrdersStatus', 'AdminController@GetOrdersStatus');
+Route::GET('/admin/GetOrdersProducts', 'AdminController@GetOrdersProducts');
+Route::GET('/admin/GetAllStatus', 'AdminController@GetAllStatus');
+Route::PUT('/admin/UpdateStatusOrder', 'AdminController@UpdateStatusOrder');

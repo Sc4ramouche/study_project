@@ -257,70 +257,186 @@ function get_filters_by_subcategory($id_cat, $id_sub){
 
 }
 
+
 function get_all_filters_value(){
+    $arr_id_subcat = [];
+    $material = [];
+    $filters = [];
 
-    $all_filters_value = [];
-    $id_sub = [];
+    $data = DB::table('SUBCATEGORY')
+                ->get();
 
+    foreach ($data as $value) {
+        array_push($arr_id_subcat, $value->ID_SUBCATEGORY);
+    }
+
+    //Подкатегории и кол-во товаров в подкатегории в $arr_subcategory_count
     $all_sub = DB::table('SUBCATEGORY')
                     ->select('SUBCATEGORY.Name as name', 'SUBCATEGORY.ID_SUBCATEGORY as id')
                     ->get();
+    $filters['subcategory'] = [];
     foreach ($all_sub as $value) {
-        $arr_sub_count[$value->name] = DB::table('PRODUCT')
-        ->where('ID_SUBCATEGORY', '=', $value->id)
-        ->count();
-        array_push($id_sub, $value->id);
-    }
-    $all_filters_value['subcategory'] = $arr_sub_count;
-    $all_filters_value['id_subcategory'] = $id_sub;
 
-    $all_country = DB::table('COUNTRY')
+        $count = DB::table('PRODUCT')
+                    ->where('ID_SUBCATEGORY', '=', $value->id)
+                    ->whereIn('PRODUCT.ID_SUBCATEGORY', $arr_id_subcat)
+                    ->count();
+
+
+        array_push($filters['subcategory'], [
+                                                'sub_id' => $value->id,
+                                                'sub_name' => $value->name,
+                                                'sub_count' => $count,
+                                            ]);
+
+    }
+
+    //Страны и кол-во товаров страны в $arr_country_count
+    $filters['country'] = [];
+    $country = DB::table('COUNTRY')
                     ->select('COUNTRY.Name as name', 'COUNTRY.ID_COUNTRY as id')
                     ->get();
-    foreach ($all_country as $value) {
-        $arr_country_count[$value->name] = DB::table('PRODUCT')
-        ->where('ID_SUBCATEGORY', '=', $value->id)
-        ->count();
+    foreach ($country as $value) {
+        $count = DB::table('PRODUCT')
+                    ->where('ID_COUNTRY', '=', $value->id)
+                    ->whereIn('ID_SUBCATEGORY', $arr_id_subcat)
+                    ->count();
+        array_push($filters['country'],[
+                                        'country_id' => $value->id,
+                                        'country_name' => $value->name,
+                                        'country_count' => $count
+                                      ]);
     }
-    $all_filters_value['country'] = $arr_country_count;
 
-    $all_brand = DB::table('BREND')
+    //Бренды и кол-во товаров этого бренда в $arr_brand_count
+    $filters['brand'] = [];
+    $brand = DB::table('BREND')
                     ->select('BREND.Name as name', 'BREND.ID_BREND as id')
                     ->get();
-    foreach ($all_brand as $value) {
-        $arr_brand_count[$value->name] = DB::table('PRODUCT')
-        ->where('ID_SUBCATEGORY', '=', $value->id)
-        ->count();
+    foreach ($brand as $value) {
+        $count = DB::table('PRODUCT')
+                    ->where('ID_BREND', '=', $value->id)
+                    ->whereIn('ID_SUBCATEGORY', $arr_id_subcat)
+                    ->count();
+        array_push($filters['brand'],[
+                                        'brand_id' => $value->id,
+                                        'brand_name' => $value->name,
+                                        'brand_count' => $count
+                                      ]);
     }
-    $all_filters_value['brand'] = $arr_brand_count;
 
-    $all_model = DB::table('MODEL')
+    //Модели и кол-во товаров этой модели в $arr_model_count
+    $filters['model'] = [];
+    $model = DB::table('MODEL')
                     ->select('MODEL.Name as name', 'MODEL.ID_MODEL as id')
                     ->get();
-    foreach ($all_model as $value) {
-        $arr_model_count[$value->name] = DB::table('PRODUCT')
-        ->where('ID_SUBCATEGORY', '=', $value->id)
-        ->count();
-    }
-    $all_filters_value['model'] = $arr_model_count;
+    foreach ($model as $value) {
+        $count = DB::table('PRODUCT')
+                    ->where('ID_MODEL', '=', $value->id)
+                    ->whereIn('ID_SUBCATEGORY', $arr_id_subcat)
+                    ->count();
+        array_push($filters['model'],[
+                                        'model_id' => $value->id,
+                                        'model_name' => $value->name,
+                                        'model_count' => $count
+                                      ]);
 
-    $all_material = DB::table('MATERIAL')
+    }
+
+    //Материалы и кол-во товаров из этого материала в $arr_model_count
+    $filters['material'] = [];
+    $material = DB::table('MATERIAL')
                     ->select('MATERIAL.Name as name', 'MATERIAL.ID_MATERIAL as id')
                     ->get();
-    foreach ($all_material as $value) {
-        $arr_matrial_count[$value->name] = DB::table('PRODUCT')
-        ->where('ID_SUBCATEGORY', '=', $value->id)
-        ->count();
+    foreach ($material as $value) {
+        $count = DB::table('PRODUCT')
+                    ->where('ID_MATERIAL', '=', $value->id)
+                    ->whereIn('ID_SUBCATEGORY', $arr_id_subcat)
+                    ->count();
+        array_push($filters['material'],[
+                                        'material_id' => $value->id,
+                                        'material_name' => $value->name,
+                                        'material_count' => $count
+                                      ]);
     }
-    $all_filters_value['material'] = $arr_matrial_count;
 
-    $price_min = DB::table('PRODUCT')->min('Price');
-    $price_max = DB::table('PRODUCT')->max('Price');
-    $all_filters_value['price_min'] = $price_min;
-    $all_filters_value['price_max'] = $price_max;
+    //Фильтр стоимости min max
+    $price_min = DB::table('PRODUCT')
+                    ->whereIn('ID_SUBCATEGORY', $arr_id_subcat)
+                    ->min('Price');
+    $price_max = DB::table('PRODUCT')
+                    ->whereIn('ID_SUBCATEGORY', $arr_id_subcat)
+                    ->max('Price');
 
-    return $all_filters_value;
+    $filters['price_min'] = $price_min;
+    $filters['price_max'] = $price_max;
+
+    return $filters;
 }
+// function get_all_filters_value(){
+//
+//     $all_filters_value = [];
+//     $id_sub = [];
+//
+//     $all_sub = DB::table('SUBCATEGORY')
+//                     ->select('SUBCATEGORY.Name as name', 'SUBCATEGORY.ID_SUBCATEGORY as id')
+//                     ->get();
+//     foreach ($all_sub as $value) {
+//         $arr_sub_count[$value->name] = DB::table('PRODUCT')
+//         ->where('ID_SUBCATEGORY', '=', $value->id)
+//         ->count();
+//         array_push($id_sub, $value->id);
+//     }
+//     $all_filters_value['subcategory'] = $arr_sub_count;
+//     $all_filters_value['id_subcategory'] = $id_sub;
+//
+//     $all_country = DB::table('COUNTRY')
+//                     ->select('COUNTRY.Name as name', 'COUNTRY.ID_COUNTRY as id')
+//                     ->get();
+//     foreach ($all_country as $value) {
+//         $arr_country_count[$value->name] = DB::table('PRODUCT')
+//         ->where('ID_SUBCATEGORY', '=', $value->id)
+//         ->count();
+//     }
+//     $all_filters_value['country'] = $arr_country_count;
+//
+//     $all_brand = DB::table('BREND')
+//                     ->select('BREND.Name as name', 'BREND.ID_BREND as id')
+//                     ->get();
+//     foreach ($all_brand as $value) {
+//         $arr_brand_count[$value->name] = DB::table('PRODUCT')
+//         ->where('ID_SUBCATEGORY', '=', $value->id)
+//         ->count();
+//     }
+//     $all_filters_value['brand'] = $arr_brand_count;
+//
+//     $all_model = DB::table('MODEL')
+//                     ->select('MODEL.Name as name', 'MODEL.ID_MODEL as id')
+//                     ->get();
+//     foreach ($all_model as $value) {
+//         $arr_model_count[$value->name] = DB::table('PRODUCT')
+//         ->where('ID_SUBCATEGORY', '=', $value->id)
+//         ->count();
+//     }
+//     $all_filters_value['model'] = $arr_model_count;
+//
+//     $all_material = DB::table('MATERIAL')
+//                     ->select('MATERIAL.Name as name', 'MATERIAL.ID_MATERIAL as id')
+//                     ->get();
+//     foreach ($all_material as $value) {
+//         $arr_matrial_count[$value->name] = DB::table('PRODUCT')
+//         ->where('ID_SUBCATEGORY', '=', $value->id)
+//         ->count();
+//     }
+//     $all_filters_value['material'] = $arr_matrial_count;
+//
+//     $price_min = DB::table('PRODUCT')->min('Price');
+//     $price_max = DB::table('PRODUCT')->max('Price');
+//     $all_filters_value['price_min'] = $price_min;
+//     $all_filters_value['price_max'] = $price_max;
+//
+//     return $all_filters_value;
+// }
 
     /*
     * Получает список всех продуктов по ID_CATEGORY
@@ -491,6 +607,20 @@ function filter_with_subcategory($id_subcategory, $f){
     return $products_in_category;
 }
 
+//Получение продукта по артиклу для карточки товара
+function get_product_by_id($id) {
+    $data = DB::table('PRODUCT')
+                ->join('SUBCATEGORY', 'PRODUCT.ID_SUBCATEGORY', '=', 'SUBCATEGORY.ID_SUBCATEGORY')
+                ->join('BREND','PRODUCT.ID_BREND', '=', 'BREND.ID_BREND')
+                ->join('MODEL', 'PRODUCT.ID_MODEL', '=', 'MODEL.ID_MODEL')
+                ->join('PICTURE', 'PRODUCT.ID_PICTURE', '=', 'PICTURE.ID_PICTURE')
+                ->select('PRODUCT.*', 'SUBCATEGORY.Type as type', 'BREND.Name as brand', 'PICTURE.Name as pic', 'MODEL.Name as model')
+                ->where('PRODUCT.VENDOR_CODE', $id)
+                ->get();
+    return $data;
+
+}
+
 class CatalogController extends Controller
 {
 
@@ -537,7 +667,6 @@ class CatalogController extends Controller
     }
 
     public function catalog_subcategory($category, $subcategory){
-
         $products = get_subcategory_products($subcategory);
         $filters = get_filters_by_subcategory($category, $subcategory);
 
@@ -551,12 +680,23 @@ class CatalogController extends Controller
 
     public function catalog() {
         $filters = get_all_filters_value();
-
         return view('catalog', [
                                 'products' => [],
                                 'filters' => $filters,
-                                'category_id' => ''
+                                'category_id' => '',
+                                'subcategory_id' => '',
 
                                ]);
     }
+
+    public function productcard($vendor_code) {
+        $id = $vendor_code;
+        $product = get_product_by_id($id);
+        // dd($product);
+
+        return view('productcard', [
+                                    'product' => $product,
+                                   ]);
+    }
+
 }

@@ -6,12 +6,10 @@
   <div class="container">
     <nav class="catalog-navigation">
       <ul class="catalog-list">
-        <li><a href="#">Наплитная посуда</a></li>
-        <li><a href="#">Формы для выпечки</a></li>
-        <li><a href="#">Кухонные инструменты</a></li>
-        <li><a href="#">Ножи и разделочные доски</a></li>
-        <li><a href="#">Предметы сервировки</a></li>
-        <li><a href="#">Системы хранения</a></li>
+        <li><a href="/catalog/1">Посуда для приготовления</a></li>
+        <li><a href="/catalog/2">Посуда для сервировки</a></li>
+        <li><a href="/catalog/3">Хранение на кухне</a></li>
+        <li><a href="/catalog/4">Кухонная утварь</a></li>
       </ul>
     </nav>
   </div>
@@ -30,10 +28,10 @@
   <div class="container container-card-page">
     <div class="card-gallery">
       <div class="card-slide">
-        <img src="img/nadoba-augusta.jpg" style="width:100%">
+        <img src="{{ asset('img/nadoba-augusta-cap.jpg') }}" style="width:100%">
       </div>
       <div class="card-slide">
-        <img src="img/nadoba-augusta-cap.jpg" style="width:100%">
+        <img src="../public/img/nadoba-augusta-cap.jpg" style="width:100%">
       </div>
       <div class="card-slide">
         <img src="img/nadoba-augusta.jpg" style="width:100%">
@@ -57,11 +55,11 @@
       </div>
     </div>
     <div class="card-info">
-      <h1>Кастрюля Nadoba Augusta</h1><b class="art">арт. 950493</b>
+      <h1>{{ $product[0]->type }}</h1><b class="art">арт. {{ $product[0]->VENDOR_CODE }}</b>
       <hr>
       <hr class="promo-line-red card-line-red">
       <h4>В наличии</h4>
-      <b class="card-price">2072&#8381;</b>
+      <b class="card-price">{{ $product[0]->Price }}&#8381;</b>
       <form class="card-info-form" action="index.html" method="post">
         <div class="card-form-color">
           <label for="color">Цвет</label>

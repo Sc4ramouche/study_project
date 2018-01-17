@@ -14,12 +14,12 @@
 	}
 
 	#LeftBlock {
-		width: 40%;
+		width: 30%;
 		float: left;
 	}
 
 	#RightBlock {
-		width: 60%;
+		width: 70%;
 		float: right;
 	}
 
@@ -56,10 +56,9 @@
 				</span>	
 			<dt><a onclick="hidetext('List4')" href="#" role="button">Товар</a></dt>
 				<span id="List4">
-					<dd>Просмотреть</dd>
-					<dd>Добавить</dd>
-					<dd>Удалить</dd>
-					<dd>Редактировать</dd>
+					<dd><a onclick="ShowAllProducts()" href="#" role="button">Просмотреть</a></dd>
+					<dd><a onclick="AddProduct()" href="#" role="button">Добавить</a></dd>
+					<dd><a onclick="DeleteProduct()" href="#" role="button">Удалить</a></dd>
 				</span>
 			<dt><a onclick="hidetext('List5')" href="#" role="button">Бренды</a></dt>
 				<span id="List5">
@@ -91,14 +90,32 @@
 				</span>
 			<dt><a onclick="hidetext('List9')" href="#" role="button">Заказы</a></dt>
 				<span id="List9">
-					<dd>Просмотреть</dd>
-					<dd>Редактировать</dd>
-					<dd>Удалить</dd>
+					<dd><a onclick="ShowAllOrders()" href="#" role="button">Просмотреть статус заказа</a></dd>
+					<dd><a onclick="ShowAllOrdersProducts()" href="#" role="button">Просмотреть товары заказа</a></dd>
+					<dd><a onclick="ShangeStatusOrder()" href="#" role="button">Изменить статус заказа</a></dd>
+				</span>
+			<dt><a onclick="hidetext('List10')" href="#" role="button">Количество товара</a></dt>
+				<span id="List10">
+					<dd><a onclick="ShowCountProduct()" href="#" role="button">Просмотреть</a></dd>
 				</span>
 		</dl>	
 	</div>
 
 	<div id="RightBlock">
+		<div id="ResponsePrompt">
+			<p><h3>Добро пожаловать в панель администратора!</h3></p>
+			<p><h3>Подсказки для работы с панелью администратора:</h3></p>
+			<p><h4>1. Просмотр данных.</h4>
+			Слева предоставлена панель, где Вы можете выбрать определенный критерий. При нажатии на кнопку "Просмотреть"<br>
+			Вам будет представлена таблица с данными вашего магазина (бренды, модели, товары и т.д.)</p>
+			<p><h4>2. Редактирование данных.</h4>
+			При нажатии на кнопку "Редактирование" Вам будет предоставлена таблица. Вы должны выбрать из таблицы<
+			нужную позицию, после чего внести изменения в представленные поля. ВВОДИТЬ ПОЛЯ СЛЕДУЕТ ВНИМАТЕЛЬНО! Далее необходимо проверить правильность ввода полей и нажать кнопку "Редактировать".</p>
+			<p><h4>3. Удаление данных.</h4>
+			При нажатии на кнопку "Удаление" Вам будет предоставлена таблица. Следует найти нужную позицию для удаления, после чего нажать на кнопку "Удалить". Перед тем как удалить выбранную позицию, следует проверить правильность выбора!</p>
+			<p><h4>4. Добавление данных.</h4>
+			При нажатии на кнопку "Добавить", Вам будет предоставленно несолько полей для ввода, которые следует запонить. ДАННЫЕ СЛЕДУЕТ ЗАПОЛНЯТЬ ВНИМАТЕЛЬНО! После заполнения полей следует проверить правильность ввода и выбора определенных критериев. После чего нажать кнопку "Добавить".</p>	
+		</div>
 		<div id="Response">
 		</div>
 		<div id="ResponseTable">
@@ -119,6 +136,7 @@
 	//Делегированная обработка событий для динамически добавленных документов
 	//ищет все нужные элементы в родительском теге (в данном случае - <body>)
 	$(document).ready(function() {
+
 
 		//Отловить нажатие кнопки с id = InsertCategoryTable
 		//Записать название категории в таблицу Категория
@@ -424,6 +442,240 @@
 		$('body').on("click", "#UpdateNameModelButton", function() {
 			UpdateModelName($('input[name=Model]:checked').val(), $('#NameModel').val());
 		});
+
+		//Отловить нажатие на динамическу кнопку с id = ShowProductsTable
+		//Отправить AJAX GET-запрос, чтобы отобразить таблицу продуктов выбранной подкатегории
+		//Передать в запрос: идентификатор подкатегории
+		$('body').on('click', "#ShowProductsTable", function() {
+			$('#ResponseTable').empty();
+			// alert($('#SubCategoryForChar').val());
+			GetAllProducts(function(AllProducts) {
+				$('#ResponseTable').append("<table width='700' border='1'></table>")
+				$('#ResponseTable').find('table').append("<tr><td>№</td><td>Артикул товара</td>" + 
+														"<td>Артикул поставщика</td><td>Подкатегория</td>" + 
+														"<td>Наименование бренда</td><td>Наименование модели</td>" + 
+														"<td>Наименование страны</td>" + "<td>Наименвоание материала</td>"+ 
+														"<td>Наименование изображения</td>" + 
+														"<td>Ширина</td><td>Всоты</td><td>Длина</td><td>Вес</td>" + 
+														"<td>Статус</td></tr>");
+				for (var i = 0; i < AllProducts.length; i++) {
+					$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" +
+																"<td>" + AllProducts[i]['VendoreCode'] + "</td>" +
+																"<td>" + AllProducts[i]['VendoreCodeProvider'] + "</td>" +
+																"<td>" + AllProducts[i]['SubName'] + "</td>" + 
+																"<td>" + AllProducts[i]['BrendName'] + "</td>" +
+																"<td>" + AllProducts[i]['ModelName'] + "</td>" +
+																"<td>" + AllProducts[i]['CountryName'] + "</td>" +
+																"<td>" + AllProducts[i]['MaterialName'] + "</td>" +
+																"<td>" + AllProducts[i]['GeneralPic'] + "</td>" +
+																"<td>" + AllProducts[i]['Weight'] + "</td>" +
+																"<td>" + AllProducts[i]['Height'] + "</td>" +
+																"<td>" + AllProducts[i]['Length'] + "</td>" +
+																"<td>" + AllProducts[i]['Width'] + "</td>" +
+																"<td>" + AllProducts[i]['Status'] + "</td></tr>");
+				}
+			}, $('#SubCategoryForChar').val());
+		});
+
+		//Вывести перечень продукторв в таблице с radio batton отправив для этого 
+		//AJAX GET-запрос на получение перечня подкатегорий
+		$('body').on("click", "#ShowProductsTableForDelete", function() {
+			$('#ResponseTable').empty();
+			// alert($('#SubCategoryForChar').val());
+			GetAllProducts(function(AllProducts) {
+				$('#ResponseTable').append("<table width='700' border='1'></table>")
+				$('#ResponseTable').find('table').append("<tr><td>№</td><td>Артикул товара</td>" + 
+														"<td>Артикул поставщика</td><td>Подкатегория</td>" + 
+														"<td>Наименование бренда</td><td>Наименование модели</td>" + 
+														"<td>Наименование страны</td>" + "<td>Наименование материала</td>" +
+														"<td>Наименование изображения</td>" + 
+														"<td>Ширина</td><td>Всоты</td><td>Длина</td><td>Вес</td>" + 
+														"<td>Статус</td></tr>");
+				for (var i = 0; i < AllProducts.length; i++) {
+					$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" +
+																"<td>" + AllProducts[i]['VendoreCode'] + "</td>" +
+																"<td>" + AllProducts[i]['VendoreCodeProvider'] + "</td>" +
+																"<td>" + AllProducts[i]['SubName'] + "</td>" + 
+																"<td>" + AllProducts[i]['BrendName'] + "</td>" +
+																"<td>" + AllProducts[i]['ModelName'] + "</td>" +
+																"<td>" + AllProducts[i]['CountryName'] + "</td>" +
+																"<td>" + AllProducts[i]['MaterialName'] + "</td>" +
+																"<td>" + AllProducts[i]['GeneralPic'] + "</td>" +
+																"<td>" + AllProducts[i]['Weight'] + "</td>" +
+																"<td>" + AllProducts[i]['Height'] + "</td>" +
+																"<td>" + AllProducts[i]['Length'] + "</td>" +
+																"<td>" + AllProducts[i]['Width'] + "</td>" +
+																"<td>" + AllProducts[i]['Status'] + "</td>" +
+																"<td><input name='VendorProduct' type='radio' value='" +
+																	AllProducts[i]['VendoreCode'] + "'</td></tr>");
+				}
+				$('#ResponseTable').append("<button id='DeleteCurrentProduct'>Удалить</button>");
+			}, $('#SubCategoryForChar').val());
+		});
+
+		//Отловить нажатие на динамическую кнопку с id = AddProduct
+		//Отправить AJAX POST-запрос, чтобы добавить новый продукт в БД
+		//Передать по запросу значение: 
+		$('body').on("click", "#AddProduct", function() {
+			;
+			if ( $('#VendoreCode').val() != '' ) {
+				if ( $('#VendoreCodeProvider').val() != '' ) {
+					if ( $('#WeightProduct').val() != '' ) {
+						if ( $('#WeightProduct').val() >= 0 ) {
+							if ( $('#HeightProduct').val() != '' ) {
+								if ( $('#HeightProduct').val() >= 0 ) {
+									if ( $('#LengthProduct').val() != '' ) {
+										if ( $('#LengthProduct').val() >= 0 ) {
+											if ( $('#PriceProduct').val() != '' ) {
+												if ( $('#PriceProduct').val() >= 0 ) {
+													if (($('#BrendSelect').val() != null) && 
+														($('#ModelSelect').val() != null) && 
+														($('#CountrySelect').val() != null) && 
+														($('#MaterialSelect').val() != null) &&
+														($('#SubCategorySelect').val() != null)) {
+															if ( $('#WidthProduct').val() != '' ) {
+																if ( $('#WidthProduct').val() >= 0 ) {
+																	AddNewProduct( 
+																		$('#VendoreCode').val(),
+																		$('#VendoreCodeProvider').val(),
+																		$('input[name=NameFile]').val(),
+																		$('#WeightProduct').val(),
+																		$('#HeightProduct').val(),
+																		$('#LengthProduct').val(),
+																		$('#WidthProduct').val(),
+																		$('input[name=CharacteristicProduct]:checked').val(),
+																		$('#PriceProduct').val(),
+																		$('#ModelSelect').val(),
+																		$('#BrendSelect').val(),
+																		$('#CountrySelect').val(),
+																		$('#SubCategorySelect').val(),
+																		$('#MaterialSelect').val()
+																	);
+																}
+																else
+																	alert("Ввееден не корректный вес товара");
+															}
+															else
+																alert("Введие вес продукта");
+														}
+														else
+															alert("Выберите все характеристики товара!");
+												}
+												else
+													alert("Введена не корректная цена");
+											}
+											else
+												alert("Введите цену продукта");
+										}
+										else
+											alert("Введено не корректное значение длины");
+									}
+									else
+										alert("Введите длину продукта");
+								}
+								else 
+									alert("Введено не корректное значение высоты");
+							}
+							else
+								alert("Введите высоту продукта");
+						}
+						else
+							alert("Введено не корректное значение ширины");
+					}
+					else
+						alert("Введите ширину продукта");
+				}
+				else
+					alert("Введите артикул поставщика")
+			}
+			else
+				alert("Введите артикул продукта");
+		});
+
+		//Отловить нажатие на динамическую кнопку с id = DeleteCurrentProduct
+		//Отправить AJAX DELETE-запрос, чтобы удалить выбранный продукт из таблицы
+		//Передать по запросу выбранный <radio> элемент из таблицы
+		$('body').on("click", "#DeleteCurrentProduct", function() {
+			DeleteCurentProduct( $('input[name=VendorProduct]:checked').val() );
+		});
+
+		//Отловить нажатие на динамическу кнопку с id = ShowProductTableWithCount
+		//Отправить AJAX GET-запрос, чтобы отобразить таблицу артикула и количества продуктов выбранной подкатегории
+		//Передать в запрос: идентификатор подкатегории
+		$('body').on("click", "#ShowProductTableWithCount", function() {
+			$('#ResponseTable').empty();
+			GetAllProductsWithCount(function(AllProducts) {
+				$('#ResponseTable').append("<table width='700' border='1'></table>")
+				$('#ResponseTable').find('table').append("<tr><td>№</td><td>Артикул товара</td>" + 
+														"<td>Количество товара</td></tr>");
+				for (var i = 0; i < AllProducts.length; i++) {
+					$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" +
+																"<td>" + AllProducts[i]['VendoreCode'] + "</td>" +
+																"<td id='Count" + AllProducts[i]['VendoreCode'] + "'>" +
+																 			AllProducts[i]['Count']  + "</td>" +
+																"<td><input name='VendorProduct' type='radio' value='" +
+																	AllProducts[i]['VendoreCode'] + "'</td></tr>");
+				}
+				$('#ResponseTable').append("<label>Отредактировать количество товара: </label>");
+				$('#ResponseTable').append("<input type='text' id='CountProductLabel'/>  ");
+				$('#ResponseTable').append("<button id='CountProductButton'>Редактировать</button>");
+			}, $('#SubCategoryForChar').val());
+		});
+
+		//Отловить изменения input <radio> с name = VendorProduct
+		//Присвоить полю количество товара для редактирования из таблицы
+		$('body').on("click", 'input[name=VendorProduct]:checked', function() {
+			$('#CountProductLabel').attr('value', $('#Count' + $('input[name=VendorProduct]:checked').val()).text() );
+		});
+
+		//Отловить нажатие на кнопку с id = CountProductButton
+		//Вызвать запрос на обновление количества товара в таблеце БД
+		//Параметры которые передаются с запросом: Артикул товара, новое количество товара
+		$('body').on("click", "#CountProductButton", function() {
+			UpdateCountProduct($('input[name=VendorProduct]:checked').val(), $('#CountProductLabel').val());
+		});
+
+		//Отловить нажатие на кнопку с id = ShowOrderDetails
+		//Вызвать запрос для отображения таблицы с перечнем продуктов выбранного заказа из таблецы БД
+		//Параметры которые передаются с запросом: Номер заказа
+		$('body').on("click", "#ShowOrderDetails", function() {
+			$('#ResponseTable').empty();
+			if ($('input[name=OrderNumber]:checked').val() == undefined)
+				alert("Вы не выбрали заказ!");
+			else {
+				GetALlOrdersWithProducts(function(AllOrders) {
+					$('#ResponseTable').append("<br><br>Заказ №" + $('input[name=OrderNumber]:checked').val());
+					$('#ResponseTable').append("<table id='TableOrder' width='700' border='1'></table>")
+					$('#TableOrder').append("<tr><td>Артикул товара</td><td>Подкатегория товара</td>" +
+															"<td>Количество</td></tr>");
+					if (AllOrders.length > 0) {
+						for (var i = 0; i < AllOrders.length; i++) {
+							$('#TableOrder').append("<tr><td>" + AllOrders[i]['VendoreCode'] + "</td>" +
+															"<td>" + AllOrders[i]['SubCategoryName'] + 
+															"<td>" + AllOrders[i]['Count'] + "</td></tr>");
+						}
+					}
+					else
+						$('#ResponseTable').append("У данного заказа нет товаров!");
+				}, $('input[name=OrderNumber]:checked').val());
+			}
+		});
+
+		//Отловить нажатие на кнопку с id = ChangeStatusOrderButton
+		//Вызвать запрос для изменения статуса заказа в таблице БД
+		//Параметры которые передаются с запросом: Номер заказа, номер статуса заказа
+		$('body').on("click", "#ChangeStatusOrderButton", function() {
+			if ($('input[name=OrderNumber]:checked').val() == undefined)
+				alert("Вы не выбрали заказ!");
+			else {
+				UpdateStatusOrder($('input[name=OrderNumber]:checked').val(), $("#NewStatusOrder").val());
+			}
+		});
+
+		// GetAllSubCategory(function(AllSubCategory) {
+		// 	ResponeForChar(AllSubCategory);
+		// 	$('#Response').append("<button id='ShowProductsTableForDeleteUpdate'>Показать</button>");
+		// });
 	});
 
 	//как только загружается документ, то на выполнение поступает
@@ -938,6 +1190,199 @@
 		});
 	}
 
+	//Функция, которая посылает AJAX GET-запрос на север
+	//Если response === 200, то возвращает перечень всех продуктов в БД,как массив объектов
+	//Параметры массива: VendoreCode, Count
+	function GetAllProductsWithCount(AllProducts, id_SubCategory) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "GET",
+			url: "/admin/CountProduct",
+			data: {_token: CSRF_TOKEN, id_SubCategory: id_SubCategory},
+			success: function(data) {
+				AllProducts(JSON.parse(data));
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+	//Функция, которгая отсылает AJAX POST-запрос на сервер
+	//Если response === 200, то добавляет новую модель в БД
+	//Параметры, которые надо передать на сервер: Артикул продукта, Артикул поставщика, путь главной картинки,
+													// ширину продукта, высоту продукта, длину продукта, вес продукта,
+													// категорию, цену продукта, идентификатор модели, идентификатор бренда,
+													// идентификатор страны, идентификатор подкатегории, идентификатор материала
+	function AddNewProduct(VendoreCode, VendoreProvider, FileName, Weight, Height, Length, Width, CategoryNumber, Price,
+						id_Model, id_Brend, id_Country, id_SubCategory, id_Material) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "POST",
+			url: "/admin/AddProduct",
+			data: {_token: CSRF_TOKEN, VendoreCode: VendoreCode, VendoreProvider: VendoreProvider,
+										FileName: FileName, Weight: Weight, Height: Height, Length: Length,
+										Width: Width, CategoryNumber: CategoryNumber, Price: Price,
+										id_Model: id_Model, id_Brend: id_Brend, id_Country: id_Country, 
+										id_SubCategory: id_SubCategory, id_Material: id_Material},
+			dataType: 'JSON',
+			success: function(data) {
+				alert("Новый товар успешно добавлен!");
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+	//Функция, которая посылает AJAX DELETE-запрос на сервер
+	//Если response === 200, то удаляет выйбранный товар  из БД
+	//Параметры, которые надо передать на сервер: Артикул товара
+	function DeleteCurentProduct(VendoreCode) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "DELETE",
+			url: "/admin/DeleteProduct",
+			data: {_token: CSRF_TOKEN, VendoreCode: VendoreCode},
+			dataType: 'JSON',
+			success: function(data) {
+				alert("Выбранный товар успешно удален!");
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+	//Функция, которая посылает AJAX GET-запрос на север
+	//Если response === 200, то возвращает перечень всех продуктов и их кол-во в магазине из БД,как массив объектов
+	//Параметры массива: VENDORE_CODE, Count
+	function GetAllProductsCount(AllProducts, id_SubCategory) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "GET",
+			url: "/admin/CountProduct",
+			data: {_token: CSRF_TOKEN, id_SubCategory: id_SubCategory},
+			success: function(data) {
+				AllProducts(JSON.parse(data));
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+	//Функция, которая посылает AJAX GET-запрос на север
+	//Если response === 200, то возвращает перечень всех продуктов из БД,как массив объектов
+	//Параметры массива: VENDORE_CODE, SubName, BrendName, ModelName, CountryName, PictureName, VendoreCodeProvide,
+	//					Width, Length, Height, Weight, Status, Price, MaterialName, SecondPicArray
+	function GetAllProducts(AllProducts, id_SubCategory) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "GET",
+			url: "/admin/GetProduct",
+			data: {_token: CSRF_TOKEN, id_SubCategory: id_SubCategory},
+			success: function(data) {
+				AllProducts(JSON.parse(data));
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+	//Функция, которая посылает AJAX PUT-запрос на сервер
+	//Если response === 200, то изменяет количество выбранного товара в БД
+	//Параметры, которые надо передать на сервер: Артикул товара, новое колиество товара
+	function UpdateCountProduct(VendoreCode, Count) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "PUT",
+			url: "/admin/UpdateCountProduct",
+			data: {_token: CSRF_TOKEN, VendoreCode: VendoreCode, Count: Count},
+			success: function(data) {
+				alert("Количество товара успешно изменено!");
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+
+
+	//Функция, которая посылает AJAX GET-запрос на север
+	//Если response === 200, то возвращает перечень всех заказов и их статус из БД,как массив объектов
+	//Параметры массива: id_Order, email, status
+	function GetAllOrdersWithStatus(AllOrders) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "GET",
+			url: "/admin/GetOrdersStatus",
+			data: {_token: CSRF_TOKEN},
+			success: function(data) {
+				AllOrders(JSON.parse(data));
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});	
+	}
+
+	//Функция, которая посылает AJAX GET-запрос на север
+	//Если response === 200, то возвращает перечень всех продукторв определенного заказа  из БД,как массив объектов
+	//Параметры массива: VendoreCode, SubCategoryName
+	function GetALlOrdersWithProducts(AllOrders, id_Order) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "GET",
+			url: "/admin/GetOrdersProducts",
+			data: {_token: CSRF_TOKEN, id_Order: id_Order},
+			success: function(data) {
+				AllOrders(JSON.parse(data));
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});	
+	}
+
+	//Функция, которая посылает AJAX GET-запрос на север
+	//Если response === 200, то возвращает перечень всех статусов для заказа  из БД,как массив объектов
+	//Параметры массива: ID_STATUSORDER, Name
+	function GetAllStatus(AllStatuses) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "GET",
+			url: "/admin/GetAllStatus",
+			data: {_token: CSRF_TOKEN},
+			success: function(data) {
+				AllStatuses(JSON.parse(data));
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});	
+	}
+
+	//Функция, которая посылает AJAX PUT-запрос на сервер
+	//Если response === 200, то изменяет статус выбранного заказа в БД
+	//Параметры, которые надо передать на сервер: номер заказа, номер нового статуса
+	function UpdateStatusOrder(id_Order, id_Status) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "PUT",
+			url: "/admin/UpdateStatusOrder",
+			data: {_token: CSRF_TOKEN, id_Order: id_Order, id_Status: id_Status},
+			success: function(data) {
+				alert("Статус выбранного заказа успешно изменен!");
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});	
+	}
+
 	//Отобразить перечень категорий в виде таблицы
 	//Вызвать функцию GetAllCategory и занести полученные данные в таблицу 
 	function ShowCategory() {
@@ -999,6 +1444,7 @@
 	function AddCategoryForm() {
 		$('#Response').empty();
 		$("#ResponseTable").empty();
+
 		$('#Response').append("<label>Введите название категории: </label>");
 		$('#Response').append("<input type='text' id='CategoryName'/>");
 		$('#Response').append("<br><button id='InsertCategoryTable'>Добавить</button>")
@@ -1010,6 +1456,7 @@
 		GetAllCategory(function(AllCategory) {
 			$('#Response').empty();
 			$("#ResponseTable").empty();
+
 			$('#Response').append("<label>Выберите категорию: <label>");
 			$('#Response').append("<select id='CategoryForSub'></select><br>");
 			for (var i = 0; i < AllCategory.length; i++) {
@@ -1060,6 +1507,8 @@
 	//Дополнить форму для предоставления таблицы с полным перчнем характеристик выбранной подкатегории
 	//Отправить GET-запрос на сервер (GetAllSubCategory), чтобы получить перечень подкатегорий
 	function ShowSubCharacteristics() {
+		$("#Response").empty();
+
 		GetAllSubCategory(function(AllSubCategory) {
 			ResponeForChar(AllSubCategory);
 			$('#Response').append("<button id='ShowSubCategoryTable'>Показать</button>");
@@ -1327,6 +1776,184 @@
 			$('#ResponseTable').append("<label>Исправьте название модели: </label>");
 			$('#ResponseTable').append("<input type='text' id='NameModel'/>  ");
 			$('#ResponseTable').append("<br><button id='UpdateNameModelButton'>Редактировать</button>")
+		});
+	}
+
+	//отобразить таблицу со всем товаром
+	function ShowAllProducts() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllSubCategory(function(AllSubCategory) {
+			ResponeForChar(AllSubCategory);
+			$('#Response').append("<button id='ShowProductsTable'>Показать</button>");
+		});
+	}
+
+	//отобразить форму добавления нового товара
+	function AddProduct() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		$('#Response').append("<label>Введите Артикул продукта: </label>");
+		$('#Response').append("<input type='text' id='VendoreCode'/>");
+
+		$('#Response').append("<br><label>Введите Артикул поставщика: </label>");
+		$('#Response').append("<input type='text' id='VendoreCodeProvider'/>");
+
+		$('#Response').append("<br><label>Выберите лицевое изображение товара: </label>");
+		$('#Response').append("<input type='file' accept='jpeg' name='NameFile'>");
+
+		$('#Response').append("<br><label>Введите ширину продукта: </label>");
+		$('#Response').append("<input type='text' id='WidthProduct'/>");
+
+		$('#Response').append("<br><label>Введите высоту продукта: </label>");
+		$('#Response').append("<input type='text' id='HeightProduct'/>");
+
+		$('#Response').append("<br><label>Введите длину продукта: </label>");
+		$('#Response').append("<input type='text' id='LengthProduct'/>");
+
+		$('#Response').append("<br><label>Введите вес продукта: </label>");
+		$('#Response').append("<input type='text' id='WeightProduct'/>");
+
+		$('#Response').append("<br><label>Выберите категорию: </label>");
+		$('#Response').append("<input name='CharacteristicProduct' type='radio' value='1'> Новинка");
+		$('#Response').append("<input name='CharacteristicProduct' type='radio' value='2'> Рекомендация");
+		$('#Response').append("<input name='CharacteristicProduct' type='radio' value='3'> Лидер");
+		$('#Response').append("<input name='CharacteristicProduct' type='radio' value='4' checked> Ничего");
+
+		$('#Response').append("<br><label>Введите цену продукта: </label>");
+		$('#Response').append("<input type='text' id='PriceProduct'/>");
+
+
+		GetAllBrends(function(AllBrends) {
+			$('#Response').append("<br><select id='BrendSelect'></select>");
+			$('#BrendSelect').append("<option selected='selected' disabled>Выберите бренд</option>");
+			for (var i = 0; i < AllBrends.length; i++) {
+				$('#BrendSelect').append("<option value=" + AllBrends[i].ID_BREND + ">" + 
+																		AllBrends[i].Name + "</option>");
+			}
+		});
+		GetAllModels(function(AllModels) {
+			$('#Response').append("<br><select id='ModelSelect'></select>");
+			$('#ModelSelect').append("<option selected='selected' disabled>Выберите модель</option>");
+			for (var i = 0; i < AllModels.length; i++) {
+				$('#ModelSelect').append("<option value=" + AllModels[i].ID_MODEL + ">" + 
+																		AllModels[i].Name + "</option>");
+			}
+		});
+		GetAllCountrys(function(AllCountrys) {
+			$('#Response').append("<br><select id='CountrySelect'></select>");
+			$('#CountrySelect').append("<option selected='selected' disabled>Выберите страну</option>");
+			for (var i = 0; i < AllCountrys.length; i++) {
+				$('#CountrySelect').append("<option value=" + AllCountrys[i].ID_COUNTRY + ">" + 
+																		AllCountrys[i].Name + "</option>");
+			}
+		});
+		GetAllMaterials(function(AllMaterials) {
+			$('#Response').append("<br><select id='MaterialSelect'></select>");
+			$('#MaterialSelect').append("<option selected='selected' disabled>Выберите материал</option>");
+			for (var i = 0; i < AllMaterials.length; i++) {
+				$('#MaterialSelect').append("<option value=" + AllMaterials[i].ID_MATERIAL + ">" + 
+																		AllMaterials[i].Name + "</option>");
+			}
+		});
+		GetAllSubCategory(function(AllSubCategory) {
+			$('#Response').append("<br><select id='SubCategorySelect'></select>");
+			$('#SubCategorySelect').append("<option selected='selected' disabled>Выберите подкатегорию</option>");
+			for (var i = 0; i < AllSubCategory.length; i++) {
+				for (var j = 0; j < AllSubCategory[i].SubCategoryArray.length; j++) {
+					$('#SubCategorySelect').append("<option value=" + AllSubCategory[i].SubCategoryArray[j].ID_SUBCATEGORY + ">" + 
+																		AllSubCategory[i].SubCategoryArray[j].Name + "</option>");
+
+				}
+			}
+		});
+
+		$('#ResponseTable').append("<button id='AddProduct'>Добавить</button>");
+	}
+
+	//отобразить форму удаления выбранного товара
+	function DeleteProduct() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllSubCategory(function(AllSubCategory) {
+			ResponeForChar(AllSubCategory);
+			$('#Response').append("<button id='ShowProductsTableForDelete'>Показать</button>");
+		});
+	}
+
+	//отобразить форму для представления количества товара продукции
+	function ShowCountProduct() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllSubCategory(function(AllSubCategory) {
+			ResponeForChar(AllSubCategory);
+			$('#Response').append("<button id='ShowProductTableWithCount'>Показать</button>");
+		});
+	}
+
+	//отобразить форму для представления заказов и их статуса
+	function ShowAllOrders() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllOrdersWithStatus(function(AllOrders) {
+			$('#ResponseTable').append("<table width='700' border='1'></table>")
+			$('#ResponseTable').find('table').append("<tr><td>№</td><td>Номер заказа</td>" + 
+														"<td>Почта заказчика</td><td>Телефон заказчика</td>" + 
+														"<td>Статус заказа</td></tr>");
+			for (var i = 0; i < AllOrders.length; i++) {
+				$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
+															"<td>" + AllOrders[i]['id_Order'] + "</td>" +
+															"<td>" + AllOrders[i]['email'] + "</td>" + 
+															"<td>" + AllOrders[i]['telephone'] + "</td>" + 
+															"<td>" + AllOrders[i]['status'] + "</td></tr>");
+			}
+		});
+	}
+
+	//отобразить форму для представления заказов и товаров к заказу
+	function ShowAllOrdersProducts() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllOrdersWithStatus(function(AllOrders) {
+			$('#Response').append("<table width='700' border='1'></table>")
+			$('#Response').find('table').append("<tr><td>№</td><td>Номер заказа</td>" + 
+														"<td>Статус заказа</td></tr>");
+			for (var i = 0; i < AllOrders.length; i++) {
+				$('#Response').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
+															"<td>" + AllOrders[i]['id_Order'] + "</td>" +
+															"<td>" + AllOrders[i]['status'] + "</td>" + 
+															"<td><input name='OrderNumber' type='radio' value='" + 
+															AllOrders[i]['id_Order'] + "'</td></tr>");
+			}
+			$('#Response').append("<button id='ShowOrderDetails'>Показать подробности</button>");
+		});
+	}
+
+	//отобразить форму для изменения статуса заказа
+	function ShangeStatusOrder() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllOrdersWithStatus(function(AllOrders) {
+			$('#Response').append("<table width='700' border='1'></table>")
+			$('#Response').find('table').append("<tr><td>№</td><td>Номер заказа</td>" + 
+														"<td>Статус заказа</td></tr>");
+			for (var i = 0; i < AllOrders.length; i++) {
+				$('#Response').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
+															"<td>" + AllOrders[i]['id_Order'] + "</td>" +
+															"<td>" + AllOrders[i]['status'] + "</td>" + 
+															"<td><input name='OrderNumber' type='radio' value='" + 
+															AllOrders[i]['id_Order'] + "'</td></tr>");
+			}
+			// $('#Response').append("<button id='ShowOrderDetails'>Показать подробности</button>");
+		});
+		GetAllStatus(function(AllStatuses) {
+			$('#ResponseTable').append("<label>Выберите статус заказа: <label>");
+			$('#ResponseTable').append("<select id='NewStatusOrder'></select><br>");
+			for (var i = 0; i < AllStatuses.length; i++) {
+				$('#ResponseTable').find("select").append("<option value=" + AllStatuses[i].ID_STATUSORDER + ">" + 
+																		AllStatuses[i].Name + "</option>");
+			}
+			$('#ResponseTable').append("<button id='ChangeStatusOrderButton'>Изменить статус заказа</button>");
 		});
 	}
 </script>

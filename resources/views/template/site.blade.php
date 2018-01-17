@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="{{ asset('css/media.css') }}">
   <link rel="stylesheet" href="{{ asset('css/font-awesome-4.7.0/css/font-awesome.min.css') }}">
   <link rel="stylesheet" href="{{ asset('fonts/fonts.css') }}">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="{{ asset('js/jquery/dist/jquery.js') }}"></script>
   <title>Дом Посуды</title>
 </head>
@@ -72,8 +73,6 @@
  <script>
  document.getElementById("defaultOpen").click();
  </script>
-
-
 
 </body>
 </html>
