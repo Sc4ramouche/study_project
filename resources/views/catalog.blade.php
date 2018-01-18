@@ -142,7 +142,7 @@
               </div>
             </div>
 
-            <input type="submit" name="submit" value="Применить"></input>
+            <input id='set_filter' type="submit" name="submit" value="Применить"></input>
             <input type="reset" name="reset" value="Сбросить"></input>
           </form>
         </div>
@@ -179,21 +179,41 @@
           <div class="catalog-amount">
             <p>1-15 из 35</p>
           </div>
-          <div class="catalog-show">
-            <label for="product-quanity">Показывать</label>
-            <select class="product-quanity" name="product-quanity">
-              <option value="1">12 товаров</option>
-            </select>
-          </div>
-          <div class="catalog-sort">
-            <label for="product-sort">Сортировать по</label>
-            <select class="product-sort" name="product-sort">
-              <option value="1">популярности</option>
-            </select>
-          </div>
-        </div>
+
+
+              <div class="catalog-show">
+                <label for="product-quanity">Показывать</label>
+                <select class="product-quanity" name="product-quanity">
+                  <option value="1">12 товаров</option>
+                </select>
+              </div>
+              <div class="catalog-sort" id="target">
+                <label for="product-sort">Сортировать по</label>
+                <select class="product-sort" name="product-sort" >
+                    <option value="alfabet" data-sort-name="model" data-sort-type="asc">По алфивиту</option>
+                    <option value="price_up" data-sort-name="Price" data-sort-type="asc">По возрастанию цены</option>
+                    <option value="price_down" data-sort-name="Price" data-sort-type="desc">По убыванию цены</option>
+                </select>
+              </div>
+
+
+            </div>
 
         <div class="catalog-grid">
+            @if(count($products) > 0)
+                @foreach($products as $value)
+                <div class="catalog-grid-item">
+                  <div class="grid-item-img">
+                    <img src="/img/{{ $value->pic}}.jpg" alt="image">
+                  </div>
+                  <a href="/productcard/{{ $value->VENDOR_CODE}}">
+                      <h4 class="grid-item-name">{{ $value->type }} <span class="brand-name">{{ $value->brand }} {{ $value->model }}</span></h4>
+                  </a>
+                  <hr class="promo-line">
+                  <b class="grid-item-price">{{ $value->Price }}&#8381;</b>
+                </div>
+                @endforeach
+            @endif
           <!-- <div class="catalog-grid-item">
             <div class="grid-item-img">
               <img src="../img/catalog.jpg" alt="image">
@@ -202,8 +222,6 @@
             <hr class="promo-line">
             <b class="grid-item-price">1 930&#8381;</b>
           </div> -->
-
-
       </div>
       <div class="catalog-footer">
         <div class="catalog-amount">
