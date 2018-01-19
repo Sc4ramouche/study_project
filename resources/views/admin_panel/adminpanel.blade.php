@@ -1896,13 +1896,17 @@
 		$("#Response").empty();
 		$("#ResponseTable").empty();
 		GetAllOrdersWithStatus(function(AllOrders) {
-			$('#ResponseTable').append("<table width='700' border='1'></table>")
-			$('#ResponseTable').find('table').append("<tr><td>№</td><td>Номер заказа</td>" + 
+			$('#ResponseTable').append("<table width='1200' border='1'></table>")
+			$('#ResponseTable').find('table').append("<tr><td>№</td><td>Номер заказа</td>" +
+														"<td>ФИО заказчика</td>" +
+														"<td>Адрес заказчика</td>" + 
 														"<td>Почта заказчика</td><td>Телефон заказчика</td>" + 
 														"<td>Статус заказа</td></tr>");
 			for (var i = 0; i < AllOrders.length; i++) {
 				$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
 															"<td>" + AllOrders[i]['id_Order'] + "</td>" +
+															"<td>" + AllOrders[i]['name'] + "</td>" +
+															"<td>" + AllOrders[i]['adress'] + "</td>" +
 															"<td>" + AllOrders[i]['email'] + "</td>" + 
 															"<td>" + AllOrders[i]['telephone'] + "</td>" + 
 															"<td>" + AllOrders[i]['status'] + "</td></tr>");

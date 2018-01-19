@@ -99,3 +99,6 @@ Route::GET('/admin/GetOrdersStatus', 'AdminController@GetOrdersStatus');
 Route::GET('/admin/GetOrdersProducts', 'AdminController@GetOrdersProducts');
 Route::GET('/admin/GetAllStatus', 'AdminController@GetAllStatus');
 Route::PUT('/admin/UpdateStatusOrder', 'AdminController@UpdateStatusOrder');
+
+Route::GET('/admin/GetProductsCart', 'IndexController@GetProductsCart');
+Route::POST('/admin/NewOrder', 'IndexController@NewOrder');

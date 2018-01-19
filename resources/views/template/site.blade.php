@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="{{ asset('fonts/fonts.css') }}">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="{{ asset('js/jquery/dist/jquery.js') }}"></script>
+  <script src="{{ asset('js/jquery.session.js') }}"></script>
   <title>Дом Посуды</title>
 </head>
 <body>
@@ -50,8 +51,8 @@
           </form>
         </div>
         <div class="header-cart">
-          <h4>Корзина</h4>
-          <p>15 товаров на 4500 &#8381;</p>
+          <h4><a href="/cart">Корзина</a></h4>
+          <p id="bucketName"></p>
         </div>
         <div class="header-mobile">
           <h4>8 812 934 17 41</h4>
@@ -60,6 +61,23 @@
       </div>
     </div>
   </header>
+
+<script>
+  //Вставка сессий
+  $(document).ready(function() {
+    if ( ($.session.get('Price')) == undefined) {
+      $('#bucketName').text("0 товаров на 0");
+      $('#bucketName').append('&#8381;');
+    }
+    else {
+      count = $.session.get('Counts');
+      price = $.session.get('Price');
+      x = count + " товаров на " + price;
+      $('#bucketName').text(x);
+      $('#bucketName').append('&#8381;'); 
+    }
+  })
+</script>
 
 
 <!-- content -->
