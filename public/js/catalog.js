@@ -1,6 +1,18 @@
 $(document).ready(function(){
 
 
+    var sort = {
+        'name': 0,
+        'type': 0,
+    };
+
+    //Сортировка
+    $('#target').on('click', function(){
+        sort.name = $('#target option:selected').data('sort-name');
+        sort.type = $('#target option:selected').data('sort-type');
+        $('#set_filter').submit();
+    });
+
     $('.catalog-filter-form').on('submit', function(evt){
         evt.preventDefault();
         var action = $(this).attr('action');
@@ -11,6 +23,9 @@ $(document).ready(function(){
 
         var cat_id = $('#cat_id').val();
         var sub_id = $('#sub_id').val();
+
+        //Параметры сортировки
+
 
         $(".catalog-country  input:checked").each(function(element){
             country.push($(this).val());
@@ -40,7 +55,12 @@ $(document).ready(function(){
         $.ajax({
             url: action,
             type: 'POST',
-            data: {_token: CSRF_TOKEN, 'cat_id': cat_id, 'sub_id': sub_id, 'data': JSON.stringify(data)},
+            data: {_token: CSRF_TOKEN,
+                    'cat_id': cat_id,
+                    'sub_id': sub_id,
+                    'sort': JSON.stringify(sort),
+                    'data': JSON.stringify(data)
+                  },
             success: function(data){
                 if(data.success){
                     console.log(data);
@@ -80,4 +100,6 @@ $(document).ready(function(){
         });
 
     });
+
+
 });
