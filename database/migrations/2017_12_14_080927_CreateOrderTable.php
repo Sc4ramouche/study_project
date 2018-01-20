@@ -17,10 +17,7 @@ class CreateOrderTable extends Migration
             $table->increments('ID_ORDER');
             $table->string('email');
             $table->integer('ID_STATUSORDER')->unsigned();
-
-            $table->foreign('email')->references('email')->on('users');
             $table->foreign('ID_STATUSORDER')->references('ID_STATUSORDER')->on('STATUSORDER');
-            //$table->timestamps();
         });
     }
 

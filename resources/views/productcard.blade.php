@@ -86,7 +86,7 @@
           </div>
         </div>
         <div class="card-form-submit">
-          <button type="button" name="add">Добавить в корзину</button>
+          <button type="button" name="add" onclick="addCart()">Добавить в корзину</button>
           <button type="button" name="buy">Купить в один клик</button>
         </div>
       </form>
@@ -262,6 +262,81 @@ jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</di
     });
 
   });
+
+  //Вставка сессий
+  //добавить артикул товара и количество товара в сессию
+  //Price - общая сумма товаров
+  //Count - общее кол-во товаров
+  //VendoreCodes - все артикулы товаров
+  //VendoreCount - кол-во каждого товара
+  function addCart() {
+    var count = $('input[name=quantity]').val();
+    var str1 = $('.art').text();
+    str1 = str1.split(' ');
+    
+    price = $('.card-price').text();
+    price = price.slice(0, -1);
+    price = Number(price) * Number(count);
+
+    if ($.session.get("VendoreCodes") == undefined) {
+      $.session.set("VendoreCodes", str1[1]);
+      $.session.set("VendoreCount", count);
+      $.session.set("Price", price);
+      $.session.set("Counts", count);
+    }
+    else {
+      var allSessionDate = $.session.get("VendoreCodes");
+      alert(allSessionDate); 
+      var allSessionCounts = $.session.get("VendoreCount");
+      var SumPrice = Number($.session.get("Price"));
+      var AllCount = Number($.session.get("Counts"));
+      var flagIs = false; //флаг, для того чтобы узнать был такой товар в корзине или нет
+
+      //проверить есть ли выбранный товар уже в корзине
+      var arrayVendore = allSessionDate.split(' ');
+      var arrayCount = allSessionCounts.split(' ')
+      for (var i = 0; i < arrayVendore.length; i++) {
+        if (str1[1] == arrayVendore[i]) {    //если такой товар уже есть в корзине (сессии)
+          arrayCount[i] = Number(arrayCount[i]) + Number(count); //увеличить кол-во товара
+          flagIs = true; //поменять флаг, т.к. товар такой есть в корнизе
+        }
+      }
+
+      if (flagIs == true) {
+        var stringArrayVendore = "";
+        var stringArrayCount = "";
+        for (var i = 0; i < arrayVendore.length; i++) {
+          if (i == 0) {
+            stringArrayVendore += arrayVendore[i];
+            stringArrayCount += arrayCount[i];
+          }
+          else {
+            stringArrayVendore += ' ' + arrayVendore[i];
+            stringArrayCount += ' ' + arrayCount[i];
+          }
+        }
+        $.session.set("VendoreCodes", stringArrayVendore);
+        $.session.set("VendoreCount", stringArrayCount);
+      }
+      else { //если товар новый в корзине, то добавить его в конец
+        allSessionDate += ' ' + str1[1];
+        allSessionCounts += ' ' + count;
+        $.session.set("VendoreCodes", allSessionDate);
+        $.session.set("VendoreCount", allSessionCounts);
+      }
+
+      SumPrice += Number(price);
+      AllCount += Number(count);
+      $.session.set("Price", SumPrice);
+      $.session.set("Counts", AllCount);
+    }
+
+    count = $.session.get('Counts');
+    price = $.session.get('Price');
+    x = count + " товаров на " + price;
+    $('#bucketName').text(x);
+    $('#bucketName').append('&#8381;');
+  }
 </script>
 
 

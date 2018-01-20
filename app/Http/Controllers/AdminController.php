@@ -807,13 +807,14 @@
         $AllOrders = DB::table('ORDER')->get();
         for ($i = 0; $i < sizeof($AllOrders); $i++) { 
           $StatusOrder = DB::table('STATUSORDER')->where('ID_STATUSORDER', $AllOrders[$i]->ID_STATUSORDER)->first()->Name;
-          $Telephone = DB::table('users')->where('email', $AllOrders[$i]->email)->first()->Telephone;
 
           $LocalResponse = [
             'id_Order' => $AllOrders[$i]->ID_ORDER,
             'email' => $AllOrders[$i]->email,
             'status' => $StatusOrder,
-            'telephone' => $Telephone,
+            'telephone' => $AllOrders[$i]->Telephone,
+            'name' => $AllOrders[$i]->Name,
+            'adress' => $AllOrders[$i]->Adress
           ];
 
           array_push($Response, $LocalResponse);
