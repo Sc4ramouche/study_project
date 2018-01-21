@@ -112,7 +112,6 @@ class IndexController extends Controller
                        ->update(['Count' => ($Product->Count - $AllCounts[$i])]);
         }
 
-        //НУЖНО ЧТО НИЮУДЬ ПРИДУМАТЬ С ПОЧТОЙ! ЕСЛИ ПОЛЬЗОВАТЕЛЬ НЕ АВТОРИЗОВАН, ТО НЕЛЬЗЯ УКАЗАТЬ ФОРЕИГН МАЙЛ!
         DB::table('ORDER')->insert(
         [
             // 'email' => $request->Email,
@@ -122,7 +121,8 @@ class IndexController extends Controller
             'Name' => $request->Name,
             'Adress' => $request->Adress,
             'ID_PaymentMethod' => $request->ID_Payment,
-            'ID_DeliveryMethod' => $request->ID_Delivery
+            'ID_DeliveryMethod' => $request->ID_Delivery,
+            'Data' => $request->Date
         ]);
 
         $Order = DB::table('ORDER')->get();

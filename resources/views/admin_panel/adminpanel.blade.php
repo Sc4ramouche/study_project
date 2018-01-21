@@ -1900,7 +1900,8 @@
 			$('#ResponseTable').find('table').append("<tr><td>№</td><td>Номер заказа</td>" +
 														"<td>ФИО заказчика</td>" +
 														"<td>Адрес заказчика</td>" + 
-														"<td>Почта заказчика</td><td>Телефон заказчика</td>" + 
+														"<td>Почта заказчика</td><td>Телефон заказчика</td>" +
+														"<td>Дата заказа</td>" + 
 														"<td>Статус заказа</td></tr>");
 			for (var i = 0; i < AllOrders.length; i++) {
 				$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
@@ -1908,7 +1909,8 @@
 															"<td>" + AllOrders[i]['name'] + "</td>" +
 															"<td>" + AllOrders[i]['adress'] + "</td>" +
 															"<td>" + AllOrders[i]['email'] + "</td>" + 
-															"<td>" + AllOrders[i]['telephone'] + "</td>" + 
+															"<td>" + AllOrders[i]['telephone'] + "</td>" +
+															"<td>" + AllOrders[i]['date'] + "</td>" +
 															"<td>" + AllOrders[i]['status'] + "</td></tr>");
 			}
 		});

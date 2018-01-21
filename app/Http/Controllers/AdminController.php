@@ -814,7 +814,8 @@
             'status' => $StatusOrder,
             'telephone' => $AllOrders[$i]->Telephone,
             'name' => $AllOrders[$i]->Name,
-            'adress' => $AllOrders[$i]->Adress
+            'adress' => $AllOrders[$i]->Adress,
+            'date' => $AllOrders[$i]->Date
           ];
 
           array_push($Response, $LocalResponse);
