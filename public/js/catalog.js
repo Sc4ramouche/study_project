@@ -6,10 +6,19 @@ $(document).ready(function(){
         'type': 0,
     };
 
+    //Число товаров на странице
+    var list_count = 12;
+
     //Сортировка
-    $('#target').on('click', function(){
-        sort.name = $('#target option:selected').data('sort-name');
-        sort.type = $('#target option:selected').data('sort-type');
+    $('#sort').on('change', function(){
+        sort.name = $('#sort option:selected').data('sort-name');
+        sort.type = $('#sort option:selected').data('sort-type');
+        $('#set_filter').submit();
+    });
+
+    $('#list-count').on('change', function(){
+        list_count = $('#list-count option:selected').val();
+        alert(list_count);
         $('#set_filter').submit();
     });
 
@@ -49,7 +58,6 @@ $(document).ready(function(){
             'price_max': $('#price_max').val(),
         };
         //data.push(country);
-        console.log("НА ОТПРАВКУ");
         console.log(data);
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
@@ -59,6 +67,7 @@ $(document).ready(function(){
                     'cat_id': cat_id,
                     'sub_id': sub_id,
                     'sort': JSON.stringify(sort),
+                    'list_count': JSON.stringify(list_count),
                     'data': JSON.stringify(data)
                   },
             success: function(data){

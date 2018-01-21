@@ -8,12 +8,65 @@ use DB;
 use Session;
 use Auth;
 
+function get_random_new(){
+    $data = DB::table('PRODUCT')
+                ->join('SUBCATEGORY', 'PRODUCT.ID_SUBCATEGORY', '=', 'SUBCATEGORY.ID_SUBCATEGORY')
+                ->join('BREND','PRODUCT.ID_BREND', '=', 'BREND.ID_BREND')
+                ->join('MODEL', 'PRODUCT.ID_MODEL', '=', 'MODEL.ID_MODEL')
+                ->join('PICTURE', 'PRODUCT.ID_PICTURE', '=', 'PICTURE.ID_PICTURE')
+                ->select('PRODUCT.*', 'SUBCATEGORY.Type as type', 'BREND.Name as brand', 'PICTURE.Name as pic', 'MODEL.Name as model')
+                ->where('PRODUCT.IsNew', 1)
+                ->inRandomOrder()
+                ->take(4)
+                ->get();
+
+    return $data;
+}
+
+function get_random_leader(){
+    $data = DB::table('PRODUCT')
+                ->join('SUBCATEGORY', 'PRODUCT.ID_SUBCATEGORY', '=', 'SUBCATEGORY.ID_SUBCATEGORY')
+                ->join('BREND','PRODUCT.ID_BREND', '=', 'BREND.ID_BREND')
+                ->join('MODEL', 'PRODUCT.ID_MODEL', '=', 'MODEL.ID_MODEL')
+                ->join('PICTURE', 'PRODUCT.ID_PICTURE', '=', 'PICTURE.ID_PICTURE')
+                ->select('PRODUCT.*', 'SUBCATEGORY.Type as type', 'BREND.Name as brand', 'PICTURE.Name as pic', 'MODEL.Name as model')
+                ->where('PRODUCT.IsLeader', 1)
+                ->inRandomOrder()
+                ->take(4)
+                ->get();
+
+    return $data;
+}
+
+function get_random_recomended(){
+    $data = DB::table('PRODUCT')
+                ->join('SUBCATEGORY', 'PRODUCT.ID_SUBCATEGORY', '=', 'SUBCATEGORY.ID_SUBCATEGORY')
+                ->join('BREND','PRODUCT.ID_BREND', '=', 'BREND.ID_BREND')
+                ->join('MODEL', 'PRODUCT.ID_MODEL', '=', 'MODEL.ID_MODEL')
+                ->join('PICTURE', 'PRODUCT.ID_PICTURE', '=', 'PICTURE.ID_PICTURE')
+                ->select('PRODUCT.*', 'SUBCATEGORY.Type as type', 'BREND.Name as brand', 'PICTURE.Name as pic', 'MODEL.Name as model')
+                ->where('PRODUCT.IsRecomend', 1)
+                ->inRandomOrder()
+                ->take(4)
+                ->get();
+
+    return $data;
+}
+
 class IndexController extends Controller
 {
 
     public function home() {
 
-        return view('home');
+        $new_products = get_random_new();
+        $leader_procucts = get_random_leader();
+        $recomended_procucts = get_random_recomended();
+
+        return view('home', [
+                                'new_products' => $new_products,
+                                'leader_products' => $leader_procucts,
+                                'recomended_products' => $recomended_procucts,
+                            ]);
     }
 
     public function about() {
