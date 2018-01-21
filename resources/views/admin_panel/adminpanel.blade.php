@@ -26,6 +26,10 @@
 	td {
 		text-align: center;
 	}
+
+	#hiddenHelp {
+		margin-bottom: 20px;
+	}
 </style>
 
 <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -96,12 +100,23 @@
 				</span>
 			<dt><a onclick="hidetext('List10')" href="#" role="button">Количество товара</a></dt>
 				<span id="List10">
-					<dd><a onclick="ShowCountProduct()" href="#" role="button">Просмотреть</a></dd>
+					<dd><a onclick="ShowCountProduct()" href="#" role="button">Просмотреть и редактировать</a></dd>
+				</span>
+			<dt><a onclick="hidetext('List11')" href="#" role="button">Почта</a></dt>
+				<span id="List11">
+					<dd><a onclick="ShowAllMessages()" href="#" role="button">Просмотреть письма</a></dd>
+				</span>
+				<dt><a onclick="hidetext('List12')" href="#" role="button">Почты для рассылки</a></dt>
+				<span id="List12">
+					<dd><a onclick="ShowAllEmails()" href="#" role="button">Просмотреть список</a></dd>
 				</span>
 		</dl>	
 	</div>
 
 	<div id="RightBlock">
+		<div>
+			<button id="hiddenHelp">Показать подсказку</button>	
+		</div>
 		<div id="ResponsePrompt">
 			<p><h3>Добро пожаловать в панель администратора!</h3></p>
 			<p><h3>Подсказки для работы с панелью администратора:</h3></p>
@@ -133,10 +148,51 @@
 </form>
 
 <script>
+
+	$("#hiddenHelp").click(function() {
+		elem = document.getElementById("ResponsePrompt");
+		if (elem.style.display == "none") {
+			elem.style.display = "block";
+		}
+		else {
+			elem.style.display = "none";
+		}
+	})
+
+	function ShowAllMessages() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllMessages(function(AllMessages) {
+			$('#Response').append("<table width='1000' border='1'></table>")
+			$('#Response').find('table').append("<tr><td>№</td><td>От кого</td>" + 
+														"<td>Почта</td><td>Сообщение</td></tr>");
+			for (var i = 0; i < AllMessages.length; i++) {
+				$('#Response').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
+													"<td>" + AllMessages[i]['From'] + "</td>" +
+													"<td>" + AllMessages[i]['Email From'] + "</td>" +  
+													"<td>" + AllMessages[i]['Text'] + "'</td></tr>");
+			}
+		});
+	};
+
+	function ShowAllEmails() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllEmails(function(AllEmails) {
+			$('#Response').append("<table width='700' border='1'></table>")
+			$('#Response').find('table').append("<tr><td>№</td><td>Почта</td></tr>");
+			for (var i = 0; i < AllEmails.length; i++) {
+				$('#Response').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
+													"<td>" + AllEmails[i]['Email'] + "'</td></tr>");
+			}
+		});
+	}
+
 	//Делегированная обработка событий для динамически добавленных документов
 	//ищет все нужные элементы в родительском теге (в данном случае - <body>)
 	$(document).ready(function() {
 
+		document.getElementById("ResponsePrompt").style.display = "none";
 
 		//Отловить нажатие кнопки с id = InsertCategoryTable
 		//Записать название категории в таблицу Категория
@@ -1383,6 +1439,51 @@
 		});	
 	}
 
+	function GetAllMessages(AllMessages) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "GET",
+			url: "/admin/GetAllMessages",
+			data: {_token: CSRF_TOKEN},
+			success: function(data) {
+				AllMessages(JSON.parse(data));
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});	
+	}
+
+	function GetAllMessages(AllMessages) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "GET",
+			url: "/admin/GetAllMessages",
+			data: {_token: CSRF_TOKEN},
+			success: function(data) {
+				AllMessages(JSON.parse(data));
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});	
+	}
+
+	function GetAllEmails(AllEmails) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "GET",
+			url: "/admin/getAllEmail",
+			data: {_token: CSRF_TOKEN},
+			success: function(data) {
+				AllEmails(JSON.parse(data));
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
 	//Отобразить перечень категорий в виде таблицы
 	//Вызвать функцию GetAllCategory и занести полученные данные в таблицу 
 	function ShowCategory() {
@@ -1896,12 +1997,12 @@
 		$("#Response").empty();
 		$("#ResponseTable").empty();
 		GetAllOrdersWithStatus(function(AllOrders) {
-			$('#ResponseTable').append("<table width='1200' border='1'></table>")
+			$('#ResponseTable').append("<table width='1400' border='1'></table>")
 			$('#ResponseTable').find('table').append("<tr><td>№</td><td>Номер заказа</td>" +
 														"<td>ФИО заказчика</td>" +
 														"<td>Адрес заказчика</td>" + 
 														"<td>Почта заказчика</td><td>Телефон заказчика</td>" +
-														"<td>Дата заказа</td>" + 
+														"<td>Дата заказа</td><td>Общая сумма заказа (Руб.)</td>" + 
 														"<td>Статус заказа</td></tr>");
 			for (var i = 0; i < AllOrders.length; i++) {
 				$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
@@ -1911,6 +2012,7 @@
 															"<td>" + AllOrders[i]['email'] + "</td>" + 
 															"<td>" + AllOrders[i]['telephone'] + "</td>" +
 															"<td>" + AllOrders[i]['date'] + "</td>" +
+															"<td>" + AllOrders[i]['price'] + "</td>" +
 															"<td>" + AllOrders[i]['status'] + "</td></tr>");
 			}
 		});

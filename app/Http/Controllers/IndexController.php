@@ -175,7 +175,8 @@ class IndexController extends Controller
             'Adress' => $request->Adress,
             'ID_PaymentMethod' => $request->ID_Payment,
             'ID_DeliveryMethod' => $request->ID_Delivery,
-            'Data' => $request->Date
+            'Date' => $request->Date,
+            'Price' => $request->Price
         ]);
 
         $Order = DB::table('ORDER')->get();
@@ -197,5 +198,23 @@ class IndexController extends Controller
           'orderStatus' => 'Заказ успешно оформлен!',
         );
         return response()->json($response);
+    }
+
+    public function SendEmail(Request $request) {
+        DB::table('Email')->insert(
+            [
+                'From' => $request->username,
+                'Email From' => $request->email,
+                'Text' => $request->message
+        ]);
+        return redirect('/');
+    }
+
+    public function SendMailDispatch(Request $request) {
+        DB::table('Dispatch')->insert(
+        [
+            'Email' => $request->email
+        ]);
+        return redirect('/');
     }
 }

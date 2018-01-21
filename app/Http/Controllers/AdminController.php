@@ -815,7 +815,8 @@
             'telephone' => $AllOrders[$i]->Telephone,
             'name' => $AllOrders[$i]->Name,
             'adress' => $AllOrders[$i]->Adress,
-            'date' => $AllOrders[$i]->Date
+            'date' => $AllOrders[$i]->Date,
+            'price' => $AllOrders[$i]->Price
           ];
 
           array_push($Response, $LocalResponse);
@@ -890,5 +891,17 @@
           'msg' => $request->message,
         );
         return response()->json($response);
+      }
+
+      //получить все письма для сайта
+      public function GetAllMessages() {
+        $Email = DB::table('Email')->get();
+        return json_encode($Email);
+      }
+
+      //получить все почтовые ящики для рассылки
+      public function getAllEmail() {
+        $Email = DB::table('Dispatch')->get();
+        return json_encode($Email);
       }
   }
