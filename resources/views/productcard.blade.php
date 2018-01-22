@@ -26,34 +26,30 @@
 
 <section class="card-page">
   <div class="container container-card-page">
+
     <div class="card-gallery">
       <div class="card-slide">
-        <img src="{{ asset('img/nadoba-augusta-cap.jpg') }}" style="width:100%">
+        <img src="/img/{{ $product[0]->pic }}.jpg" style="width:100%">
       </div>
+      @foreach($sub_pic as $value)
       <div class="card-slide">
-        <img src="../public/img/nadoba-augusta-cap.jpg" style="width:100%">
+        <img src="/img/{{ $value->sec_pic }}.jpg" style="width:100%">
       </div>
-      <div class="card-slide">
-        <img src="img/nadoba-augusta.jpg" style="width:100%">
-      </div>
-      <div class="card-slide">
-        <img src="img/nadoba-augusta-box.jpg" style="width:100%">
-      </div>
+      @endforeach
+
+
       <div class="row">
         <div class="column">
-          <img class="demo cursor" src="img/nadoba-augusta.jpg" style="width:100%" onclick="currentSlide(1)" alt="Nadoba Augusta">
+          <img class="demo cursor" src="/img/{{ $product[0]->pic }}.jpg" style="width:100%" onclick="currentSlide(1)" alt="Nadoba Augusta">
         </div>
+        @foreach($sub_pic as $value)
         <div class="column">
-          <img class="demo cursor" src="img/nadoba-augusta-cap.jpg" style="width:100%" onclick="currentSlide(2)" alt="Nadoba Augusta">
+          <img class="demo cursor" src="/img/{{ $value->sec_pic }}.jpg" style="width:100%" onclick="currentSlide({{ $loop->iteration + 1 }})" alt="Nadoba Augusta">
         </div>
-        <div class="column">
-          <img class="demo cursor" src="img/nadoba-augusta.jpg" style="width:100%" onclick="currentSlide(3)" alt="Nadoba Augusta">
-        </div>
-        <div class="column">
-          <img class="demo cursor" src="img/nadoba-augusta-box.jpg" style="width:100%" onclick="currentSlide(4)" alt="Nadoba Augusta">
-        </div>
+        @endforeach
       </div>
     </div>
+
     <div class="card-info">
       <h1>{{ $product[0]->type }}</h1><b class="art">арт. {{ $product[0]->VENDOR_CODE }}</b>
       <hr>
@@ -166,39 +162,20 @@
   <div class="container">
   <h2>Похожие товары</h2>
   <hr class="promo-line">
+
   <div class="catalog-home">
+    @if(count($related_products) > 0)
+    @foreach($related_products as $value)
     <div class="catalog-item">
-      <h6>New</h6>
-      <a href="#"><a href="#"><img src="img/catalog.jpg" alt="Каталог товаров"></a></a>
-      <p><a href="#">Кастрюля <br><span>Nadoba Dona</span></a><p>
+      <label class="VENDOR_CODE" style="display:none">{{ $value->VENDOR_CODE}}</label>
+      <a href="/productcard/{{ $value->VENDOR_CODE}}"><a href="/productcard/{{ $value->VENDOR_CODE}}"><img src="/img/{{ $value->pic }}.jpg" alt="Каталог товаров"></a></a>
+      <p><a href="/productcard/{{ $value->VENDOR_CODE}}">{{ $value->type }} <br><span>{{ $value->brand }} {{ $value->model }}</span></a><p>
       <hr class="promo-line">
-      <b>2 329&#8381;</b>
+      <b>{{ $value->Price }}&#8381;</b>
       <a href="#" class="catalog-item-cart">В корзину</a>
     </div>
-    <div class="catalog-item">
-      <h6>New</h6>
-      <a href="#"><img src="img/catalog.jpg" alt="Каталог товаров"></a>
-      <p><a href="#">Кастрюля <br><span>Nadoba Dona</span></a><p>
-      <hr class="promo-line">
-      <b>2 329&#8381;</b>
-      <a href="#" class="catalog-item-cart">В корзину</a>
-    </div>
-    <div class="catalog-item">
-      <h6>New</h6>
-      <a href="#"><img src="img/catalog.jpg" alt="Каталог товаров"></a>
-      <p><a href="#">Кастрюля <br><span>Nadoba Dona</span></a><p>
-      <hr class="promo-line">
-      <b>2 329&#8381;</b>
-      <a href="#" class="catalog-item-cart">В корзину</a>
-    </div>
-    <div class="catalog-item">
-      <h6>New</h6>
-      <a href="#"><img src="img/catalog.jpg" alt="Каталог товаров"></a>
-      <p><a href="#">Кастрюля <br><span>Nadoba Dona</span></a><p>
-      <hr class="promo-line">
-      <b>2 329&#8381;</b>
-      <a href="#" class="catalog-item-cart">В корзину</a>
-    </div>
+    @endforeach
+    @endif
   </div>
 </div>
 </section>
@@ -273,7 +250,7 @@ jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</di
     var count = $('input[name=quantity]').val();
     var str1 = $('.art').text();
     str1 = str1.split(' ');
-    
+
     price = $('.card-price').text();
     price = price.slice(0, -1);
     price = Number(price) * Number(count);
@@ -286,7 +263,7 @@ jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</di
     }
     else {
       var allSessionDate = $.session.get("VendoreCodes");
-      alert(allSessionDate); 
+      alert(allSessionDate);
       var allSessionCounts = $.session.get("VendoreCount");
       var SumPrice = Number($.session.get("Price"));
       var AllCount = Number($.session.get("Counts"));
