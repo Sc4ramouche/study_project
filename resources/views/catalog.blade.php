@@ -181,13 +181,16 @@
           </div>
 
 
-              <div class="catalog-show">
+              <div class="catalog-show" id="list-count">
                 <label for="product-quanity">Показывать</label>
                 <select class="product-quanity" name="product-quanity">
-                  <option value="1">12 товаров</option>
+                  <option value="12">12 товаров</option>
+                  <option value="24">24 товаров</option>
+                  <option value="48">48 товаров</option>
+                  <option value="96">96 товаров</option>
                 </select>
               </div>
-              <div class="catalog-sort" id="target">
+              <div class="catalog-sort" id="sort">
                 <label for="product-sort">Сортировать по</label>
                 <select class="product-sort" name="product-sort" >
                     <option value="alfabet" data-sort-name="model" data-sort-type="asc">По алфивиту</option>
@@ -228,9 +231,13 @@
           <p>1-15 из 35</p>
         </div>
         <div class="catalog-pages">
-          <button type="button" name="button" class="switch-page switch-active">1</button>
-          <button type="button" name="button" class="switch-page">2</button>
-          <button type="button" name="button" class="switch-page">3</button>
+            @for($i = 1; $i <= $page_count; $i++)
+                @if($i === 1)
+                <button type="button" name="button" class="switch-page switch-active">{{ $i }}</button>
+                @else
+                <button type="button" name="button" class="switch-page">{{ $i }}</button>
+                @endif
+            @endfor
         </div>
         <div class="catalog-show-all">
           <button type="button" name="button" class="show-all">Показать всё</button>

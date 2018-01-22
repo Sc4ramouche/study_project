@@ -39,112 +39,56 @@
 
       <div id="New" class="tabcontent">
         <div class="catalog-home">
-          <div class="catalog-item">
-            <h6>New</h6>
-            <a href="#"><a href="#"><img src="img/catalog.jpg" alt="Каталог товаров"></a></a>
-            <p><a href="#">Кастрюля <br><span>Nadoba Dona</span></a><p>
-            <hr class="promo-line">
-            <b>2 329&#8381;</b>
-            <a href="#" class="catalog-item-cart">В корзину</a>
-          </div>
-          <div class="catalog-item">
-            <h6>New</h6>
-            <a href="#"><img src="img/catalog.jpg" alt="Каталог товаров"></a>
-            <p><a href="#">Кастрюля <br><span>Nadoba Dona</span></a><p>
-            <hr class="promo-line">
-            <b>2 329&#8381;</b>
-            <a href="#" class="catalog-item-cart">В корзину</a>
-          </div>
-          <div class="catalog-item">
-            <h6>New</h6>
-            <a href="#"><img src="img/catalog.jpg" alt="Каталог товаров"></a>
-            <p><a href="#">Кастрюля <br><span>Nadoba Dona</span></a><p>
-            <hr class="promo-line">
-            <b>2 329&#8381;</b>
-            <a href="#" class="catalog-item-cart">В корзину</a>
-          </div>
-          <div class="catalog-item">
-            <h6>New</h6>
-            <a href="#"><img src="img/catalog.jpg" alt="Каталог товаров"></a>
-            <p><a href="#">Кастрюля <br><span>Nadoba Dona</span></a><p>
-            <hr class="promo-line">
-            <b>2 329&#8381;</b>
-            <a href="#" class="catalog-item-cart">В корзину</a>
-          </div>
+            @if(count($new_products) > 0)
+            @foreach($new_products as $value)
+              <div class="catalog-item">
+                <label class="VENDOR_CODE" style="display:none">{{ $value->VENDOR_CODE}}</label>
+                <h6>New</h6>
+                <a href="/productcard/{{ $value->VENDOR_CODE}}"><a href="/productcard/{{ $value->VENDOR_CODE}}"><img src="/img/{{ $value->pic }}.jpg" alt="Каталог товаров"></a></a>
+                <p><a href="/productcard/{{ $value->VENDOR_CODE}}">{{ $value->type }} <br><span>{{ $value->brand }} {{ $value->model }}</span></a><p>
+                <hr class="promo-line">
+                <b>{{ $value->Price }}&#8381;</b>
+                <a onclick="addProduct('{{ $value->VENDOR_CODE }} {{ $value->Price }}')" href="#" class="catalog-item-cart" role="button">В корзину</a>
+              </div>
+            @endforeach
+            @endif
         </div>
       </div>
 
       <div id="Leader" class="tabcontent">
         <div class="catalog-home">
-          <div class="catalog-item">
-            <h6>Top</h6>
-            <a href="#"><img src="img/catalog.jpg" alt="Каталог товаров"></a>
-            <p><a href="#">Кастрюля <br><span>Nadoba Dona</span></a><p>
-            <hr class="promo-line">
-            <b>2 329&#8381;</b>
-            <a href="#" class="catalog-item-cart">В корзину</a>
-          </div>
-          <div class="catalog-item">
-            <h6>Top</h6>
-            <a href="#"><img src="img/catalog.jpg" alt="Каталог товаров"></a>
-            <p><a href="#">Кастрюля <br><span>Nadoba Dona</span></a><p>
-            <hr class="promo-line">
-            <b>2 329&#8381;</b>
-            <a href="#" class="catalog-item-cart">В корзину</a>
-          </div>
-          <div class="catalog-item">
-            <h6>Top</h6>
-            <a href="#"><img src="img/catalog.jpg" alt="Каталог товаров"></a>
-            <p><a href="#">Кастрюля <br><span>Nadoba Dona</span></a><p>
-            <hr class="promo-line">
-            <b>2 329&#8381;</b>
-            <a href="#" class="catalog-item-cart">В корзину</a>
-          </div>
-          <div class="catalog-item">
-            <h6>Top</h6>
-            <a href="#"><img src="img/catalog.jpg" alt="Каталог товаров"></a>
-            <p><a href="#">Кастрюля <br><span>Nadoba Dona</span></a><p>
-            <hr class="promo-line">
-            <b>2 329&#8381;</b>
-            <a href="#" class="catalog-item-cart">В корзину</a>
-          </div>
+            @if(count($leader_products) > 0)
+            @foreach($leader_products as $value)
+              <div class="catalog-item">
+                <label class="VENDOR_CODE" style="display:none">{{ $value->VENDOR_CODE}}</label>
+                <h6>Top</h6>
+                <a href="/productcard/{{ $value->VENDOR_CODE}}"><a href="/productcard/{{ $value->VENDOR_CODE}}"><img src="/img/{{ $value->pic }}.jpg" alt="Каталог товаров"></a></a>
+                <p><a href="/productcard/{{ $value->VENDOR_CODE}}">{{ $value->type }} <br><span>{{ $value->brand }} {{ $value->model }}</span></a><p>
+                <hr class="promo-line">
+                <b>{{ $value->Price }}&#8381;</b>
+                <a onclick="addProduct('{{ $value->VENDOR_CODE }} {{ $value->Price }}')" href="#" class="catalog-item-cart">В корзину</a>
+              </div>
+            @endforeach
+            @endif
         </div>
       </div>
 
       <div id="Recommendation" class="tabcontent">
         <div class="catalog-home">
-          <div class="catalog-item">
-            <h6>Best</h6>
-            <a href="#"><img src="img/catalog.jpg" alt="Каталог товаров"></a>
-            <p><a href="#">Кастрюля <br><span>Nadoba Dona</span></a><p>
-            <hr class="promo-line">
-            <b>2 329&#8381;</b>
-            <a href="#" class="catalog-item-cart">В корзину</a>
-          </div>
-          <div class="catalog-item">
-            <h6>Best</h6>
-            <a href="#"><img src="img/catalog.jpg" alt="Каталог товаров"></a>
-            <p><a href="#">Кастрюля <br><span>Nadoba Dona</span></a><p>
-            <hr class="promo-line">
-            <b>2 329&#8381;</b>
-            <a href="#" class="catalog-item-cart">В корзину</a>
-          </div>
-          <div class="catalog-item">
-            <h6>Best</h6>
-            <a href="#"><img src="img/catalog.jpg" alt="Каталог товаров"></a>
-            <p><a href="#">Кастрюля <br><span>Nadoba Dona</span></a><p>
-            <hr class="promo-line">
-            <b>2 329&#8381;</b>
-            <a href="#" class="catalog-item-cart">В корзину</a>
-          </div>
-          <div class="catalog-item">
-            <h6>Best</h6>
-            <a href="#"><img src="img/catalog.jpg" alt="Каталог товаров"></a>
-            <p><a href="#">Кастрюля <br><span>Nadoba Dona</span></a><p>
-            <hr class="promo-line">
-            <b>2 329&#8381;</b>
-            <a href="#" class="catalog-item-cart">В корзину</a>
-          </div>
+            @if(count($recomended_products) > 0)
+            @foreach($recomended_products as $value)
+              <div class="catalog-item">
+                <label class="VENDOR_CODE" style="display:none">{{ $value->VENDOR_CODE}}</label>
+                <h6>Best</h6>
+                <a href="/productcard/{{ $value->VENDOR_CODE}}"><a href="/productcard/{{ $value->VENDOR_CODE}}"><img src="/img/{{ $value->pic }}.jpg" alt="Каталог товаров"></a></a>
+                <p><a href="/productcard/{{ $value->VENDOR_CODE}}">{{ $value->type }} <br><span>{{ $value->brand }} {{ $value->model }}</span></a><p>
+                <hr class="promo-line">
+                <b>{{ $value->Price }}&#8381;</b>
+                <a onclick="addProduct('{{ $value->VENDOR_CODE }} {{ $value->Price }}')" href="#" class="catalog-item-cart">В корзину</a>
+              </div>
+            @endforeach
+            @endif
+
         </div>
       </div>
     </div>
@@ -228,8 +172,9 @@
 
 <section class="home-subscribe">
   <h3>Подпишитесь на наши новости</h3>
-  <form class="subcribe" action="index.html" method="post">
+  <form class="subcribe" action="/SendMailDispatch" method="post">
     <input type="email" name="email" placeholder="Ваша электронная почта"></input>
+    <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
     <input type="submit" name="submit" value="Подписаться">
   </form>
 </section>
@@ -268,10 +213,11 @@
     <div class="footer-feedback">
       <h2>Написать нам</h2>
       <hr class="footer-promo-line promo-line-red">
-      <form class="footer-feedback-form" action="index.html" method="post">
+      <form class="footer-feedback-form" action="/SendEmail" method="post">
         <input type="text" name="username" placeholder="Ваше имя">
         <input type="email" name="email" placeholder="Ваша электронная почта">
         <textarea name="message" rows="4" cols="30" placeholder="Ваше сообщение"></textarea>
+        <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
         <input type="submit" name="submit" value="Отправить">
       </form>
     </div>
@@ -300,5 +246,11 @@
   </div>
 </footer>
 
+<script>
+  
+  $('input[name="submit"]').bind("click", function() {
 
+  });
+
+</script>
 @endsection()

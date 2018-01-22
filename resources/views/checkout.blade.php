@@ -196,12 +196,18 @@
           vendoreCodes = vendoreCodes.split(' ');
           var vendoreCount = $.session.get('VendoreCount');
           vendoreCount = vendoreCount.split(' ');
+          var date = new Date();
+          if (date.getMonth() < 9)
+            var stringDate = date.getDate() + " 0" + (date.getMonth() + 1) + " " + date.getFullYear();
+          else
+            var stringDate = date.getDate() + " " + (date.getMonth() + 1) + " " + date.getFullYear();
           $.ajax({
             type: "POST",
             url: "/admin/NewOrder",
             data: {_token: CSRF_TOKEN, VendoreCodeArray: vendoreCodes, CountArray: vendoreCount, Email: $('#EmailOrder').val(),
                     Telephone: $('#TelephoneOrder').val(), Name: $('#NameOrder').val(), Adress: $('#AdressOrder').val(), 
-                    ID_Payment: $('#PaymentOrder').val(), ID_Delivery: $('#DeliveryOrder').val()},
+                    ID_Payment: $('#PaymentOrder').val(), ID_Delivery: $('#DeliveryOrder').val(), Date: stringDate,
+                    Price: $('.result').text().slice(0, -1)},
             success: function(data) {
               str = data['orderStatus'];
               if (str == "Заказ успешно оформлен!") {
@@ -210,12 +216,11 @@
                 $('.container-item').empty();
                 $('.result').empty();
                 $('.result').append('0');
-                $('.result').append('&#8381;');
               }
               else {
                 alert(data['orderStatus']);
               }
-            },
+            },  
             error: function(data) {
               alert("Ошибка при отправке запроса на сервер!");
             }

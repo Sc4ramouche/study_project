@@ -8,12 +8,65 @@ use DB;
 use Session;
 use Auth;
 
+function get_random_new(){
+    $data = DB::table('PRODUCT')
+                ->join('SUBCATEGORY', 'PRODUCT.ID_SUBCATEGORY', '=', 'SUBCATEGORY.ID_SUBCATEGORY')
+                ->join('BREND','PRODUCT.ID_BREND', '=', 'BREND.ID_BREND')
+                ->join('MODEL', 'PRODUCT.ID_MODEL', '=', 'MODEL.ID_MODEL')
+                ->join('PICTURE', 'PRODUCT.ID_PICTURE', '=', 'PICTURE.ID_PICTURE')
+                ->select('PRODUCT.*', 'SUBCATEGORY.Type as type', 'BREND.Name as brand', 'PICTURE.Name as pic', 'MODEL.Name as model')
+                ->where('PRODUCT.IsNew', 1)
+                ->inRandomOrder()
+                ->take(4)
+                ->get();
+
+    return $data;
+}
+
+function get_random_leader(){
+    $data = DB::table('PRODUCT')
+                ->join('SUBCATEGORY', 'PRODUCT.ID_SUBCATEGORY', '=', 'SUBCATEGORY.ID_SUBCATEGORY')
+                ->join('BREND','PRODUCT.ID_BREND', '=', 'BREND.ID_BREND')
+                ->join('MODEL', 'PRODUCT.ID_MODEL', '=', 'MODEL.ID_MODEL')
+                ->join('PICTURE', 'PRODUCT.ID_PICTURE', '=', 'PICTURE.ID_PICTURE')
+                ->select('PRODUCT.*', 'SUBCATEGORY.Type as type', 'BREND.Name as brand', 'PICTURE.Name as pic', 'MODEL.Name as model')
+                ->where('PRODUCT.IsLeader', 1)
+                ->inRandomOrder()
+                ->take(4)
+                ->get();
+
+    return $data;
+}
+
+function get_random_recomended(){
+    $data = DB::table('PRODUCT')
+                ->join('SUBCATEGORY', 'PRODUCT.ID_SUBCATEGORY', '=', 'SUBCATEGORY.ID_SUBCATEGORY')
+                ->join('BREND','PRODUCT.ID_BREND', '=', 'BREND.ID_BREND')
+                ->join('MODEL', 'PRODUCT.ID_MODEL', '=', 'MODEL.ID_MODEL')
+                ->join('PICTURE', 'PRODUCT.ID_PICTURE', '=', 'PICTURE.ID_PICTURE')
+                ->select('PRODUCT.*', 'SUBCATEGORY.Type as type', 'BREND.Name as brand', 'PICTURE.Name as pic', 'MODEL.Name as model')
+                ->where('PRODUCT.IsRecomend', 1)
+                ->inRandomOrder()
+                ->take(4)
+                ->get();
+
+    return $data;
+}
+
 class IndexController extends Controller
 {
 
     public function home() {
 
-        return view('home');
+        $new_products = get_random_new();
+        $leader_procucts = get_random_leader();
+        $recomended_procucts = get_random_recomended();
+
+        return view('home', [
+                                'new_products' => $new_products,
+                                'leader_products' => $leader_procucts,
+                                'recomended_products' => $recomended_procucts,
+                            ]);
     }
 
     public function about() {
@@ -112,7 +165,6 @@ class IndexController extends Controller
                        ->update(['Count' => ($Product->Count - $AllCounts[$i])]);
         }
 
-        //НУЖНО ЧТО НИЮУДЬ ПРИДУМАТЬ С ПОЧТОЙ! ЕСЛИ ПОЛЬЗОВАТЕЛЬ НЕ АВТОРИЗОВАН, ТО НЕЛЬЗЯ УКАЗАТЬ ФОРЕИГН МАЙЛ!
         DB::table('ORDER')->insert(
         [
             // 'email' => $request->Email,
@@ -122,7 +174,9 @@ class IndexController extends Controller
             'Name' => $request->Name,
             'Adress' => $request->Adress,
             'ID_PaymentMethod' => $request->ID_Payment,
-            'ID_DeliveryMethod' => $request->ID_Delivery
+            'ID_DeliveryMethod' => $request->ID_Delivery,
+            'Date' => $request->Date,
+            'Price' => $request->Price
         ]);
 
         $Order = DB::table('ORDER')->get();
@@ -144,5 +198,23 @@ class IndexController extends Controller
           'orderStatus' => 'Заказ успешно оформлен!',
         );
         return response()->json($response);
+    }
+
+    public function SendEmail(Request $request) {
+        DB::table('Email')->insert(
+            [
+                'From' => $request->username,
+                'Email From' => $request->email,
+                'Text' => $request->message
+        ]);
+        return redirect('/');
+    }
+
+    public function SendMailDispatch(Request $request) {
+        DB::table('Dispatch')->insert(
+        [
+            'Email' => $request->email
+        ]);
+        return redirect('/');
     }
 }
