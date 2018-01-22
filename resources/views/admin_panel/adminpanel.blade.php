@@ -115,7 +115,7 @@
 
 	<div id="RightBlock">
 		<div>
-			<button id="hiddenHelp">Показать подсказку</button>	
+			<button id="hiddenHelp">Показать инструкцию</button>	
 		</div>
 		<div id="ResponsePrompt">
 			<p><h3>Добро пожаловать в панель администратора!</h3></p>
