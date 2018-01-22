@@ -165,7 +165,6 @@ class IndexController extends Controller
                        ->update(['Count' => ($Product->Count - $AllCounts[$i])]);
         }
 
-        //НУЖНО ЧТО НИЮУДЬ ПРИДУМАТЬ С ПОЧТОЙ! ЕСЛИ ПОЛЬЗОВАТЕЛЬ НЕ АВТОРИЗОВАН, ТО НЕЛЬЗЯ УКАЗАТЬ ФОРЕИГН МАЙЛ!
         DB::table('ORDER')->insert(
         [
             // 'email' => $request->Email,
@@ -175,7 +174,9 @@ class IndexController extends Controller
             'Name' => $request->Name,
             'Adress' => $request->Adress,
             'ID_PaymentMethod' => $request->ID_Payment,
-            'ID_DeliveryMethod' => $request->ID_Delivery
+            'ID_DeliveryMethod' => $request->ID_Delivery,
+            'Date' => $request->Date,
+            'Price' => $request->Price
         ]);
 
         $Order = DB::table('ORDER')->get();
@@ -197,5 +198,23 @@ class IndexController extends Controller
           'orderStatus' => 'Заказ успешно оформлен!',
         );
         return response()->json($response);
+    }
+
+    public function SendEmail(Request $request) {
+        DB::table('Email')->insert(
+            [
+                'From' => $request->username,
+                'Email From' => $request->email,
+                'Text' => $request->message
+        ]);
+        return redirect('/');
+    }
+
+    public function SendMailDispatch(Request $request) {
+        DB::table('Dispatch')->insert(
+        [
+            'Email' => $request->email
+        ]);
+        return redirect('/');
     }
 }

@@ -48,7 +48,7 @@
                 <p><a href="/productcard/{{ $value->VENDOR_CODE}}">{{ $value->type }} <br><span>{{ $value->brand }} {{ $value->model }}</span></a><p>
                 <hr class="promo-line">
                 <b>{{ $value->Price }}&#8381;</b>
-                <a href="#" class="catalog-item-cart">В корзину</a>
+                <a onclick="addProduct('{{ $value->VENDOR_CODE }} {{ $value->Price }}')" href="#" class="catalog-item-cart" role="button">В корзину</a>
               </div>
             @endforeach
             @endif
@@ -66,7 +66,7 @@
                 <p><a href="/productcard/{{ $value->VENDOR_CODE}}">{{ $value->type }} <br><span>{{ $value->brand }} {{ $value->model }}</span></a><p>
                 <hr class="promo-line">
                 <b>{{ $value->Price }}&#8381;</b>
-                <a href="#" class="catalog-item-cart">В корзину</a>
+                <a onclick="addProduct('{{ $value->VENDOR_CODE }} {{ $value->Price }}')" href="#" class="catalog-item-cart">В корзину</a>
               </div>
             @endforeach
             @endif
@@ -84,7 +84,7 @@
                 <p><a href="/productcard/{{ $value->VENDOR_CODE}}">{{ $value->type }} <br><span>{{ $value->brand }} {{ $value->model }}</span></a><p>
                 <hr class="promo-line">
                 <b>{{ $value->Price }}&#8381;</b>
-                <a href="#" class="catalog-item-cart">В корзину</a>
+                <a onclick="addProduct('{{ $value->VENDOR_CODE }} {{ $value->Price }}')" href="#" class="catalog-item-cart">В корзину</a>
               </div>
             @endforeach
             @endif
@@ -106,12 +106,12 @@
   </div>
 </section>
 
-<section class="news">
+<section class="news clearfix">
   <div class="container">
     <h2>Новости</h2>
     <hr class="promo-line">
     <div class="container-news">
-      <div class="news-item">
+      <div class="news-item clearfix">
         <img src="img/home-news.jpg" alt="Новости">
         <h3>Новая коллекция посуды от Luminarc Harena</h3>
         <p>Белоснежная линейка столовой посуды
@@ -119,7 +119,7 @@
          так и поклонникам современного дизайна.</p>
          <a href="#">Читать далее</a>
       </div>
-      <div class="news-item">
+      <div class="news-item clearfix">
         <img src="img/home-news.jpg" alt="Новости">
         <h3>Новая коллекция посуды от Luminarc Harena</h3>
         <p>Белоснежная линейка столовой посуды
@@ -127,7 +127,7 @@
          так и поклонникам современного дизайна.</p>
          <a href="#">Читать далее</a>
       </div>
-      <div class="news-item">
+      <div class="news-item clearfix">
         <img src="img/home-news.jpg" alt="Новости">
         <h3>Новая коллекция посуды от Luminarc Harena</h3>
         <p>Белоснежная линейка столовой посуды
@@ -144,7 +144,7 @@
     <h2>О нас</h2>
     <hr class="promo-line">
     <div class="container-about-us">
-      <div class="about-us-description">
+      <div class="home-about-us-description">
         <p class="first-paragraph">Интернет-магазин Дом Посуды предлагает широкий выбор
         товаров для вашей кухни от лучших производителей.
         Представленная в каталоге продукция поможет в сервировке
@@ -172,13 +172,14 @@
 
 <section class="home-subscribe">
   <h3>Подпишитесь на наши новости</h3>
-  <form class="subcribe" action="index.html" method="post">
+  <form class="subcribe" action="/SendMailDispatch" method="post">
     <input type="email" name="email" placeholder="Ваша электронная почта"></input>
+    <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
     <input type="submit" name="submit" value="Подписаться">
   </form>
 </section>
 
-<footer class="home-footer">
+<footer class="home-footer" id="footer">
   <div class="container container-footer">
     <div class="footer-brand">
       <h1>Дом посуды</h1>
@@ -212,10 +213,11 @@
     <div class="footer-feedback">
       <h2>Написать нам</h2>
       <hr class="footer-promo-line promo-line-red">
-      <form class="footer-feedback-form" action="index.html" method="post">
+      <form class="footer-feedback-form" action="/SendEmail" method="post">
         <input type="text" name="username" placeholder="Ваше имя">
         <input type="email" name="email" placeholder="Ваша электронная почта">
         <textarea name="message" rows="4" cols="30" placeholder="Ваше сообщение"></textarea>
+        <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
         <input type="submit" name="submit" value="Отправить">
       </form>
     </div>
@@ -244,5 +246,11 @@
   </div>
 </footer>
 
+<script>
+  
+  $('input[name="submit"]').bind("click", function() {
 
+  });
+
+</script>
 @endsection()

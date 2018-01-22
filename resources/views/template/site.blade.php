@@ -25,7 +25,7 @@
             <li><a href="/about">О нас</a></li>
             <li><a href="/catalog">Каталог товаров</a></li>
             <li><a href="/news">Новости</a></li>
-            <li><a href="#">Обратная связь</a></li>
+            <li><a href="#footer">Обратная связь</a></li>
             <li><a href="/delivery">Доставка</a></li>
             <li><a href="/contacts">Контакты</a></li>
           </ul>
@@ -74,9 +74,75 @@
       price = $.session.get('Price');
       x = count + " товаров на " + price;
       $('#bucketName').text(x);
-      $('#bucketName').append('&#8381;'); 
+      $('#bucketName').append('&#8381;');
     }
-  })
+  });
+
+  //Добавить товар в корзину с главной страницы
+  function addProduct(data) {
+      data = data.split(' ');
+      var vendoreCode = data[0];
+      var price = data[1];
+      var count = 1;
+
+      if ($.session.get("VendoreCodes") == undefined) {
+        $.session.set("VendoreCodes", vendoreCode);
+        $.session.set("VendoreCount", 1);
+        $.session.set("Price", price);
+        $.session.set("Counts", 1);
+      }
+      else {
+        var allSessionDate = $.session.get("VendoreCodes"); 
+        var allSessionCounts = $.session.get("VendoreCount");
+        var SumPrice = Number($.session.get("Price"));
+        var AllCount = Number($.session.get("Counts"));
+        var flagIs = false; //флаг, для того чтобы узнать был такой товар в корзине или нет
+
+        //проверить есть ли выбранный товар уже в корзине
+        var arrayVendore = allSessionDate.split(' ');
+        var arrayCount = allSessionCounts.split(' ')
+        for (var i = 0; i < arrayVendore.length; i++) {
+          if (vendoreCode == arrayVendore[i]) {    //если такой товар уже есть в корзине (сессии)
+            arrayCount[i] = Number(arrayCount[i]) + Number(count); //увеличить кол-во товара
+            flagIs = true; //поменять флаг, т.к. товар такой есть в корнизе
+          }
+        }
+
+        if (flagIs == true) {
+          var stringArrayVendore = "";
+          var stringArrayCount = "";
+          for (var i = 0; i < arrayVendore.length; i++) {
+            if (i == 0) {
+              stringArrayVendore += arrayVendore[i];
+              stringArrayCount += arrayCount[i];
+            }
+            else {
+              stringArrayVendore += ' ' + arrayVendore[i];
+              stringArrayCount += ' ' + arrayCount[i];
+            }
+          }
+          $.session.set("VendoreCodes", stringArrayVendore);
+          $.session.set("VendoreCount", stringArrayCount);
+        }
+        else { //если товар новый в корзине, то добавить его в конец
+          allSessionDate += ' ' + vendoreCode;
+          allSessionCounts += ' ' + count;
+          $.session.set("VendoreCodes", allSessionDate);
+          $.session.set("VendoreCount", allSessionCounts);
+        }
+
+        SumPrice += Number(price);
+        AllCount += Number(count);
+        $.session.set("Price", SumPrice);
+        $.session.set("Counts", AllCount);
+      }
+
+      count = $.session.get('Counts');
+      price = $.session.get('Price');
+      x = count + " товаров на " + price;
+      $('#bucketName').text(x);
+      $('#bucketName').append('&#8381;');
+    }
 </script>
 
 
@@ -92,5 +158,5 @@
  document.getElementById("defaultOpen").click();
  </script>
 
-</body>
+  </body>
 </html>

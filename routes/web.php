@@ -102,3 +102,9 @@ Route::PUT('/admin/UpdateStatusOrder', 'AdminController@UpdateStatusOrder');
 
 Route::GET('/admin/GetProductsCart', 'IndexController@GetProductsCart');
 Route::POST('/admin/NewOrder', 'IndexController@NewOrder');
+
+Route::POST('/SendEmail', 'IndexController@SendEmail');
+Route::POST('/SendMailDispatch', 'IndexController@SendMailDispatch');
+
+Route::GET('/admin/GetAllMessages', 'AdminController@GetAllMessages');
+ROute::GET('/admin/getAllEmail', 'AdminController@getAllEmail');

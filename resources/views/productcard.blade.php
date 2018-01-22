@@ -263,7 +263,6 @@ jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</di
     }
     else {
       var allSessionDate = $.session.get("VendoreCodes");
-      alert(allSessionDate);
       var allSessionCounts = $.session.get("VendoreCount");
       var SumPrice = Number($.session.get("Price"));
       var AllCount = Number($.session.get("Counts"));
