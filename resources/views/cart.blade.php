@@ -83,23 +83,23 @@ jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</di
         sum = 0;
         result = "";
         for (var i = 0; i < data.length; i++) {
-          $('.checkout-page').find('.container').find('.cart-items').append('<div class="container-item checkout-item">' + 
-                                                '<div class="container-item-image">' + 
-                                                '<img src="' + data[i]['Picture'] + '" alt="Товар">' + 
-                                                '</div>' + 
-                                                '<div class="container-item-description">' + 
-                                                '<h2>' + data[i]['BrendName'] + ' ' + data[i]['ModelName'] + '</h2><b class="art">арт. ' + data[i]['VendoreCode'] + '</b>' + 
-                                                '<h4>В наличии</h4>' + 
-                                                '<b class="price">Цена: ' + data[i]['Price'] + '&#8381;</b>' + 
-                                                '</div>' + 
-                                                '<div class="quantity">' + 
-                                                '<label for="quantity">Количество</label>' + 
-                                                '<input type="number" min="1" max="9" step="1" value="' + data[i]['Count']  + '" name="quantity">' + 
-                                                '</div>' + 
-                                                '<div class="checkout-summ">' + 
-                                                '<h4>Сумма</h3>' + 
-                                                '<b div id="Allprice" b>' + data[i]['Price'] * data[i]['Count'] + '&#8381;</div></b>' + 
-                                                '</div>' + 
+          $('.checkout-page').find('.container').find('.cart-items').append('<div class="container-item checkout-item">' +
+                                                '<div class="container-item-image">' +
+                                                '<img src="' + data[i]['Picture'] + '" alt="Товар">' +
+                                                '</div>' +
+                                                '<div class="container-item-description">' +
+                                                '<h2>' + data[i]['BrendName'] + ' ' + data[i]['ModelName'] + '</h2><b class="art">арт. ' + data[i]['VendoreCode'] + '</b>' +
+                                                '<h4>В наличии</h4>' +
+                                                '<b class="price">Цена: ' + data[i]['Price'] + '&#8381;</b>' +
+                                                '</div>' +
+                                                '<div class="quantity">' +
+                                                '<label for="quantity">Количество</label>' +
+                                                '<input type="number" min="1" max="9" step="1" value="' + data[i]['Count']  + '" name="quantity">' +
+                                                '</div>' +
+                                                '<div class="checkout-summ">' +
+                                                '<h4>Сумма</h3>' +
+                                                '<b div id="Allprice" b>' + data[i]['Price'] * data[i]['Count'] + '&#8381;</div></b>' +
+                                                '</div>' +
                                                 '</div>');
           sum += data[i]['Count'] * data[i]['Price'];
         }
@@ -127,7 +127,7 @@ jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</di
         cost = $(this).find('.price').text().split(' ')[1];
         art = $(this).find('.art').text().split(' ')[1];
         cost = cost.slice(0, -1);
-        
+
         newProductPrice = cost * count;
         $(this).find('#Allprice').text(newProductPrice);
         $(this).find('#Allprice').append('&#8381;');
@@ -137,7 +137,7 @@ jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</di
           vendore[i] = art;
           allcounts += Number(count);
           SumPrice += Number(count) *  Number(cost);
-          i++; 
+          i++;
         }
       });
       $('.result').text(newSum);

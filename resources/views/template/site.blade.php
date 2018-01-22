@@ -25,7 +25,7 @@
             <li><a href="/about">О нас</a></li>
             <li><a href="/catalog">Каталог товаров</a></li>
             <li><a href="/news">Новости</a></li>
-            <li><a href="#">Обратная связь</a></li>
+            <li><a href="#footer">Обратная связь</a></li>
             <li><a href="/delivery">Доставка</a></li>
             <li><a href="/contacts">Контакты</a></li>
           </ul>
@@ -74,7 +74,7 @@
       price = $.session.get('Price');
       x = count + " товаров на " + price;
       $('#bucketName').text(x);
-      $('#bucketName').append('&#8381;'); 
+      $('#bucketName').append('&#8381;');
     }
   });
 

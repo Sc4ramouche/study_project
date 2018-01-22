@@ -442,7 +442,7 @@ function get_all_filters_value(){
     * Получает список всех продуктов по ID_CATEGORY
     * (Пользователь перешел по ссылке категории)
     */
-    function get_category_products($id_category){
+    function get_category_products($id_category, $take_count){
         $products_in_catogory;
         $arr_id_subcat = [];
         $data;
@@ -462,6 +462,8 @@ function get_all_filters_value(){
                                     ->join('PICTURE', 'PRODUCT.ID_PICTURE', '=', 'PICTURE.ID_PICTURE')
                                     ->select('PRODUCT.*', 'SUBCATEGORY.Type as type', 'BREND.Name as brand', 'PICTURE.Name as pic', 'MODEL.Name as model')
                                     ->WhereIn('PRODUCT.ID_SUBCATEGORY', $arr_id_subcat)
+                                    ->skip(0)
+                                    ->take($take_count)
                                     ->get();
 
         // dd($products_in_category);
@@ -472,7 +474,7 @@ function get_all_filters_value(){
     * Получает список всех продуктов по ID_SUBCATEGORY
     * (Пользователь нажал на сабкатегорию в каталоге)
     */
-    function get_subcategory_products($id_subcategory){
+    function get_subcategory_products($id_subcategory, $take_count){
         $data = DB::table('PRODUCT')
                     ->join('SUBCATEGORY', 'PRODUCT.ID_SUBCATEGORY', '=', 'SUBCATEGORY.ID_SUBCATEGORY')
                     ->join('BREND','PRODUCT.ID_BREND', '=', 'BREND.ID_BREND')
@@ -480,22 +482,26 @@ function get_all_filters_value(){
                     ->join('PICTURE', 'PRODUCT.ID_PICTURE', '=', 'PICTURE.ID_PICTURE')
                     ->select('PRODUCT.*', 'SUBCATEGORY.Type as type', 'BREND.Name as brand', 'PICTURE.Name as pic', 'MODEL.Name as model')
                     ->where('PRODUCT.ID_SUBCATEGORY', $id_subcategory)
+                    ->skip(0)
+                    ->take($take_count)
                     ->get();
         return $data;
     }
 
-    function get_all_products(){
+        function get_all_products($take_count){
         $data = DB::table('PRODUCT')
                     ->join('SUBCATEGORY', 'PRODUCT.ID_SUBCATEGORY', '=', 'SUBCATEGORY.ID_SUBCATEGORY')
                     ->join('BREND','PRODUCT.ID_BREND', '=', 'BREND.ID_BREND')
                     ->join('MODEL', 'PRODUCT.ID_MODEL', '=', 'MODEL.ID_MODEL')
                     ->join('PICTURE', 'PRODUCT.ID_PICTURE', '=', 'PICTURE.ID_PICTURE')
                     ->select('PRODUCT.*', 'SUBCATEGORY.Type as type', 'BREND.Name as brand', 'PICTURE.Name as pic', 'MODEL.Name as model')
+                    ->skip(0)
+                    ->take($take_count)
                     ->get();
         return $data;
     }
 
-    function filter_all($f, $sort){
+    function filter_all($f, $sort, $skip_count, $take_count){
         $arr = $f;
 
         $products_in_category = DB::table('PRODUCT')
@@ -537,11 +543,14 @@ function get_all_filters_value(){
                                     ->when($sort['name'], function($query) use($sort){
                                         return $query->orderBy($sort['name'], $sort['type']);
                                     })
+                                    ->skip($skip_count)
+                                    ->take($take_count)
                                     ->get();
+
         return $products_in_category;
     }
 
-function filter_with_category($id_category, $f, $sort, $list_count){
+function filter_with_category($id_category, $f, $sort, $skip_count, $take_count){
     $products_in_category;
     $arr_id_subcat = [];
 
@@ -597,13 +606,13 @@ function filter_with_category($id_category, $f, $sort, $list_count){
                                 ->when($sort['name'], function($query) use($sort){
                                     return $query->orderBy($sort['name'], $sort['type']);
                                 })
-                                ->skip(0)
-                                ->take($list_count)
+                                ->skip($skip_count)
+                                ->take($take_count)
                                 ->get();
     return $products_in_category;
 }
 
-function filter_with_subcategory($id_subcategory, $f, $sort){
+function filter_with_subcategory($id_subcategory, $f, $sort, $skip_count, $take_count){
     $arr = $f;
 
     $products_in_category = DB::table('PRODUCT')
@@ -646,6 +655,8 @@ function filter_with_subcategory($id_subcategory, $f, $sort){
                                 ->when($sort['name'], function($query) use($sort){
                                     return $query->orderBy($sort['name'], $sort['type']);
                                 })
+                                ->skip($skip_count)
+                                ->take($take_count)
                                 ->get();
     return $products_in_category;
 }
@@ -664,6 +675,28 @@ function get_product_by_id($id) {
 
 }
 
+function get_sub_picture($id) {
+    $data = DB::table('SECONDPICTURE')
+                ->select('SECONDPICTURE.Name as sec_pic')
+                ->where('SECONDPICTURE.VENDOR_CODE', $id)
+                ->get();
+    return $data;
+}
+
+function get_related_products($sub_id) {
+    $data = DB::table('PRODUCT')
+                ->join('SUBCATEGORY', 'PRODUCT.ID_SUBCATEGORY', '=', 'SUBCATEGORY.ID_SUBCATEGORY')
+                ->join('BREND','PRODUCT.ID_BREND', '=', 'BREND.ID_BREND')
+                ->join('MODEL', 'PRODUCT.ID_MODEL', '=', 'MODEL.ID_MODEL')
+                ->join('PICTURE', 'PRODUCT.ID_PICTURE', '=', 'PICTURE.ID_PICTURE')
+                ->select('PRODUCT.*', 'SUBCATEGORY.Type as type', 'BREND.Name as brand', 'PICTURE.Name as pic', 'MODEL.Name as model')
+                ->where('PRODUCT.ID_SUBCATEGORY', $sub_id)
+                ->inRandomOrder()
+                ->take(4)
+                ->get();
+    return $data;
+}
+
 class CatalogController extends Controller
 {
 
@@ -673,15 +706,17 @@ class CatalogController extends Controller
         $cat_id = $req->cat_id;
         $sub_id = $req->sub_id;
         $sort = json_decode($req->sort, true);
-        $list_count = json_decode($req->list_count, true);
+        $skip_count = $req->skip_count;
+        $take_count = $req->take_count;
+        $page_number = $req->page_number;
         $data = json_decode($req->data, true);
 
         if($cat_id === '') {
-            $result = filter_all($data, $sort);
+            $result = filter_all($data, $sort, $skip_count, $take_count);
         }elseif($sub_id === ''){
-            $result = filter_with_category($cat_id, $data, $sort, $list_count);
+            $result = filter_with_category($cat_id, $data, $sort, $skip_count, $take_count);
         } else {
-            $result = filter_with_subcategory($sub_id, $data, $sort);
+            $result = filter_with_subcategory($sub_id, $data, $sort, $skip_count, $take_count);
         };
 
 
@@ -695,23 +730,49 @@ class CatalogController extends Controller
     }
 
     public function catalog_category($category){
+
+        //дефолтное число продуктов на странице
+        $products_on_page = 12;
+        //число продуктов
+        $d = DB::table('SUBCATEGORY')
+                    ->where('ID_CATEGORY', '=', $category)
+                    ->get();
+        $arr_id_subcat = [];
+        foreach ($d as $value) {
+            array_push($arr_id_subcat, $value->ID_SUBCATEGORY);
+        }
+
+        $count = DB::table('PRODUCT')->WhereIn('PRODUCT.ID_SUBCATEGORY', $arr_id_subcat)->count();
+        //число страниц с округлением в большкую сторону
+        $page_count = (int) ceil($count / $products_on_page);
+
         $id_category = $category;
         $filters = [];
         $filtr = [];
 
         $filters = get_filters_by_category($id_category, $filtr);
-        $category_products = get_category_products($id_category);
+        $products = get_category_products($id_category, $products_on_page);
         return view('catalog', [
                                 'category_id' => $id_category,
                                 'subcategory_id' => '',
                                 'filters' => $filters,
-                                'products' => $category_products,
+                                'products' => $products,
+                                'page_count' => $page_count,
+                                'products_count' => $count,
 
                                ]);
     }
 
     public function catalog_subcategory($category, $subcategory){
-        $products = get_subcategory_products($subcategory);
+
+        //дефолтное число продуктов на странице
+        $products_on_page = 12;
+        //число продуктов
+        $count = DB::table('PRODUCT')->where('PRODUCT.ID_SUBCATEGORY', $subcategory)->count();
+        //число страниц с округлением в большкую сторону
+        $page_count = (int) ceil($count / $products_on_page);
+
+        $products = get_subcategory_products($subcategory, $products_on_page);
         $filters = get_filters_by_subcategory($category, $subcategory);
 
         return view('catalog', [
@@ -719,12 +780,15 @@ class CatalogController extends Controller
                                 'subcategory_id' => $subcategory,
                                 'filters' => $filters,
                                 'products' => $products,
+                                'page_count' => $page_count,
+                                'products_count' => $count,
                                ]);
     }
 
     public function catalog(Request $req) {
 
-        $products_on_page = 1;
+        //дефолтное число продуктов на странице
+        $products_on_page = 12;
         //число продуктов
         $count = DB::table('PRODUCT')->count();
         //число страниц с округлением в большкую сторону
@@ -733,23 +797,30 @@ class CatalogController extends Controller
         //dd($page_count);
 
         $filters = get_all_filters_value();
-        $products = get_all_products();
+        $products = get_all_products($products_on_page);
         return view('catalog', [
                                 'products' => $products,
                                 'filters' => $filters,
                                 'category_id' => '',
                                 'subcategory_id' => '',
                                 'page_count' => $page_count,
+                                'products_count' => $count,
                                ]);
     }
 
     public function productcard($vendor_code) {
         $id = $vendor_code;
         $product = get_product_by_id($id);
-        // dd($product);
+        $sub_picture = get_sub_picture($id);
+        $sub_id = $product[0]->ID_SUBCATEGORY;
+        $related_products = get_related_products($sub_id);
+
+        // dd($product, $sub_picture);
 
         return view('productcard', [
                                     'product' => $product,
+                                    'sub_pic' => $sub_picture,
+                                    'related_products' => $related_products,
                                    ]);
     }
 

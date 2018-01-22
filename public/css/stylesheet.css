@@ -37,6 +37,7 @@ header {
   margin: 0;
   padding: 0;
   text-transform: uppercase;
+  width: 900px;
 }
 
 .header-menu  li {
@@ -123,7 +124,7 @@ header .toggle {
 
 .header-brand h1 {
   font-size: 41px;
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-weight: normal;
   margin: 0;
   margin-top: 25px;
@@ -135,9 +136,10 @@ header .toggle {
 .header-brand p {
   font-size: 15px;
   font-weight: bold;
-  font-family: "Geometria thin";
+  font-family: "Geometria Light", serif;
   margin-top: 10px;
   min-width: 250px;
+  width: 260px;
 }
 
 .header-search {
@@ -149,7 +151,7 @@ header .toggle {
 
 
 .header-search input {
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-weight: bold;
   padding: 12px 15px;
   background-size: 20px;
@@ -164,6 +166,11 @@ header .toggle {
   position: relative;
   max-width: 260px;
   grid-area: c;
+}
+
+.header-cart a {
+  color: rgb(42, 42, 42);
+  text-decoration: none;
 }
 
 .header-cart h4::before {
@@ -254,7 +261,7 @@ header .toggle {
   margin: 0;
   text-align: center;
   font-size: 95px;
-  font-family: "Monotype Corsiva";
+  font-family: "Monotype Corsiva", serif;
   font-weight: normal;
   margin-bottom: 50px;
 }
@@ -263,7 +270,7 @@ header .toggle {
   margin-bottom: 40px;
   display: block;
   font-size: 24px;
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   color: rgb(234, 34, 36);
   text-transform: uppercase;
 }
@@ -280,7 +287,7 @@ header .toggle {
   margin-bottom: 50px;
   text-align: center;
   font-size: 24px;
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-weight: normal;
 }
 
@@ -296,7 +303,7 @@ header .toggle {
   width: 320px;
   font-size: 22px;
   text-transform: uppercase;
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
 }
 
 .catalog-links {
@@ -325,7 +332,7 @@ header .toggle {
   text-decoration: none;
   color: rgb(41, 41, 41);
   border-bottom: 2px solid transparent;
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 14px;
   text-transform: uppercase;
   -webkit-transition: 0.25s;
@@ -343,7 +350,7 @@ header .toggle {
 }
 
 .catalog h2 {
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   font-size: 46px;
   text-transform: uppercase;
   text-align: center;
@@ -366,7 +373,7 @@ header .toggle {
   float: left;
   border: 1px solid rgb(242,242,242);
   color: rgb(41, 41, 41);
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   text-transform: uppercase;
   outline: none;
   cursor: pointer;
@@ -445,7 +452,7 @@ header .toggle {
   display: block;
   margin: 0;
   padding: 15px;
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 20px;
   color: rgb(234, 34, 36);
   text-transform: uppercase;
@@ -461,7 +468,7 @@ header .toggle {
 
 .catalog-item p {
   text-align: center;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 20px;
   font-weight: bold;
   line-height: 30px;
@@ -482,7 +489,7 @@ header .toggle {
   color: #fff;
   background-color: rgb(234, 34, 36);
   text-align: center;
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   font-size: 22px;
   text-transform: uppercase;
   border: 1px solid rgb(234, 34, 36);
@@ -501,7 +508,7 @@ header .toggle {
   margin-top: 30px;
   display: block;
   text-align: center;
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 30px;
   font-weight: normal;
   color: rgb(41, 41, 41);
@@ -530,7 +537,7 @@ header .toggle {
 .feature-item {
   position: relative;
   text-align: center;
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 18px;
   color: rgb(41, 41, 41);
   padding-top: 60px;
@@ -571,7 +578,7 @@ header .toggle {
 
 .news h2 {
   text-align: center;
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   font-size: 46px;
   color: rgb(41, 41, 41);
   text-transform: uppercase;
@@ -586,7 +593,6 @@ header .toggle {
 
 .news-item {
   margin-top: 60px;
-  height: 560px;
   border: 1px solid rgb(242,242,242);
 }
 
@@ -598,7 +604,7 @@ header .toggle {
 
 .news-item h3 {
   padding: 5px 20px;
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   font-size: 18px;
   font-weight: normal;
   margin: 0;
@@ -609,7 +615,7 @@ header .toggle {
 .news-item p {
   padding: 5px 20px;
   padding-right: 40px;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 14px;
   font-weight: bold;
   margin: 0;
@@ -619,7 +625,7 @@ header .toggle {
 }
 
 .news-item a {
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-weight: bold;
   text-transform: uppercase;
   padding: 0 20px;
@@ -629,6 +635,7 @@ header .toggle {
   display: block;
   width: 130px;
   margin-top: 30px;
+  margin-bottom: 15px;
   background-image: url("../img/arrow.png");
   background-repeat: no-repeat;
   background-position: 135px 8px;
@@ -639,7 +646,7 @@ header .toggle {
 }
 
 .about-us h2 {
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   font-size: 46px;
   font-weight: normal;
   text-align: center;
@@ -655,24 +662,25 @@ header .toggle {
   width: 100%;
 }
 
-.about-us-description p {
+.home-about-us-description p {
+  display: block;
   font-size: 17px;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
-.about-us-description p:first-child::first-letter {
+.home-about-us-description p:first-child::first-letter {
   float: left;
   line-height: 44px;
   font-size: 50px;
-  font-family: "Roboto Medium";
+  font-family: "Roboto Medium", sans-serif;
   color: rgb(236, 34, 36);
   padding: 3px 3px 0 0;
 }
 
 .about-us .read-more {
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-weight: bold;
   text-transform: uppercase;
   padding: 0 20px 0 0;
@@ -697,7 +705,7 @@ header .toggle {
 }
 
 .home-subscribe h3 {
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   text-transform: uppercase;
   font-size: 32px;
   padding-top: 12%;
@@ -712,7 +720,7 @@ header .toggle {
 }
 
 .home-subscribe input[type="email"] {
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 14px;
   padding: 10px;
   min-width: 300px;
@@ -720,7 +728,7 @@ header .toggle {
 }
 
 .home-subscribe input[type="submit"] {
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   font-size: 16px;
   font-weight: normal;
   color: #fff;
@@ -744,7 +752,7 @@ header .toggle {
 }
 
 .footer-brand h1 {
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 50px;
   font-weight: normal;
   margin: 0;
@@ -754,16 +762,16 @@ header .toggle {
 }
 
 .footer-brand p {
-  font-family: "Roboto Thin";
-  font-size: 19px;
+  font-family: "Geometria Regular", sans-serif;
+  font-size: 18px;
   margin: 0;
   padding: 0;
   margin-top: 20px;
-  min-width: 308px;
+  min-width: 310px;
 }
 
 .footer-brand .footer-description {
-  font-family: "Roboto Thin";
+  font-family: "Geometria Regular", sans-serif;
   font-size: 14px;
   opacity: 0.75;
   margin-top: 36px;
@@ -792,7 +800,7 @@ header .toggle {
 }
 
 .footer-brand .footer-adress {
-  font-family: "Roboto Thin";
+  font-family: "Geometria Regular", sans-serif;
   font-size: 14px;
   margin: 0;
   padding: 0;
@@ -800,8 +808,8 @@ header .toggle {
 }
 
 .footer-brand .footer-telephone {
-  font-family: "Roboto Thin";
-  font-size: 18px;
+  font-family: "Geometria Regular", sans-serif;
+  font-size: 18px, sans-serif;
   margin: 0;
   padding: 0;
   margin-top: 15px;
@@ -809,7 +817,7 @@ header .toggle {
 
 .footer-brand a {
   display: block;
-  font-family: "Roboto Light";
+  font-family: "Roboto Light", sans-serif;
   font-size: 14px;
   color: rgb(236, 34, 36);
   margin: 0;
@@ -824,7 +832,7 @@ header .toggle {
 .footer-category h2,
 .footer-feedback h2,
 .footer-social h2 {
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 20px;
   text-transform: uppercase;
   margin-bottom: 32px;
@@ -866,7 +874,7 @@ header .toggle {
   width: 100%;
   border: none;
   padding: 10px 15px;
-  font-family: "Geometria Light"
+  font-family: "Geometria Light", serif
 }
 
 .footer-feedback-form input[type="text"],
@@ -874,13 +882,13 @@ header .toggle {
   box-sizing: border-box;
   width: 100%;
   padding: 15px 15px;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   margin-bottom: 10px;
 }
 
 .footer-feedback-form input[type="submit"] {
   padding: 15px;
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   font-size: 16px;
   background-color: rgb(236, 34. 36);
   font-weight: normal;
@@ -894,9 +902,10 @@ header .toggle {
 
 .footer-social .footer-gallery {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 90px 90px 90px;
   grid-template-rows: 90px 90px 90px;
   margin-top: 44px;
+  grid-gap: 0;
 }
 
 .footer-gallery img {
@@ -911,7 +920,7 @@ header .toggle {
 }
 
 .footer-copyright p {
-  font-family: "Roboto Light";
+  font-family: "Roboto Light", sans-serif;
   font-size: 13px;
   opacity: 0.6;
   padding: 0;
@@ -981,7 +990,7 @@ header .toggle {
 ul.breadcrumb {
   padding: 8px 0px;
   list-style: none;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 16px;
   font-weight: bold;
 }
@@ -1026,7 +1035,7 @@ ul.breadcrumb li a {
 }
 
 .about-page-text h1 {
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 95px;
   line-height: 100px;
   margin: 0;
@@ -1035,7 +1044,7 @@ ul.breadcrumb li a {
 }
 
 .about-page-text p {
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 18px;
   text-align: justify;
   padding-right: 150px;
@@ -1141,14 +1150,14 @@ ul.breadcrumb li a {
 .card-page .card-info h1 {
   text-transform: uppercase;
   display: inline-block;
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 26px;
 }
 
 .card-page .card-info .art {
   margin-left: 5px;
   display: inline-block;
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 26px;
 }
 
@@ -1158,7 +1167,7 @@ ul.breadcrumb li a {
 }
 
 .card-info h4 {
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 20px;
   color: #00bcd4;
   width: 200px;
@@ -1185,7 +1194,7 @@ ul.breadcrumb li a {
 }
 
 .card-info .card-price {
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   font-size: 36px;
   color: rgb(236, 34, 36);
   margin-top: 35px;
@@ -1198,7 +1207,7 @@ ul.breadcrumb li a {
 
 .card-info-form label {
   display: block;
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 16px;
   color: rgb(41,41,41);
   text-transform: uppercase;
@@ -1437,22 +1446,26 @@ input[type=number]
 }
 
 .card-form-submit button {
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 16px;
   padding: 16px 24px;
   text-transform: uppercase;
   border: none;
+  display: block;
+  float: left;
 }
 
 .card-form-submit button[name="add"] {
   color: white;
   background-color: rgb(236, 34, 36);
+  margin-top: 20px;
 }
 
 .card-form-submit button[name="buy"] {
   color: rgb(41, 41, 41);
   background-color: #fff;
   border: 1px solid rgb(236, 34, 36);
+  margin-top: 20px;
 }
 
 .card-additional .tabcontent {
@@ -1467,7 +1480,7 @@ input[type=number]
 }
 
 .card-additional .card-paragraph{
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 20px;
   padding: 0;
   margin: 0;
@@ -1483,13 +1496,13 @@ div#Characteristics {
 }
 
 div#Characteristics dl {
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   font-size: 20px;
 }
 
 div#Characteristics dd {
   padding-left: 10px;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
 }
 
 div#Reviews {
@@ -1504,7 +1517,7 @@ div#Reviews .card-stars {
 }
 
 div#Reviews blockquote {
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   margin: 0;
   padding: 10px 0;
 }
@@ -1532,7 +1545,7 @@ div#Reviews blockquote time {
 }
 
 .card-similar h2 {
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   font-size: 46px;
   text-transform: uppercase;
   text-align: center;
@@ -1570,7 +1583,7 @@ div#Reviews blockquote time {
 }
 
 .cart-page {
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
 }
 
 .cart-page .cart-auth {
@@ -1614,7 +1627,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .form-email input,
 .form-adress input {
   padding: 10px;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-weight: bold;
   margin-bottom: 20px;
   width: 90%;
@@ -1623,7 +1636,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .form-select select {
   padding: 10px;
   margin-bottom: 20px;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-weight: bold;
   width: 94%;
 }
@@ -1662,7 +1675,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .container-item-description h4
 {
   display: inline-block;
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 14px;
   text-transform: uppercase;
   margin: 0;
@@ -1672,7 +1685,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 
 .container-item-description b {
   margin-left: 10px;
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 14px;
   margin-bottom: 5px;
 }
@@ -1682,7 +1695,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .container-item-description .price {
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 18px;
   display: block;
   margin: 0;
@@ -1696,21 +1709,21 @@ input:invalid:not(:placeholder-shown) + .form__error {
 
 .cart-items .to-pay {
   text-transform: uppercase;
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 14px;
   display: inline-block;
   margin: 0;
 }
 
 .cart-items .result {
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 40px;
   display: inline-block;
   float: right;
 }
 
 .checkout-item h2 {
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   text-transform: uppercase;
   font-size: 14px;
   color: rgb(42, 42, 42);
@@ -1740,7 +1753,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .checkout-item .price {
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 14px;
   opacity: 0.5;
 }
@@ -1751,7 +1764,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 
 .quantity label {
   display: block;
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 12px;
   font-weight: bold;
   text-transform: uppercase;
@@ -1761,7 +1774,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 
 .checkout-summ h4 {
   display: block;
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 12px;
   text-transform: uppercase;
   margin: 10px 0;
@@ -1769,7 +1782,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .checkout-summ .price {
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 18px;
   opacity: 1;
 }
@@ -1848,7 +1861,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 #authBtn {
   border: none;
   background: #fff;
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 18px;
   font-weight: bold;
   text-decoration: underline;
@@ -1912,7 +1925,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .modal-email input,
 .modal-password input {
   padding: 10px;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 14px;
   width: 100%;
   box-sizing: border-box;
@@ -1925,7 +1938,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .modal-submit input[type="submit"] {
   padding: 16px 10px;
   background-color: rgb(236, 34, 36);
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 16px;
   width: 100%;
   text-transform: uppercase;
@@ -1972,7 +1985,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 /* styling login welcome */
 
 .tabcontent h4 {
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 22px;
   text-transform: uppercase;
   margin: 0;
@@ -1981,14 +1994,14 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 #login h3 {
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 18px;
 }
 
 .account-login-form input[type="email"],
 .account-login-form input[type="password"] {
   padding: 10px;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 16px;
   margin: 10px auto;
   width: 370px;
@@ -1996,11 +2009,11 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .account-login-form label {
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
 }
 
 .account-login-form button[type="submit"] {
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 16px;
   text-transform: uppercase;
   padding: 15px 20px;
@@ -2016,7 +2029,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .account-login-form a {
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   opacity: 0.7;
   font-size: 14px;
   margin-left: 140px;
@@ -2051,7 +2064,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 
 .account-page .user-image figcaption {
   text-transform: uppercase;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 14px;
   font-weight: bold;
 }
@@ -2068,7 +2081,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
   padding: 10px;
   width: 370px;
   margin-bottom: 20px;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 16px;
 }
 
@@ -2095,7 +2108,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 16px;
   padding: 10px;
   width: 100%;
@@ -2111,7 +2124,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
   background-color: #fff;
   border: 2px solid rgb(236, 34, 36);
   text-align: center;
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   text-transform: uppercase;
   font-size: 14px;
   cursor: pointer;
@@ -2134,7 +2147,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 
 .history-item h4 {
   border: none;
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 13px;
   text-transform: uppercase;
   margin: 12px 0;
@@ -2143,7 +2156,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 
 .history-item time,
 .history-item b {
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 18px;
 }
 
@@ -2172,7 +2185,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .catalog-category h2 {
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   font-size: 24px;
   text-transform: uppercase;
   margin: 20px 0;
@@ -2182,7 +2195,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .category-list {
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 20px;
 }
 
@@ -2194,7 +2207,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .catalog-filter-form label {
   display: block;
   position: relative;
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   font-size: 24px;
   color: rgb(42, 42, 42);
 }
@@ -2215,7 +2228,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .catalog-volume label,
 .catalog-price label,
 .catalog-color label {
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 20px;
   display: inline-block;
 }
@@ -2264,7 +2277,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
   display: block;
   color: rgb(42, 42, 42);
   margin: 10px 0;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 16px;
 }
 
@@ -2285,7 +2298,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .catalog-filter-form input[type="submit"],
 .catalog-filter-form input[type="reset"] {
   padding: 10px;
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   font-size: 16px;
   border: 2px solid rgb(236, 34, 36);
   width: 130px;
@@ -2326,7 +2339,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .visited-info h4 {
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   font-size: 12px;
   text-transform: uppercase;
   margin-top: 15px;
@@ -2340,7 +2353,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .visited-price {
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 18px;
   color: rgb(236, 34, 36);
   margin-top: 10px;
@@ -2348,7 +2361,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .catalog-visited h3 {
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 16px;
   text-transform: uppercase;
 }
@@ -2359,13 +2372,13 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .catalog-footer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
 }
 
 .product-quanity,
 .product-sort {
   padding: 8px;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 18px;
   margin-left: 15px;
 }
@@ -2401,7 +2414,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .grid-item-name {
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 20px;
 }
 
@@ -2410,7 +2423,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .grid-item-price {
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 30px;
   margin-top: 30px;
   display: block;
@@ -2433,7 +2446,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .switch-page {
   border: 1px solid rgb(242, 242, 242);
   background-color: #fff;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   margin-right: 10px;
   padding: 10px 16px;
   box-sizing: border-box;
@@ -2451,7 +2464,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .show-all {
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 16px;
   background-color: #fff;
   border: 1px solid rgb(242, 242, 242);
@@ -2485,7 +2498,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .news-date {
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   color: rgb(236, 34, 36);
   font-size: 14px;
   margin: 0;
@@ -2496,7 +2509,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .news-header {
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   font-size: 18px;
   margin: 0;
   padding: 0;
@@ -2505,7 +2518,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .news-content {
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 14px;
   font-weight: bold;
   display: block;
@@ -2519,7 +2532,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
   margin: 0 auto;
   border: 4px solid rgb(236, 34, 36);
   width: 250px;
-  font-family: "Geometria Medium";
+  font-family: "Geometria Medium", serif;
   font-size: 22px;
   text-transform: uppercase;
   text-align: center;
@@ -2587,7 +2600,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .timeline-content {
   padding: 10px 50px;
   position: relative;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-weight: 600;
 }
 
@@ -2610,7 +2623,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .timeline-header {
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   text-transform: uppercase;
   font-size: 28px;
   margin-top: 5px;
@@ -2698,7 +2711,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
   margin: 0 auto;
   border: 4px solid rgb(236, 34 ,36);
   color: #fff;
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 18px;
   text-transform: uppercase;
   padding: 10px 15px;
@@ -2726,7 +2739,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 
 .contact p,
 .contacts-card p {
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 20px;
   margin: 0;
   position: relative;
@@ -2735,7 +2748,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .contacts-phone {
   position: relative;
   display: block;
-  font-family: "Roboto Medium";
+  font-family: "Roboto Medium", sans-serif;
   font-size: 28px;
   text-decoration: none;
   color: rgb(42, 42, 42);
@@ -2798,14 +2811,14 @@ input:invalid:not(:placeholder-shown) + .form__error {
 }
 
 .contacts-card h2 {
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 40px;
   text-transform: uppercase;
   margin-bottom: 40px;
 }
 
 .contacts-card h3 {
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 24px;
   text-transform: uppercase;
   color: rgb(236, 34, 36);
@@ -2815,7 +2828,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .contacts-email,
 .contacts-vk {
   position: relative;
-  font-family: "Geometria Regular";
+  font-family: "Geometria Regular", serif;
   font-size: 18px;
   color: rgb(42, 42, 42);
   margin-left: 28px;
@@ -2862,7 +2875,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 .contacts-to-catalog {
   width: 300px;
   display: block;
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 18px;
   text-transform: uppercase;
   text-align: center;
@@ -2886,7 +2899,7 @@ input:invalid:not(:placeholder-shown) + .form__error {
 ul.breadcrumb-c {
   padding: 8px 0px;
   list-style: none;
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 16px;
   font-weight: bold;
 }
@@ -2932,12 +2945,12 @@ ul.breadcrumb-c li a {
 }
 
 .about-us-description h2 {
-  font-family: "Geometria Bold";
+  font-family: "Geometria Bold", serif;
   font-size: 90px;
 }
 
 .about-us-description p {
-  font-family: "Geometria Light";
+  font-family: "Geometria Light", serif;
   font-size: 18px;
   font-weight: 600;
   margin-top: 30px;

@@ -1,69 +1,13 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+@extends('template.site')
+
+@section('content')
+
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-  <link rel="stylesheet" href="{{ asset('css/stylesheet.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/media.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/font-awesome-4.7.0/css/font-awesome.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('fonts/fonts.css') }}">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <script src="{{ asset('js/jquery/dist/jquery.js') }}"></script>
-  <title>Дом Посуды</title>
-</head>
-<body>
-  <header>
-    <div class="header-top">
-      <div class="container-custom container-header-top">
-        <a class="toggle open" href="#nav">МЕНЮ</a>
-        <nav class="header-navigation" id="nav">
-          <a class="toggle close" href="#">X</a>
-          <ul class="header-menu">
-            <li><a href="/">Главная</a></li>
-            <li><a href="/about">О нас</a></li>
-            <li><a href="/catalog">Каталог товаров</a></li>
-            <li><a href="/news">Новости</a></li>
-            <li><a href="#">Обратная связь</a></li>
-            <li><a href="/delivery">Доставка</a></li>
-            <li><a href="/contacts">Контакты</a></li>
-          </ul>
-        </nav>
-        <div class="header-auth">
-          <a href="/account">Личный кабинет</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="header-bottom">
-      <div class="container-custom container-header-bottom">
-        <div class="header-logo">
-          <img src="{{ asset('img/logo.svg') }}" alt="Дом посуды">
-        </div>
-        <div class="header-brand">
-          <h1>Дом посуды</h1>
-          <p>Интернет-магазин уютной посуды</p>
-        </div>
-        <div class="header-search">
-          <form action="">
-            <input type="search" placeholder="Поиск">
-          </form>
-        </div>
-        <div class="header-cart">
-          <h4>Корзина</h4>
-          <p>15 товаров на 4500 &#8381;</p>
-        </div>
-        <div class="header-mobile">
-          <h4>8 812 934 17 41</h4>
-          <p>Контактный телефон</p>
-        </div>
-      </div>
-    </div>
-  </header>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
 
 <section class="catalog-links">
   <div class="container-custom">
@@ -80,7 +24,7 @@
 
 <div class="container-custom">
   <ul class="breadcrumb-c">
-    <li><a href="#">Главная</a></li>
+    <li><a href="/">Главная</a></li>
     <li>О нас</li>
   </ul>
 </div>
@@ -175,5 +119,4 @@
  document.getElementById("defaultOpen").click();
  </script>
 
-</body>
-</html>
+@endsection()

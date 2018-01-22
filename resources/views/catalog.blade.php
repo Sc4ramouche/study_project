@@ -177,7 +177,13 @@
       <div class="catalog-goods-container">
         <div class="catalog-header">
           <div class="catalog-amount">
-            <p>1-15 из 35</p>
+              <!-- <p>
+                <label id="products-on-page-start">1</label>
+                -
+                <label id="products-on-page-end">1</label>
+                из
+                <label class="products-count" >{{ $products_count }}</label>
+              </p> -->
           </div>
 
 
@@ -201,7 +207,6 @@
 
 
             </div>
-
         <div class="catalog-grid">
             @if(count($products) > 0)
                 @foreach($products as $value)
@@ -217,19 +222,18 @@
                 </div>
                 @endforeach
             @endif
-          <!-- <div class="catalog-grid-item">
-            <div class="grid-item-img">
-              <img src="../img/catalog.jpg" alt="image">
-            </div>
-            <h4 class="grid-item-name">Кастрюля <span class="brand-name">Nadoba Augusta</span></h4>
-            <hr class="promo-line">
-            <b class="grid-item-price">1 930&#8381;</b>
-          </div> -->
-      </div>
+        </div>
       <div class="catalog-footer">
         <div class="catalog-amount">
-          <p>1-15 из 35</p>
+          <p>
+            <label id="products-on-page-start">1</label>
+            -
+            <label id="products-on-page-end">1</label>
+            из
+            <label class="products-count" >{{ $products_count }}</label>
+          </p>
         </div>
+
         <div class="catalog-pages">
             @for($i = 1; $i <= $page_count; $i++)
                 @if($i === 1)
@@ -239,6 +243,7 @@
                 @endif
             @endfor
         </div>
+
         <div class="catalog-show-all">
           <button type="button" name="button" class="show-all">Показать всё</button>
         </div>
@@ -265,29 +270,6 @@ $( function() {
 } );
 </script>
 
-<div class="products-list">
-  <h1>-----------СЕТКА-----------</h1>
-  @if(count($products) > 0)
-  @foreach($products as $value)
-  @if ($value->IsNew)
-  NEW
-  @endif
-  @if ($value->IsLeader)
-  HOT
-  @endif
-  @if ($value->IsRecomend)
-  RECOMENDED
-  @endif
-  {{ $value->type }}
-  {{ $value->brand }}
-  {{ $value->model}}
-  {{ $value->Price }}руб
-  <img src="../img/{{ $value->pic }}.jpg"><br>
-  @endforeach
-  @else
-  <h1>Новинки</h1>
-  @endif
-</div>
 
 
 @endsection()

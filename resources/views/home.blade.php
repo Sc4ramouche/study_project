@@ -106,12 +106,12 @@
   </div>
 </section>
 
-<section class="news">
+<section class="news clearfix">
   <div class="container">
     <h2>Новости</h2>
     <hr class="promo-line">
     <div class="container-news">
-      <div class="news-item">
+      <div class="news-item clearfix">
         <img src="img/home-news.jpg" alt="Новости">
         <h3>Новая коллекция посуды от Luminarc Harena</h3>
         <p>Белоснежная линейка столовой посуды
@@ -119,7 +119,7 @@
          так и поклонникам современного дизайна.</p>
          <a href="#">Читать далее</a>
       </div>
-      <div class="news-item">
+      <div class="news-item clearfix">
         <img src="img/home-news.jpg" alt="Новости">
         <h3>Новая коллекция посуды от Luminarc Harena</h3>
         <p>Белоснежная линейка столовой посуды
@@ -127,7 +127,7 @@
          так и поклонникам современного дизайна.</p>
          <a href="#">Читать далее</a>
       </div>
-      <div class="news-item">
+      <div class="news-item clearfix">
         <img src="img/home-news.jpg" alt="Новости">
         <h3>Новая коллекция посуды от Luminarc Harena</h3>
         <p>Белоснежная линейка столовой посуды
@@ -144,7 +144,7 @@
     <h2>О нас</h2>
     <hr class="promo-line">
     <div class="container-about-us">
-      <div class="about-us-description">
+      <div class="home-about-us-description">
         <p class="first-paragraph">Интернет-магазин Дом Посуды предлагает широкий выбор
         товаров для вашей кухни от лучших производителей.
         Представленная в каталоге продукция поможет в сервировке
@@ -179,7 +179,7 @@
   </form>
 </section>
 
-<footer class="home-footer">
+<footer class="home-footer" id="footer">
   <div class="container container-footer">
     <div class="footer-brand">
       <h1>Дом посуды</h1>
