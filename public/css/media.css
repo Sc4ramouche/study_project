@@ -60,6 +60,12 @@
   .jumbotron {
     margin-top: 20px;
   }
+
+  .contacts-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 200px 200px;
+    grid-gap: 30px;
+  }
 }
 
 @media only screen and (max-width: 866px) {
@@ -72,5 +78,24 @@
   .news-page-container {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(380px, 8);
+  }
+
+  .container-footer {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 400px 400px;
+    grid-gap: 40px;
+  }
+
+  .catalog-home {
+    grid-template-columns: 1fr 1fr;
+    grid-template: 400px;
+    grid-row-gap: 70px;
+  }
+}
+
+@media only screen and(max-width: 700px) {
+  .container-footer {
+    grid-template-columns: 1fr;
+    grid-template-rows: 400px 400px 400px 400px;
   }
 }

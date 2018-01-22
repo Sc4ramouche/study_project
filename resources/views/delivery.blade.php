@@ -4,7 +4,7 @@
 
 <div class="container">
   <ul class="breadcrumb">
-    <li><a href="#">Главная</a></li>
+    <li><a href="/">Главная</a></li>
     <li>Новости</li>
   </ul>
 </div>
@@ -51,6 +51,6 @@
     </div>
 
 </div>
-<a href="#" class="make-order">Оформить заказ</a>
+<a href="/cart" class="make-order">Оформить заказ</a>
 
 @endsection()

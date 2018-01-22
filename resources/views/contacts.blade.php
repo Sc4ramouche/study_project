@@ -17,7 +17,7 @@
 
 <div class="container">
   <ul class="breadcrumb">
-    <li><a href="#">Главная</a></li>
+    <li><a href="/">Главная</a></li>
     <li>Контакты</li>
   </ul>
 </div>
