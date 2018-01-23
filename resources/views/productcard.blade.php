@@ -17,10 +17,10 @@
 
 <div class="container">
   <ul class="breadcrumb">
-    <li><a href="#">Главная</a></li>
-    <li><a href="#">Каталог товаров</a></li>
-    <li><a href="#">Наплитная посуда</a></li>
-    <li>Кастрюля Nadoba Augusta</li>
+    <li><a href="/">Главная</a></li>
+    <li><a href="/catalog/">Каталог товаров</a></li>
+    <li><a href="/catalog/">{{ $product[0]->subname }}</a></li>
+    <li>{{ $product[0]->type }} {{ $product[0]->model }} {{ $product[0]->brand }}</li>
   </ul>
 </div>
 
@@ -57,7 +57,7 @@
       <h4>В наличии</h4>
       <b class="card-price">{{ $product[0]->Price }}&#8381;</b>
       <form class="card-info-form" action="index.html" method="post">
-        <div class="card-form-color">
+        <!-- <div class="card-form-color">
           <label for="color">Цвет</label>
             <div class="card-form-container">
               <label class="checkmark-container">
@@ -72,7 +72,7 @@
                 <span class="card-checkmark" id="blue"></span>
               </label>
             </div>
-        </div>
+        </div> -->
         <div class="card-form-quantity">
           <!-- <label for="number">Количество</label>
           <input type="number" name="quanity" value="1" min="1"> -->
@@ -95,43 +95,37 @@
     <div class="catalog-tab">
       <button class="tablinks" onclick="openSection(event, 'Description')" id="defaultOpen">Описание</button>
       <button class="tablinks" onclick="openSection(event, 'Characteristics')">Характеристики</button>
-      <button class="tablinks" onclick="openSection(event, 'Reviews')">Отзывы(2)</button>
+      <!-- <button class="tablinks" onclick="openSection(event, 'Reviews')">Отзывы(2)</button> -->
     </div>
 
     <!-- Tab content -->
     <div id="Description" class="tabcontent">
-      <p class="card-paragraph"><strong class="item-name">Кастрюля  Nadoba Augusta</strong>
-        подойдет для приготовления
-        широкого спектра блюд: супов, каш, а также
-        для тушения и пассеровки овощей. Равномерное
-        распределение тепла способствует ускорению процесса
-        приготовления блюд, сохраняя при этом большое
-        количество полезных веществ и витаминов.
-        Кастрюля подходит для использования со всеми видами
-        плит, включая индукционные.
-  </p>
+      <p class="card-paragraph">
+          {{ $product[0]->Description }}
+      </p>
     </div>
 
     <div id="Characteristics" class="tabcontent">
       <dl class="card-characteristics">
-        <dt>Модель:</dt>
-        <dd>Augusta</dd>
         <dt>Артикул:</dt>
-        <dd>950493</dd>
-        <dt>Подходит для индукционных плит:</dt>
-        <dd>да</dd>
-        <dt>Материал:</dt>
-        <dd>алюминий,	нержавеющая сталь</dd>
-        <dt>Материал крышки:</dt>
-        <dd>стекло</dd>
-        <dt>Страна производителя:</dt>
-        <dd>Чешская Республика</dd>
+        <dd>{{ $product[0]->VENDOR_CODE }}</dd>
+        <dt>Модель:</dt>
+        <dd>{{ $product[0]->model }}</dd>
         <dt>Бренд:</dt>
-        <dd>Nadoba</dd>
+        <dd>{{ $product[0]->brand }}</dd>
+        <dt>Страна производителя:</dt>
+        <dd>{{ $product[0]->country }}</dd>
+        <dt>Материал:</dt>
+        <dd>{{ $product[0]->material }}</dd>
+        @foreach($characteristic as $val)
+        <dt>{{ $val->name }}:</dt>
+        <dd>{{ $val->value }}</dd>
+        @endforeach
+
       </dl>
     </div>
 
-    <div id="Reviews" class="tabcontent">
+    <!-- <div id="Reviews" class="tabcontent">
       <div class="card-review">
         <div class="card-stars">
         </div>
@@ -154,7 +148,7 @@
           Моя помошница по хозяйству.</p>
         </blockquote>
       </div>
-    </div>
+    </div> -->
   </div>
 </section>
 

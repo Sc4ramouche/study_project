@@ -668,7 +668,9 @@ function get_product_by_id($id) {
                 ->join('BREND','PRODUCT.ID_BREND', '=', 'BREND.ID_BREND')
                 ->join('MODEL', 'PRODUCT.ID_MODEL', '=', 'MODEL.ID_MODEL')
                 ->join('PICTURE', 'PRODUCT.ID_PICTURE', '=', 'PICTURE.ID_PICTURE')
-                ->select('PRODUCT.*', 'SUBCATEGORY.Type as type', 'BREND.Name as brand', 'PICTURE.Name as pic', 'MODEL.Name as model')
+                ->join('MATERIAL', 'PRODUCT.ID_MATERIAL', '=', 'MATERIAL.ID_MATERIAL')
+                ->join('COUNTRY', 'PRODUCT.ID_COUNTRY', '=', 'COUNTRY.ID_COUNTRY')
+                ->select('PRODUCT.*', 'SUBCATEGORY.Type as type', 'SUBCATEGORY.Name as subname', 'BREND.Name as brand', 'PICTURE.Name as pic', 'MODEL.Name as model', 'MATERIAL.Name as material', 'COUNTRY.Name as country')
                 ->where('PRODUCT.VENDOR_CODE', $id)
                 ->get();
     return $data;
@@ -680,6 +682,17 @@ function get_sub_picture($id) {
                 ->select('SECONDPICTURE.Name as sec_pic')
                 ->where('SECONDPICTURE.VENDOR_CODE', $id)
                 ->get();
+    return $data;
+}
+
+function get_characteristic($id) {
+    $data = DB::table('ALLCHARACTERISTICS')
+                ->join('CHARACTERISTICSUBC', 'ALLCHARACTERISTICS.ID_CHARACTERISTICSUBC', '=', 'CHARACTERISTICSUBC.ID_CHARACTERISTICSUBC')
+                ->join('VALUESUBC', 'ALLCHARACTERISTICS.ID_VALUESUBC', '=', 'VALUESUBC.ID_VALUESUBC')
+                ->select('CHARACTERISTICSUBC.Name as name', 'VALUESUBC.Name as value')
+                ->where('ALLCHARACTERISTICS.VENDOR_CODE',$id)
+                ->get();
+
     return $data;
 }
 
@@ -814,6 +827,7 @@ class CatalogController extends Controller
         $sub_picture = get_sub_picture($id);
         $sub_id = $product[0]->ID_SUBCATEGORY;
         $related_products = get_related_products($sub_id);
+        $characteristic = get_characteristic($id);
 
         // dd($product, $sub_picture);
 
@@ -821,6 +835,7 @@ class CatalogController extends Controller
                                     'product' => $product,
                                     'sub_pic' => $sub_picture,
                                     'related_products' => $related_products,
+                                    'characteristic' => $characteristic,
                                    ]);
     }
 
