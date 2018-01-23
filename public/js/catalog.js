@@ -24,7 +24,7 @@ $(document).ready(function(){
         //Получение числа продуктов для отображения на одной странице
         take_count = $('#list-count option:selected').val();
         //Получение числа всех продуктов
-        var products_count = $('.products-count').text();
+        var products_count = $('#products-count').text();
         var page_count = Math.ceil(products_count / take_count); //Число страниц
         $('.catalog-pages').empty();
         var code;
@@ -62,11 +62,10 @@ $(document).ready(function(){
     $('.catalog-filter-form').on('submit', function(evt){
         //alert('2 - ' + take_count);
         if(!flag_up_filter){
-            take_count = 2; //products_on_page
+            take_count = 12; //products_on_page
             page_number = 1;
             skip_count = 0;
             reset_pagination();
-
         }
 
         evt.preventDefault();

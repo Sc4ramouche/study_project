@@ -32,6 +32,7 @@
         <form class="catalog-filter-form" action="/catalog/filter" method="post">
           <input type="hidden" id="cat_id" value="{{ $category_id }}">
           <input type="hidden" id="sub_id" value="{{ $subcategory_id }}">
+          @if($category_id != 0)
           <h2>Категория</h2>
           <dl class="category-list">
             @foreach ($filters['subcategory'] as $value)
@@ -40,6 +41,7 @@
               <dd>{{ $value['sub_count'] }}</dd></a>
               @endforeach
             </dl>
+            @endif
 
             <dl class="category-list">
               <div class="catalog-country">
@@ -95,16 +97,16 @@
               <br>От<input type="text" id="price_min" name="price_min" value="" placeholder="{{ $filters['price_min'] }}"></input>
               <br>До<input type="text" id="price_max" name="price_max" value="" placeholder="{{ $filters['price_max'] }}"></input> <br>
               <!-- Прайсы владика -->
-              <div class="catalog-slider">
-                <div>
-                  <label for="amount"></label>
-                  <input type="text" id="amount" readonly style="border:0; font-weight:bold;">
-                </div>
-                <div id="slider-range"></div>
-              </div>
+                  <!-- <div class="catalog-slider">
+                    <div>
+                      <label for="amount"></label>
+                      <input type="text" id="amount" readonly style="border:0; font-weight:bold;">
+                    </div>
+                    <div id="slider-range"></div>
+                  </div> -->
             </div>
 
-            <div class="card-form-color">
+            <!-- <div class="card-form-color">
               <h2>Цвет</h2>
               <div class="card-form-container">
                 <label class="checkmark-container">
@@ -140,7 +142,7 @@
                   <span class="card-checkmark" id="violet"></span>
                 </label>
               </div>
-            </div>
+            </div> -->
 
             <input id='set_filter' type="submit" name="submit" value="Применить"></input>
             <input type="reset" name="reset" value="Сбросить"></input>
@@ -181,9 +183,10 @@
                 <label id="products-on-page-start">1</label>
                 -
                 <label id="products-on-page-end">1</label>
-                из
+                из -->
+                Всего товаров:
                 <label class="products-count" >{{ $products_count }}</label>
-              </p> -->
+              </p>
           </div>
 
 
@@ -226,11 +229,11 @@
       <div class="catalog-footer">
         <div class="catalog-amount">
           <p>
-            <label id="products-on-page-start">1</label>
+            <!-- <label id="products-on-page-start">1</label>
             -
-            <label id="products-on-page-end">1</label>
-            из
-            <label class="products-count" >{{ $products_count }}</label>
+            <label id="products-on-page-end">12</label> -->
+            Всего товаров:
+            <label id="products-count"  class="products-count" >{{ $products_count }}</label>
           </p>
         </div>
 
@@ -244,9 +247,9 @@
             @endfor
         </div>
 
-        <div class="catalog-show-all">
+        <!-- <div class="catalog-show-all">
           <button type="button" name="button" class="show-all">Показать всё</button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -254,7 +257,7 @@
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<script>
+<!-- <script>
 $( function() {
   $( "#slider-range" ).slider({
     range: true,
@@ -268,7 +271,7 @@ $( function() {
   $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
   " - $" + $( "#slider-range" ).slider( "values", 1 ) );
 } );
-</script>
+</script> -->
 
 
 
