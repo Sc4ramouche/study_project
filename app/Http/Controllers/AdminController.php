@@ -133,7 +133,8 @@
       public function GetSubCatChar(Request $request) {
         $Response = []; //ответ на запрос
 
-        $AllCharacteristicsSub = DB::table('ALLCHARACTERISTICS')->where('ID_SUBCATEGORY', $request->id_SubCategory)->get();
+        // $AllCharacteristicsSub = DB::table('ALLCHARACTERISTICS')->where('ID_SUBCATEGORY', $request->id_SubCategory)->get();
+        $AllCharacteristicsSub = DB::table('ALLCHARACTERISTICS')->where('VENDOR_CODE', $request->id_SubCategory)->get();
 
         //пройтись по каждой характеристике, и разобрать ее
         for ($i = 0; $i < sizeof($AllCharacteristicsSub); $i++) {
@@ -161,47 +162,36 @@
       **/
       public function AddSubCatChar(Request $request) {
 
-        //проверить если ли введенная характертистика уже в таблице, если нет то добавить
-        $AllCharacteristics = DB::table('CHARACTERISTICSUBC')->get();
-        $ID_Characteristic = NULL;
-        for ($i = 0; $i < sizeof($AllCharacteristics); $i++) { 
-          if ($AllCharacteristics[$i]->Name == $request->nameChar)
-            $ID_Characteristic = $AllCharacteristics[$i]->ID_CHARACTERISTICSUBC;
+        
+        $AllProducts = DB::table('PRODUCT')->where('ID_SUBCATEGORY', $request->id_subCategory)->get();
+
+        $AllChar = DB::table('CHARACTERISTICSUBC')->get();
+        $NewCharId = NULL;
+        $flag = false;
+        for ($i = 0; $i < sizeof($AllChar); $i++) { 
+          if ($AllChar[$i]->Name == $request->nameChar) {
+            $NewCharId = $AllChar[$i];
+            $flag = true;
+            break;
+          }
         }
 
-        //если веденная характеристика не встречалась ранее добавить
-        //и получить идентификатор
-        if (is_null($ID_Characteristic) == true) {
+        if ($flag == false) {
           DB::table('CHARACTERISTICSUBC')->insert(
             ['Name' => $request->nameChar]);
-          $ID_Characteristic = DB::table('CHARACTERISTICSUBC')->where('Name', $request->nameChar)->first()->ID_CHARACTERISTICSUBC;
-
-        }
-        
-        //проверить есть ли введенное значение характеристики уже в таблице, если нет то добавить
-        //и получить идентификатор
-        $AllValuesChar = DB::table('VALUESUBC')->get();
-        $ID_ValueChar = NULL;
-        for ($i = 0; $i < sizeof($AllValuesChar); $i++) { 
-          if ($AllValuesChar[$i]->Name == $request->valueChar)
-            $ID_ValueChar = $AllValuesChar[$i]->ID_VALUESUBC;
+          $NewCharId = DB::table('CHARACTERISTICSUBC')->where('Name', $request->nameChar)->first();
         }
 
-        //если введенное значение характеристики не встречалось ранее
-        if (is_null($ID_ValueChar) == true) {
-          DB::table('VALUESUBC')->insert(
-            ['Name' => $request->valueChar]);
-          $ID_ValueChar = DB::table('VALUESUBC')->where('Name', $request->valueChar)->first()->ID_VALUESUBC;
+        for ($i = 0; $i < sizeof($AllProducts); $i++) { 
+          DB::table('ALLCHARACTERISTICS')->insert(
+            [
+              'ID_SUBCATEGORY' => $request->id_subCategory,
+              'ID_CHARACTERISTICSUBC' => $NewCharId->ID_CHARACTERISTICSUBC,
+              'ID_VALUESUBC' => 7,
+              'VENDOR_CODE' => $AllProducts[$i]->VENDOR_CODE
+            ]
+          );
         }
-
-        //добавить новую запись в таблицу Характеристики для Подкатегорий
-        DB::table('ALLCHARACTERISTICS')->insert(
-          [
-            'ID_SUBCATEGORY' => $request->id_subCategory,
-            'ID_CHARACTERISTICSUBC' => $ID_Characteristic,
-            'ID_VALUESUBC' => $ID_ValueChar
-          ]
-        );
 
         //вернуть ответ на запрос в JSON формате(Успешный ответ)
         $response = array(
@@ -229,18 +219,28 @@
       **/
       public function RedactSubCatChar(Request $request) {
 
-        //Найти по идентификатору поля всех характеристик ключи характеристики и значения
-        $Characteristic = DB::table('ALLCHARACTERISTICS')->where('ID_ALLCHARACTERISTICS', $request->id_CharSub)->first();
+          $AllVal = DB::table('VALUESUBC')->get();
+          $NewVal = NULL;
+          $flag = false;
+          for ($i = 0; $i < sizeof($AllVal); $i++) { 
+            if ($AllVal[$i]->Name == $request->valueChar) {
+              $NewVal = $AllVal[$i];
+              $flag = true;
+              break;
+            }
+          }
 
-        //Поменять по ключу название характеристики
-        DB::table('CHARACTERISTICSUBC')
-                            ->where('ID_CHARACTERISTICSUBC', $Characteristic->ID_CHARACTERISTICSUBC)
-                            ->update(['Name' => $request->nameChar]);
+          //если такого значения еще не было, то добавить его
+          if ($flag == false) {
+            DB::table('VALUESUBC')->insert([
+              'Name' => $request->valueChar]);
+          }
+          
+          $NewVal = DB::table('VALUESUBC')->where('Name', $request->valueChar)->get()->first();
+          DB::table('ALLCHARACTERISTICS')->where('ID_ALLCHARACTERISTICS', $request->id_CharSub)
+                                          ->update(['ID_VALUESUBC' => $NewVal->ID_VALUESUBC]);
 
-        //Поменять по ключу название значения характеристики
-        DB::table('VALUESUBC')
-                      ->where('ID_VALUESUBC', $Characteristic->ID_VALUESUBC)
-                      ->update(['Name' => $request->valueChar]);
+
 
         //вернуть ответ на запрос в JSON формате(Успешный ответ)
         $response = array(
@@ -903,5 +903,9 @@
       public function getAllEmail() {
         $Email = DB::table('Dispatch')->get();
         return json_encode($Email);
+      }
+
+      public function GetSubCharProd(Request $request) {
+
       }
   }

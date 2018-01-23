@@ -60,6 +60,8 @@ Route::POST('/admin/AddSubCatChar', 'AdminController@AddSubCatChar');
 Route::PUT('/admin/RedactSubCatChar', 'AdminController@RedactSubCatChar');
 Route::DELETE('/admin/DeleteSubCatChar', 'AdminController@DeleteSubCatChar');
 
+Route::GET('/admin/GetSubCharProd', 'AdminController@GetSubCharProd');
+
 //Для названий характеристик
 Route::GET('/admin/GetCharacteristic', 'AdminController@GetCharacteristic');
 

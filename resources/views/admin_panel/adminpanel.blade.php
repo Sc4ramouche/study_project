@@ -235,7 +235,21 @@
 		//Отображает таблицу выбранной подкатегории товара
 		$('body').on("click", '#ShowSubCategoryTable', function() {
 			$('#ResponseTable').empty();
+			GetAllProducts(function(AllProducts) {
+				$('#ResponseTable').append("<label>Выберите артикул товара: <label>");
+				$('#ResponseTable').append("<select id='NewProducts'></select><br>");
+				for (var i = 0; i < AllProducts.length; i++) {
+					$('#ResponseTable').find("select").append("<option value=" + AllProducts[i].VendoreCode + ">" + 
+																			AllProducts[i].VendoreCode + "</option>");
+				}
+				$('#ResponseTable').append("<button id='ShowCharacteristicsProduct'>Просмотреть характеристики продукта</button>");
+			}, $('#SubCategoryForChar').val());
+			
+		});
+
+		$('body').on("click", '#ShowCharacteristicsProduct', function() {
 			GetSubCharacteristics(function(SubCharacteristics) {
+				$('#ResponseTable').find("table").remove();
 				$('#ResponseTable').append("<table width='700' border='1'></table>")
 				$('#ResponseTable').find('table').append("<tr><td>Номер</td><td>Наименование характеристики</td>" +
 														"<td>Значение характеристики</td></tr>");
@@ -252,8 +266,8 @@
 					alert("Данная подкатегория не имеет характеристик");
 					return;
 				}
-			},$('#SubCategoryForChar').val())
-
+			},$("#NewProducts").val())
+						// $('#ResponseTable').empty();
 		});
 
 		//Отловить нажатие на динамическую кнопку с id = InsertNewCharForSub
@@ -264,7 +278,7 @@
 			if ( $('#NewCharForSub').val() != '' ) {
 				//проверка на ввод значения новой характеристики для подкатегории в форму
 				if ( $("#NewValueForCharSub").val() != '' )
-					AddCharacteristicsSub($('#NewCharForSub').val(), $('#SubCategoryForChar').val(), $('#NewValueForCharSub').val());
+					AddCharacteristicsSub($('#NewCharForSub').val(), $('#SubCategoryForChar').val());
 				//иначе, если не было введено значение
 				else {
 					alert("Введите значение новой характеристики!");
@@ -284,30 +298,68 @@
 		//Поля характеристики: Characteristic (название), Value (значение), ID_SubChar(нормер характеристики для подкатегории)
 		$('body').on("click", "#ShowCharSubForRedact", function() {
 			$('#ResponseTable').empty();
-			GetSubCharacteristics(function(SubCharacteristics) {
-				//если у подкатегория  имеет  0 характеристи
-				if (SubCharacteristics.length == 0) {
+			GetAllProducts(function(AllProducts) {
+				if (AllProducts.length == 0) {
 					alert("Данная подкатегория не имеет характеристик");
 					return;
 				}
-				//функция для вывода таблицы с характеристиками
-				ShowCharacteristicTable(SubCharacteristics);
-				$('#ResponseTable').append("<label>Отредактируйте выбранную характеристику: </label>");
-				$('#ResponseTable').append("<input type='text' id='NameCharEdit'/>  ");
-				$('#ResponseTable').append("<input type='text' id='ValueCharEdit'/>");
-				$('#ResponseTable').append("<br><button id='ReductCharForSubButton'>Редактировать</button>");
-			},$('#SubCategoryForChar').val())
+				$('#ResponseTable').append("<label>Выберите артикул товара: <label>");
+				$('#ResponseTable').append("<select id='NewProducts'></select><br>");
+				for (var i = 0; i < AllProducts.length; i++) {
+					$('#ResponseTable').find("select").append("<option value=" + AllProducts[i].VendoreCode + ">" + 
+																			AllProducts[i].VendoreCode + "</option>");
+				}
+				$('#ResponseTable').append("<button id='ShowCharForRed'>Просмотреть характеристики продукта</button>");
+			}, $('#SubCategoryForChar').val());
+		});
+
+		$('body').on("click", "#ShowCharForRed", function() {
+			GetSubCharacteristics(function(SubCharacteristics) {
+				$('#ResponseTable').find("table").remove();
+				$("#NameCharEdit").remove();
+				$("#ValueCharEdit").remove();
+				$("#ReductCharForSubButton").remove();
+				$('#labelRed').remove();
+				$('#ResponseTable').append("<table width='700' border='1'></table>")
+				$('#ResponseTable').find('table').append("<tr><td>Номер</td><td>Наименование характеристики</td>" +
+														"<td>Значение характеристики</td></tr>");
+
+				//если у подхарактеристики имеется хоть 1 значение, то вывести его
+				if (SubCharacteristics.length > 0) {
+					for (var i = 0; i < SubCharacteristics.length; i++) {
+						$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" +
+																"<td id=CharName" + SubCharacteristics[i].ID_SubChar + ">" + SubCharacteristics[i].Characteristic + "</td>" + 
+																"<td id=CharVal" + SubCharacteristics[i].ID_SubChar + ">" + SubCharacteristics[i].Value + "</td>" + 
+																"<td><input name='CharProduct' type='radio' value='" +
+																	SubCharacteristics[i].ID_SubChar + "'</td></tr>");
+					}
+					$('#ResponseTable').append("<label  id='labelRed'>Отредактируйте выбранную характеристику: </label>");
+					$('#ResponseTable').append("<input type='text' id='NameCharEdit'/>  ");
+					$('#ResponseTable').append("<input type='text' id='ValueCharEdit'/>");
+					$('#ResponseTable').append("<button id='ReductCharForSubButton'>Редактировать</button>");
+				}
+				else {
+					alert("Данная подкатегория не имеет характеристик");
+					return;
+				}
+			},$("#NewProducts").val())
+						// $('#ResponseTable').empty();
+		});
+
+		$('body').on("click", "input[name=CharProduct]", function() {
+			$('#NameCharEdit').attr('value', $('#CharName' + $('input[name=CharProduct]:checked').val()).text() );
+			$('#ValueCharEdit').attr('value', $('#CharVal' + $('input[name=CharProduct]:checked').val()).text() );
 		});
 
 		//Отлавливает нажатие на динамическую кнопку с id = ReductCharForSubButton
 		//Отправляет AJAX PUT-запрос, чтобы редактировать выбранную характеристику подкатегории
 		$('body').on("click", '#ReductCharForSubButton', function() {
-			if ('value', $('#Name' + $('input[name=Characteristic]:checked').val()).text() == '') {
+			if ($('#CharName' + $('input[name=CharProduct]:checked').val()).text() == '') {
 				alert("Вы не выбрали характеристику для изменения!");
 				return;
 			}
 			else 
-				PutCharacteristicsSub( $('input[name=Characteristic]:checked').val(), $('#NameCharEdit').val(), $('#ValueCharEdit').val() );
+				PutCharacteristicsSub( $('input[name=CharProduct]:checked').val(), $('#NameCharEdit').val(), $('#ValueCharEdit').val() );
 		});
 
 		//Отловить изменение input RadioButton с name =  Characteristic
@@ -327,27 +379,60 @@
 		//Отправляет AJAX GET-запрос, чтобы получить перечень характеристик выбранной подкатегории
 		$('body').on("click", '#ShowCharSubForDelete', function() {
 			$('#ResponseTable').empty();
-			GetSubCharacteristics(function(SubCharacteristics) {
-				if (SubCharacteristics.length == 0) {
+			GetAllProducts(function(AllProducts) {
+				if (AllProducts.length == 0) {
 					alert("Данная подкатегория не имеет характеристик");
 					return;
 				}
-				//функция для вывода таблицы с характеристиками
-				ShowCharacteristicTable(SubCharacteristics);
-				$('#ResponseTable').append("<button id='DeleteCharForSubButton'>Удалить</button>");
+				$('#ResponseTable').append("<label>Выберите артикул товара: <label>");
+				$('#ResponseTable').append("<select id='NewProducts'></select><br>");
+				for (var i = 0; i < AllProducts.length; i++) {
+					$('#ResponseTable').find("select").append("<option value=" + AllProducts[i].VendoreCode + ">" + 
+																			AllProducts[i].VendoreCode + "</option>");
+				}
+				$('#ResponseTable').append("<button id='ButtonCharForDelete'>Просмотреть характеристики продукта</button>");
 			}, $('#SubCategoryForChar').val());
 		});
+
+		$('body').on("click", "#ButtonCharForDelete" ,function() {
+			GetSubCharacteristics(function(SubCharacteristics) {
+				$('#ResponseTable').find("table").remove();
+				$("#NameCharEdit").remove();
+				$("#ValueCharEdit").remove();
+				$("#DeleteCorrectCharProd").remove();
+				$('#labelRed').remove();
+				$('#ResponseTable').append("<table width='700' border='1'></table>")
+				$('#ResponseTable').find('table').append("<tr><td>Номер</td><td>Наименование характеристики</td>" +
+														"<td>Значение характеристики</td></tr>");
+
+				//если у подхарактеристики имеется хоть 1 значение, то вывести его
+				if (SubCharacteristics.length > 0) {
+					for (var i = 0; i < SubCharacteristics.length; i++) {
+						$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" +
+																"<td id=CharName" + SubCharacteristics[i].ID_SubChar + ">" + SubCharacteristics[i].Characteristic + "</td>" + 
+																"<td id=CharVal" + SubCharacteristics[i].ID_SubChar + ">" + SubCharacteristics[i].Value + "</td>" + 
+																"<td><input name='CharProduct' type='radio' value='" +
+																	SubCharacteristics[i].ID_SubChar + "'</td></tr>");
+					}
+					$('#ResponseTable').append("<button id='DeleteCorrectCharProd'>Удалить</button>");
+				}
+				else {
+					alert("Данная подкатегория не имеет характеристик");
+					return;
+				}
+			},$("#NewProducts").val())
+		})
 
 		//Отловить нажатие на динамическую кнопку с id = DeleteCharForSubButton
 		//Отправить AJAX DELTE-запрос, чтобы удалить выбранную характеристику у подкатегории
 		//Передать на запрос значение из <radio>, который хранит идентификатор характеристики
-		$('body').on("click", "#DeleteCharForSubButton", function() {
-			if ( $('#Name' + $('input[name=Characteristic]:checked').val()).text() == '') {
-				alert("Вы не выбрали характеристику для удалени!");
+		$('body').on("click", "#DeleteCorrectCharProd", function() {
+			if ( $('#CharName' + $('input[name=CharProduct]:checked').val()).text() == '') {
+				alert("Вы не выбрали характеристику для удаления!");
 				return;
 			}
 			else 
-				DeleteCharacteristicsSub( $('input[name=Characteristic]:checked').val() );
+				DeleteCharacteristicsSub( $('input[name=CharProduct]:checked').val() );
 		});
 
 		//Отловить нажатие на динамическую кнопку с Id = AddBrendName
@@ -852,7 +937,7 @@
 	//Функция, которая отсылает AJAX GET-запрос на сервер
 	//Если response === 200, то возвращает перечень характеристик и значений выбранной подкатегории
 	//Как массив объектов
-	//Параметры массива: Characteristics, Value
+	//Параметры массива: Characteristics, Value, id_subchar
 	function GetSubCharacteristics(SubCharacteristics, id_SubCategory) {
 		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 		$.ajax({
@@ -891,13 +976,13 @@
 	//по адресу /admin/AddSubCatChar 
 	//данные, которые передаются по запросу: CSRF токен, название характеристики, 
 	//										ID категории, значение характеристики
-	function AddCharacteristicsSub(CharName, ID_SubCategory, CharValue) {
+	function AddCharacteristicsSub(CharName, ID_SubCategory) {
 		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 		$.ajax({
 			type: "POST",
 			url: "/admin/AddSubCatChar",
 			data: {_token: CSRF_TOKEN, nameChar: CharName, 
-					id_subCategory: ID_SubCategory, valueChar: CharValue},
+					id_subCategory: ID_SubCategory},
 			dataType: 'JSON',
 			success: function(data) {
 				alert("Новая характеристика добавлена!");
@@ -1566,7 +1651,7 @@
 			}
 			$('#Response').append("<label>Введите название подкатегории: </label>");
 			$('#Response').append("<input type='text' id='SubCategoryName'/><br>");
-			$('#Response').append("<label>Введите тип подкатегории: </label>");
+			$('#Response').append("<label>Введите название подкатегории в ед.ч. </label>");
 			$('#Response').append("<input type='text' id='SubCategoryType'/>");
 			$('#Response').append("<br><button id='InsertSubCategoryTable'>Добавить</button>");
 		});
@@ -1621,9 +1706,8 @@
 	function AddCharFromSub() {
 		GetAllSubCategory(function(AllSubCategory) {
 			ResponeForChar(AllSubCategory);
-			$('#Response').append("<label>Введите новую характеристику и значение подкатегории: </label>");
+			$('#Response').append("<label>Введите новую характеристику: </label>");
 			$('#Response').append("<input type='text' id='NewCharForSub'/>  ");
-			$('#Response').append("<input type='text' id='NewValueForCharSub'/>");
 			$('#Response').append("<br><button id='InsertNewCharForSub'>Добавить</button>");
 		});
 	};
@@ -1633,7 +1717,7 @@
 	function RedactCharFromSub() {
 		GetAllSubCategory(function(AllSubCategory) {
 			ResponeForChar(AllSubCategory);
-			$('#Response').append("<button id='ShowCharSubForRedact'>Отобразить характеристики</button>");
+			$('#Response').append("<button id='ShowCharSubForRedact'>Отобразить продукты</button>");
 		});
 	};
 
