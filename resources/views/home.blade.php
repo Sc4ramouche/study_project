@@ -179,72 +179,7 @@
   </form>
 </section>
 
-<footer class="home-footer" id="footer">
-  <div class="container container-footer">
-    <div class="footer-brand">
-      <h1>Дом посуды</h1>
-      <p>Интернет-магазин уютной посуды</p>
 
-      <p class="footer-description">Магазин Дом Посуды предлагает современную,
-      красивую посуду и огромный выбор товаров для кухни.
-      Наш каталог посуды включает в себя все
-      необходимое для создания домашнего уюта.
-      В ассортименте изделия из стекла, керамики, фарфора.
-      Все товары отличаются стильным дизайном и прекрасно
-      впишутся в декор любого дома.</p>
-      <hr class="footer-promo-line">
-      <p class="footer-adress">г. Санкт-Петербург  Дачный пр., д. 19 корп. 1</p>
-      <p class="footer-telephone">+ 8 812 934 17 41, +8 812 756 81 69</p>
-      <a href="#">info@domposudi.com</a>
-    </div>
-    <div class="footer-category">
-      <h2>Категории</h2>
-      <hr class="footer-promo-line promo-line-red">
-      <ul class="footer-menu">
-        <li><a href="/">Главная</a></li>
-        <li><a href="/about">О нас</a></li>
-        <li><a href="/catalog">Каталог товаров</a></li>
-        <li><a href="/news">Новости</a></li>
-        <li><a href="#">Обратная связь</a></li>
-        <li><a href="/delivery">Доставка</a></li>
-        <li><a href="/contacts">Контакты</a></li>
-      </ul>
-    </div>
-    <div class="footer-feedback">
-      <h2>Написать нам</h2>
-      <hr class="footer-promo-line promo-line-red">
-      <form class="footer-feedback-form" action="/SendEmail" method="post">
-        <input type="text" name="username" placeholder="Ваше имя">
-        <input type="email" name="email" placeholder="Ваша электронная почта">
-        <textarea name="message" rows="4" cols="30" placeholder="Ваше сообщение"></textarea>
-        <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
-        <input type="submit" name="submit" value="Отправить">
-      </form>
-    </div>
-    <div class="footer-social">
-      <h2>Мы Вконтакте</h2>
-      <hr class="footer-promo-line promo-line-red">
-      <div class="footer-gallery">
-        <img src="img/gallery-1.jpg" alt="gallery-item">
-        <img src="img/gallery-2.jpg" alt="gallery-item">
-        <img src="img/gallery-3.jpg" alt="gallery-item">
-        <img src="img/gallery-4.jpg" alt="gallery-item">
-        <img src="img/gallery-5.jpg" alt="gallery-item">
-        <img src="img/gallery-6.jpg" alt="gallery-item">
-        <img src="img/gallery-7.jpg" alt="gallery-item">
-        <img src="img/gallery-8.jpg" alt="gallery-item">
-        <img src="img/gallery-9.jpg" alt="gallery-item">
-      </div>
-    </div>
-  </div>
-
-  <hr class="footer-promo-line copyright-line">
-  <div class="footer-copyright">
-    <p>&copy; 2017 Торговая марка ДОМ ПОСУДЫ. Все права защищены.</p>
-    <p>Дизайн: Молодцова Виктория, Базаева Кристина</p>
-    <p>Разработка: Литвинов Кирилл, Клочков Сергей, Ковеченков Владислав.</p>
-  </div>
-</footer>
 
 <script>
 
