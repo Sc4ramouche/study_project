@@ -30,6 +30,10 @@
 	#hiddenHelp {
 		margin-bottom: 20px;
 	}
+
+	table {
+		table-layout: auto;
+	}
 </style>
 
 <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -63,6 +67,8 @@
 					<dd><a onclick="ShowAllProducts()" href="#" role="button">Просмотреть</a></dd>
 					<dd><a onclick="AddProduct()" href="#" role="button">Добавить</a></dd>
 					<dd><a onclick="DeleteProduct()" href="#" role="button">Удалить</a></dd>
+					<dd><a onclick="AddFirstPhoto()" href="#" role="button">Занести в базу лицевое изображение</a></dd>
+					<dd><a onclick="AddSecondPhoto()" href="#" role="button">Добавить второстепенное изображение</a></dd>
 				</span>
 			<dt><a onclick="hidetext('List5')" href="#" role="button">Бренды</a></dt>
 				<span id="List5">
@@ -129,7 +135,8 @@
 			<p><h4>3. Удаление данных.</h4>
 			При нажатии на кнопку "Удаление" Вам будет предоставлена таблица. Следует найти нужную позицию для удаления, после чего нажать на кнопку "Удалить". Перед тем как удалить выбранную позицию, следует проверить правильность выбора!</p>
 			<p><h4>4. Добавление данных.</h4>
-			При нажатии на кнопку "Добавить", Вам будет предоставленно несолько полей для ввода, которые следует запонить. ДАННЫЕ СЛЕДУЕТ ЗАПОЛНЯТЬ ВНИМАТЕЛЬНО! После заполнения полей следует проверить правильность ввода и выбора определенных критериев. После чего нажать кнопку "Добавить".</p>	
+			При нажатии на кнопку "Добавить", Вам будет предоставленно несолько полей для ввода, которые следует запонить. ДАННЫЕ СЛЕДУЕТ ЗАПОЛНЯТЬ ВНИМАТЕЛЬНО! После заполнения полей следует проверить правильность ввода и выбора определенных критериев. После чего нажать кнопку "Добавить".</p>
+			<p><h4>При выборе картинки (изображения) для товара, предполагается, что название изображения не должно содержать формат изображения. <br> Формат самого изображения должен быть только JPG.<br>Прежде чем добавить новый товар, надо занести лицевое изображение в базу данных!</h4></p>
 		</div>
 		<div id="Response">
 		</div>
@@ -179,7 +186,7 @@
 		$("#Response").empty();
 		$("#ResponseTable").empty();
 		GetAllEmails(function(AllEmails) {
-			$('#Response').append("<table width='700' border='1'></table>")
+			$('#Response').append("<table width='1000' border='1'></table>")
 			$('#Response').find('table').append("<tr><td>№</td><td>Почта</td></tr>");
 			for (var i = 0; i < AllEmails.length; i++) {
 				$('#Response').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
@@ -187,6 +194,65 @@
 			}
 		});
 	}
+
+	function AddFirstPhoto() {
+		$("#ResponseTable").empty();
+		$('#ResponseTable').append("<br><label>Выберите лицевое изображение товара: </label>");
+				$('#ResponseTable').append("<form action='/admin/AddFirstPic' enctype='multipart/form-data' method='post'>" + 
+											"<input name='_token' type='hidden' value='{{ csrf_token() }}'/>" + 
+											"<div class='form-group'>" + 
+											"<input type='file' name='img' accept='image/jpeg'/>" + 
+											"<button type='submit' class='btn btn-default btn-block'>Занести в базу</button>" + 
+											"</form>");
+	};
+
+	function AddSecondPhoto() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllSubCategory(function(AllSubCategory) {
+			$('#Response').append("<br><select id='SubCategoryProduct'></select>");
+			$('#SubCategoryProduct').append("<option selected='selected' disabled>Выберите подкатегорию</option>");
+			for (var i = 0; i < AllSubCategory.length; i++) {
+				for (var j = 0; j < AllSubCategory[i].SubCategoryArray.length; j++) {
+					$('#SubCategoryProduct').append("<option value=" + AllSubCategory[i].SubCategoryArray[j].ID_SUBCATEGORY + ">" + 
+																		AllSubCategory[i].SubCategoryArray[j].Name + "</option>");
+
+				}
+			}
+		});
+	};
+
+	$('body').on("change", '#SubCategoryProduct', function() {
+		$("#ResponseTable").empty();
+		GetAllProducts(function(AllProducts) {
+				$('#ResponseTable').append("<label id='labelProduct'>Выберите артикул товара: <label>");
+				$('#ResponseTable').append("<select id='NewProducts'></select>");
+				var Vendore;
+				for (var i = 0; i < AllProducts.length; i++) {
+					if (i == 0)
+						Vendore = AllProducts[i].VendoreCode;
+					$('#ResponseTable').find("select").append("<option value=" + AllProducts[i].VendoreCode + ">" + 
+																			AllProducts[i].VendoreCode + "</option>");
+				}
+				$('#ResponseTable').append("<br><label>Выберите второстепенное изображение товара: </label>");
+				$('#ResponseTable').append("<form action='/admin/AddSecondPic' enctype='multipart/form-data' method='post'>" + 
+											"<input name='_token' type='hidden' value='{{ csrf_token() }}'/>" + 
+											"<div class='form-group'>" + 
+											"<input type='file' name='img' accept='image/jpeg'/>" +
+											"<input hidden='true' type='text' name='vendore' value='" + Vendore + "'" + 
+											"</div>" + 
+											"<button type='submit' class='btn btn-default btn-block'>Добавить</button>" + 
+											"</form>");
+			},$('#SubCategoryProduct').val());
+	});
+
+	$('body').on('change', '#NewProducts', function() {
+		$('input[name="vendore"]').val( $('#NewProducts').val() );
+	})
+
+	$('body').on('click', '#AddSecondPic', function() {
+		AddPictureSecond($('#NewProducts').val(), $('input[name=NameFile]').val());
+	});
 
 	//Делегированная обработка событий для динамически добавленных документов
 	//ищет все нужные элементы в родительском теге (в данном случае - <body>)
@@ -250,7 +316,7 @@
 		$('body').on("click", '#ShowCharacteristicsProduct', function() {
 			GetSubCharacteristics(function(SubCharacteristics) {
 				$('#ResponseTable').find("table").remove();
-				$('#ResponseTable').append("<table width='700' border='1'></table>")
+				$('#ResponseTable').append("<table width='1000' border='1'></table>")
 				$('#ResponseTable').find('table').append("<tr><td>Номер</td><td>Наименование характеристики</td>" +
 														"<td>Значение характеристики</td></tr>");
 
@@ -320,7 +386,7 @@
 				$("#ValueCharEdit").remove();
 				$("#ReductCharForSubButton").remove();
 				$('#labelRed').remove();
-				$('#ResponseTable').append("<table width='700' border='1'></table>")
+				$('#ResponseTable').append("<table width='1000' border='1'></table>")
 				$('#ResponseTable').find('table').append("<tr><td>Номер</td><td>Наименование характеристики</td>" +
 														"<td>Значение характеристики</td></tr>");
 
@@ -401,7 +467,7 @@
 				$("#ValueCharEdit").remove();
 				$("#DeleteCorrectCharProd").remove();
 				$('#labelRed').remove();
-				$('#ResponseTable').append("<table width='700' border='1'></table>")
+				$('#ResponseTable').append("<table width='1000' border='1'></table>")
 				$('#ResponseTable').find('table').append("<tr><td>Номер</td><td>Наименование характеристики</td>" +
 														"<td>Значение характеристики</td></tr>");
 
@@ -591,14 +657,14 @@
 			$('#ResponseTable').empty();
 			// alert($('#SubCategoryForChar').val());
 			GetAllProducts(function(AllProducts) {
-				$('#ResponseTable').append("<table width='700' border='1'></table>")
+				$('#ResponseTable').append("<table width='1000' border='1'></table>")
 				$('#ResponseTable').find('table').append("<tr><td>№</td><td>Артикул товара</td>" + 
 														"<td>Артикул поставщика</td><td>Подкатегория</td>" + 
 														"<td>Наименование бренда</td><td>Наименование модели</td>" + 
 														"<td>Наименование страны</td>" + "<td>Наименвоание материала</td>"+ 
 														"<td>Наименование изображения</td>" + 
 														"<td>Ширина</td><td>Всоты</td><td>Длина</td><td>Вес</td>" + 
-														"<td>Статус</td></tr>");
+														"<td>Статус</td><td>Цена</td></tr>");
 				for (var i = 0; i < AllProducts.length; i++) {
 					$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" +
 																"<td>" + AllProducts[i]['VendoreCode'] + "</td>" +
@@ -613,7 +679,9 @@
 																"<td>" + AllProducts[i]['Height'] + "</td>" +
 																"<td>" + AllProducts[i]['Length'] + "</td>" +
 																"<td>" + AllProducts[i]['Width'] + "</td>" +
-																"<td>" + AllProducts[i]['Status'] + "</td></tr>");
+																"<td>" + AllProducts[i]['Status'] + "</td>" + 
+																"<td>" + AllProducts[i]['Price'] + "</td></tr>" +
+																"<tr><td></td><td>Описание: </td><td colspan='14'>" + AllProducts[i]['Description'] + "</td></tr>");
 				}
 			}, $('#SubCategoryForChar').val());
 		});
@@ -624,14 +692,14 @@
 			$('#ResponseTable').empty();
 			// alert($('#SubCategoryForChar').val());
 			GetAllProducts(function(AllProducts) {
-				$('#ResponseTable').append("<table width='700' border='1'></table>")
+				$('#ResponseTable').append("<table width='1000' border='1'></table>")
 				$('#ResponseTable').find('table').append("<tr><td>№</td><td>Артикул товара</td>" + 
 														"<td>Артикул поставщика</td><td>Подкатегория</td>" + 
 														"<td>Наименование бренда</td><td>Наименование модели</td>" + 
 														"<td>Наименование страны</td>" + "<td>Наименование материала</td>" +
 														"<td>Наименование изображения</td>" + 
 														"<td>Ширина</td><td>Всоты</td><td>Длина</td><td>Вес</td>" + 
-														"<td>Статус</td></tr>");
+														"<td>Статус</td><td>Цена</td></tr>");
 				for (var i = 0; i < AllProducts.length; i++) {
 					$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" +
 																"<td>" + AllProducts[i]['VendoreCode'] + "</td>" +
@@ -647,18 +715,21 @@
 																"<td>" + AllProducts[i]['Length'] + "</td>" +
 																"<td>" + AllProducts[i]['Width'] + "</td>" +
 																"<td>" + AllProducts[i]['Status'] + "</td>" +
+																"<td>" + AllProducts[i]['Price'] + "</td>" +
 																"<td><input name='VendorProduct' type='radio' value='" +
-																	AllProducts[i]['VendoreCode'] + "'</td></tr>");
+																	AllProducts[i]['VendoreCode'] + "'</td></tr>" + 
+																"<tr><td></td><td>Описание: </td><td colspan='14'>" + AllProducts[i]['Description'] + "</td></tr>");
 				}
 				$('#ResponseTable').append("<button id='DeleteCurrentProduct'>Удалить</button>");
 			}, $('#SubCategoryForChar').val());
+
 		});
 
 		//Отловить нажатие на динамическую кнопку с id = AddProduct
 		//Отправить AJAX POST-запрос, чтобы добавить новый продукт в БД
 		//Передать по запросу значение: 
 		$('body').on("click", "#AddProduct", function() {
-			;
+			if ( $('#DescriptionProduct').val() != '' ) {
 			if ( $('#VendoreCode').val() != '' ) {
 				if ( $('#VendoreCodeProvider').val() != '' ) {
 					if ( $('#WeightProduct').val() != '' ) {
@@ -690,7 +761,8 @@
 																		$('#BrendSelect').val(),
 																		$('#CountrySelect').val(),
 																		$('#SubCategorySelect').val(),
-																		$('#MaterialSelect').val()
+																		$('#MaterialSelect').val(),
+																		$('#DescriptionProduct').val()
 																	);
 																}
 																else
@@ -731,6 +803,9 @@
 			}
 			else
 				alert("Введите артикул продукта");
+		}
+		else
+			alert("Введите описание продукта");
 		});
 
 		//Отловить нажатие на динамическую кнопку с id = DeleteCurrentProduct
@@ -746,7 +821,7 @@
 		$('body').on("click", "#ShowProductTableWithCount", function() {
 			$('#ResponseTable').empty();
 			GetAllProductsWithCount(function(AllProducts) {
-				$('#ResponseTable').append("<table width='700' border='1'></table>")
+				$('#ResponseTable').append("<table width='1000' border='1'></table>")
 				$('#ResponseTable').find('table').append("<tr><td>№</td><td>Артикул товара</td>" + 
 														"<td>Количество товара</td></tr>");
 				for (var i = 0; i < AllProducts.length; i++) {
@@ -1356,7 +1431,7 @@
 													// категорию, цену продукта, идентификатор модели, идентификатор бренда,
 													// идентификатор страны, идентификатор подкатегории, идентификатор материала
 	function AddNewProduct(VendoreCode, VendoreProvider, FileName, Weight, Height, Length, Width, CategoryNumber, Price,
-						id_Model, id_Brend, id_Country, id_SubCategory, id_Material) {
+						id_Model, id_Brend, id_Country, id_SubCategory, id_Material, Description) {
 		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 		$.ajax({
 			type: "POST",
@@ -1365,7 +1440,7 @@
 										FileName: FileName, Weight: Weight, Height: Height, Length: Length,
 										Width: Width, CategoryNumber: CategoryNumber, Price: Price,
 										id_Model: id_Model, id_Brend: id_Brend, id_Country: id_Country, 
-										id_SubCategory: id_SubCategory, id_Material: id_Material},
+										id_SubCategory: id_SubCategory, id_Material: id_Material, Description: Description},
 			dataType: 'JSON',
 			success: function(data) {
 				alert("Новый товар успешно добавлен!");
@@ -1569,6 +1644,23 @@
 		});
 	}
 
+	function AddPictureSecond(VendoreCode, FileName) {
+		alert(FileName);
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "POST",
+			url: "/admin/AddSecondPic",
+			data: {_token: CSRF_TOKEN, VendoreCode: VendoreCode, FileName: FileName},
+			dataType: 'JSON',
+			success: function(data) {
+				alert("Изображения добавлено к товару успешно!");
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
 	//Отобразить перечень категорий в виде таблицы
 	//Вызвать функцию GetAllCategory и занести полученные данные в таблицу 
 	function ShowCategory() {
@@ -1577,7 +1669,7 @@
 			$("#ResponseTable").empty();
 			//Создать таблицу в теге id = Response1
 			//С колонками Индекс и Наименование категории
-			$('#ResponseTable').append("<table width='500' border='1'></table");
+			$('#ResponseTable').append("<table width='1000' border='1'></table");
 			$('#ResponseTable').find('table').append("<tr><td>Индекс</td><td>Наименование категории</td></tr>");
 
 			for (var i = 0; i < AllCategory.length; i++) {
@@ -1595,7 +1687,7 @@
 			$("#Response").empty();
 			$("#ResponseTable").empty();
 
-			$('#ResponseTable').append("<table width='700' border='1'></table>")
+			$('#ResponseTable').append("<table width='1000' border='1'></table>")
 			$('#ResponseTable').find('table').append("<tr><td>Название категории</td>" + 
 													"<td>Название подкатегории</td>" + 
 													"<td>Тип подкатегории</td></tr>");
@@ -1678,7 +1770,7 @@
 	//На вход получить список характеристик
 	//Поля характеристики: Characteristic (название), Value (значение), ID_SubChar(нормер характеристики для подкатегории)
 	function ShowCharacteristicTable(SubCharacteristics) {
-		$('#ResponseTable').append("<table width='700' border='1'></table>")
+		$('#ResponseTable').append("<table width='1000' border='1'></table>")
 		$('#ResponseTable').find('table').append("<tr><td>Номер</td><td>Наименование характеристики</td>" +
 														"<td>Значение характеристики</td></tr>");
 		for (var i = 0; i < SubCharacteristics.length; i++) {
@@ -1735,7 +1827,7 @@
 	function BrendTable(AllBrends) {
 		$("#Response").empty();
 		$("#ResponseTable").empty();
-		$('#ResponseTable').append("<table width='700' border='1'></table>")
+		$('#ResponseTable').append("<table width='1000' border='1'></table>")
 		$('#ResponseTable').find('table').append("<tr><td>№</td><td>Наименование бренда</td>");
 		for (var i = 0; i < AllBrends.length; i++) {
 			$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
@@ -1752,7 +1844,7 @@
 		$("#Response").empty();
 		$("#ResponseTable").empty();
 		GetAllBrends(function(AllBrends) {
-			$('#ResponseTable').append("<table width='700' border='1'></table>")
+			$('#ResponseTable').append("<table width='1000' border='1'></table>")
 			$('#ResponseTable').find('table').append("<tr><td>№</td><td>Наименование бренда</td>");
 			for (var i = 0; i < AllBrends.length; i++) {
 				$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
@@ -1793,7 +1885,7 @@
 	function MaterialsTable(AllMaterials) {
 		$("#Response").empty();
 		$("#ResponseTable").empty();
-		$('#ResponseTable').append("<table width='700' border='1'></table>")
+		$('#ResponseTable').append("<table width='1000' border='1'></table>")
 		$('#ResponseTable').find('table').append("<tr><td>№</td><td>Наименование материала</td>");
 		for (var i = 0; i < AllMaterials.length; i++) {
 			$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
@@ -1810,7 +1902,7 @@
 		$("#Response").empty();
 		$("#ResponseTable").empty();
 		GetAllMaterials(function(AllMaterials) {
-			$('#ResponseTable').append("<table width='700' border='1'></table>")
+			$('#ResponseTable').append("<table width='1000' border='1'></table>")
 			$('#ResponseTable').find('table').append("<tr><td>№</td><td>Наименование материала</td>");
 			for (var i = 0; i < AllMaterials.length; i++) {
 				$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
@@ -1853,7 +1945,7 @@
 	function CountrysTable(AllCountrys) {
 		$("#Response").empty();
 		$("#ResponseTable").empty();
-		$('#ResponseTable').append("<table width='700' border='1'></table>")
+		$('#ResponseTable').append("<table width='1000' border='1'></table>")
 		$('#ResponseTable').find('table').append("<tr><td>№</td><td>Наименование страны</td>");
 		for (var i = 0; i < AllCountrys.length; i++) {
 			$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
@@ -1870,7 +1962,7 @@
 		$("#Response").empty();
 		$("#ResponseTable").empty();
 		GetAllCountrys(function(AllCountrys) {
-			$('#ResponseTable').append("<table width='700' border='1'></table>")
+			$('#ResponseTable').append("<table width='1000' border='1'></table>")
 			$('#ResponseTable').find('table').append("<tr><td>№</td><td>Наименование страны</td>");
 			for (var i = 0; i < AllCountrys.length; i++) {
 				$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
@@ -1911,7 +2003,7 @@
 	function ModelsTable(AllModels) {
 		$("#Response").empty();
 		$("#ResponseTable").empty();
-		$('#ResponseTable').append("<table width='700' border='1'></table>")
+		$('#ResponseTable').append("<table width='1000' border='1'></table>")
 		$('#ResponseTable').find('table').append("<tr><td>№</td><td>Наименование модели</td>");
 		for (var i = 0; i < AllModels.length; i++) {
 			$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
@@ -1928,7 +2020,7 @@
 		$("#Response").empty();
 		$("#ResponseTable").empty();
 		GetAllModels(function(AllModels) {
-			$('#ResponseTable').append("<table width='700' border='1'></table>")
+			$('#ResponseTable').append("<table width='1000' border='1'></table>")
 			$('#ResponseTable').find('table').append("<tr><td>№</td><td>Наименование модели</td>");
 			for (var i = 0; i < AllModels.length; i++) {
 				$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
@@ -1985,7 +2077,7 @@
 		$('#Response').append("<input type='text' id='VendoreCodeProvider'/>");
 
 		$('#Response').append("<br><label>Выберите лицевое изображение товара: </label>");
-		$('#Response').append("<input type='file' accept='jpeg' name='NameFile'>");
+		$('#Response').append("<input type='file' multiple='multiple' accept='image/jpeg' name='NameFile'>");
 
 		$('#Response').append("<br><label>Введите ширину продукта: </label>");
 		$('#Response').append("<input type='text' id='WidthProduct'/>");
@@ -2006,7 +2098,11 @@
 		$('#Response').append("<input name='CharacteristicProduct' type='radio' value='4' checked> Ничего");
 
 		$('#Response').append("<br><label>Введите цену продукта: </label>");
-		$('#Response').append("<input type='text' id='PriceProduct'/>");
+		$('#Response').append("<input type='text' id='PriceProduct'/><br>");
+
+		$('#Response').append("<br><label>Введите описание продукта: </label>");
+		$('#Response').append("<textarea rows='15' cols='70' name='text' id='DescriptionProduct'></textarea>");
+		// $('#Response').append("<input type='text' id='DescriptionProduct'/>");		
 
 
 		GetAllBrends(function(AllBrends) {
@@ -2081,7 +2177,7 @@
 		$("#Response").empty();
 		$("#ResponseTable").empty();
 		GetAllOrdersWithStatus(function(AllOrders) {
-			$('#ResponseTable').append("<table width='1400' border='1'></table>")
+			$('#ResponseTable').append("<table width='1000' border='1'></table>")
 			$('#ResponseTable').find('table').append("<tr><td>№</td><td>Номер заказа</td>" +
 														"<td>ФИО заказчика</td>" +
 														"<td>Адрес заказчика</td>" + 
@@ -2107,7 +2203,7 @@
 		$("#Response").empty();
 		$("#ResponseTable").empty();
 		GetAllOrdersWithStatus(function(AllOrders) {
-			$('#Response').append("<table width='700' border='1'></table>")
+			$('#Response').append("<table width='1000' border='1'></table>")
 			$('#Response').find('table').append("<tr><td>№</td><td>Номер заказа</td>" + 
 														"<td>Статус заказа</td></tr>");
 			for (var i = 0; i < AllOrders.length; i++) {
@@ -2126,7 +2222,7 @@
 		$("#Response").empty();
 		$("#ResponseTable").empty();
 		GetAllOrdersWithStatus(function(AllOrders) {
-			$('#Response').append("<table width='700' border='1'></table>")
+			$('#Response').append("<table width='1000' border='1'></table>")
 			$('#Response').find('table').append("<tr><td>№</td><td>Номер заказа</td>" + 
 														"<td>Статус заказа</td></tr>");
 			for (var i = 0; i < AllOrders.length; i++) {

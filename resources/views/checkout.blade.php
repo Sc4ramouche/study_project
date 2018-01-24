@@ -164,7 +164,7 @@
         result = "";
         for (var i = 0; i < data.length; i++) {
           $('.container-item').append('<div class="container-item-image">' + 
-                                        '<img src="' + data[i]['Picture'] + '" alt="Товар">' + 
+                                        '<img src=/img/"' + data[i]['Picture'] + 'alt="Товар">' + 
                                       '/<div>');
           $('.container-item').append('<div class="container-item-description">' + 
                                         '<h4>' + data[i]['BrendName'] + ' ' + data[i]['ModelName'] + '</h4>' +

@@ -95,6 +95,8 @@ Route::POST('/admin/AddProduct', 'AdminController@AddProduct');
 Route::DELETE('/admin/DeleteProduct', 'AdminController@DeleteProduct');
 Route::GET('admin/CountProduct', 'AdminController@CountProduct');
 Route::PUT('/admin/UpdateCountProduct', 'AdminController@UpdateCountProduct');
+Route::POST('/admin/AddSecondPic', 'AdminController@AddSecondPic');
+Route::POST('/admin/AddFirstPic', 'AdminController@AddFirstPic');
 
 //Для заказов
 Route::GET('/admin/GetOrdersStatus', 'AdminController@GetOrdersStatus');

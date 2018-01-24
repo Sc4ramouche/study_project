@@ -4,6 +4,9 @@
     use Auth;
 
     use Illuminate\Support\Facades\DB;
+    use Illuminate\Support\Facades\Storage;
+    // use App\Page;
+
 
     class AdminController extends Controller
     {
@@ -15,6 +18,7 @@
         public function __construct()
         {
             $this->middleware('isAdmin');
+
         }
        /**
        * Show the application dashboard.
@@ -576,6 +580,7 @@
             'Width' => $AllProducts[$i]->Width,
             'Status' => $Status,
             'Price' => $AllProducts[$i]->Price,
+            'Description' => $AllProducts[$i]->Description,
           ];
 
           array_push($Response, $OneProduct);
@@ -637,7 +642,8 @@
                 'IsRecomend' => 0,
                 'Price' => $request->Price,
                 'ID_MATERIAL' => $request->id_Material,
-                'Count' => 0
+                'Count' => 0,
+                'Description' => $request->Description
               ]
             );   
         }
@@ -661,7 +667,8 @@
               'IsRecomend' => 1,
               'Price' => $request->Price,
               'ID_MATERIAL' => $request->id_Material,
-              'Count' => 0
+              'Count' => 0,
+              'Description' => $request->Description
             ]
           );
         }
@@ -685,7 +692,8 @@
               'IsRecomend' => 0,
               'Price' => $request->Price,
               'ID_MATERIAL' => $request->id_Material,
-              'Count' => 0
+              'Count' => 0,
+              'Description' => $request->Description
             ]
          );
         }
@@ -709,7 +717,8 @@
               'IsRecomend' => 0,
               'Price' => $request->Price,
               'ID_MATERIAL' => $request->id_Material,
-              'Count' => 0
+              'Count' => 0,
+              'Description' => $request->Description
             ]
           );
         }
@@ -905,7 +914,65 @@
         return json_encode($Email);
       }
 
-      public function GetSubCharProd(Request $request) {
+      //добавить побочную фотографию к товару
+      //vendore - идентфиикатор товара
+      //img - изображение
+      public function AddSecondPic(Request $request) {
 
+        if ($request->hasFile('img')) {
+
+          $file = $request->file('img');
+          $vendore = $request->vendore;
+          $destinationPath =  public_path().'/img';
+          $filename = $file->getClientOriginalName();
+
+          //добавление файла в бд
+          DB::table('SECONDPICTURE')->insert([
+            'VENDOR_CODE' => $vendore,
+            'Name' => $filename
+          ]);
+          //добавление файла в репозиторий
+          if ($request->hasFile('img')) {
+              $request->file('img')->move($destinationPath, $filename);
+          }
+          return redirect('/admin');
+        }
+        else {
+          return redirect('/admin');
+          //  $response = array(
+          // 'status' => 'success',
+          // 'msg' => $request->message,
+        }
       }
+
+      //добавить главную фотографию к товару
+      //vendore - идентфиикатор товара
+      //img - изображение
+      public function AddFirstPic(Request $request) {
+
+        if ($request->hasFile('img')) {
+
+          $file = $request->file('img');
+          $vendore = $request->vendore;
+          $destinationPath =  public_path().'/img';
+          $filename = $file->getClientOriginalName();
+
+          //добавление файла в бд
+          DB::table('PICTURE')->insert([
+            'Name' => $filename
+          ]);
+          
+          //добавление файла в репозиторий
+          if ($request->hasFile('img')) {
+              $request->file('img')->move($destinationPath, $filename);
+          }
+          return redirect('/admin');
+        }
+        else {
+          return redirect('/admin');
+          //  $response = array(
+          // 'status' => 'success',
+          // 'msg' => $request->message,
+        }
+      } 
   }

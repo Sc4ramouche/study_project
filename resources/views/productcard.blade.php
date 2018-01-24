@@ -44,7 +44,7 @@
         </div>
         @foreach($sub_pic as $value)
         <div class="column">
-          <img class="demo cursor" src="/img/{{ $value->sec_pic }}.jpg" style="width:100%" onclick="currentSlide({{ $loop->iteration + 1 }})" alt="Nadoba Augusta">
+          <img class="demo cursor" src="/img/{{ $value->sec_pic }}.jpeg" style="width:100%" onclick="currentSlide({{ $loop->iteration + 1 }})" alt="Nadoba Augusta">
         </div>
         @endforeach
       </div>
@@ -166,7 +166,7 @@
       <p><a href="/productcard/{{ $value->VENDOR_CODE}}">{{ $value->type }} <br><span>{{ $value->brand }} {{ $value->model }}</span></a><p>
       <hr class="promo-line">
       <b>{{ $value->Price }}&#8381;</b>
-      <a href="#" class="catalog-item-cart">В корзину</a>
+      <a onclick="addProduct('{{ $value->VENDOR_CODE }} {{ $value->Price }}')" href="#" class="catalog-item-cart">В корзину</a>
     </div>
     @endforeach
     @endif

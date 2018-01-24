@@ -29,6 +29,6 @@ class AddTableSecondaryPicture extends Migration
      */
     public function down()
     {
-        Shema::dropIfExists('SECONDPICTURE');
+        Schema::dropIfExists('SECONDPICTURE');
     }
 }
