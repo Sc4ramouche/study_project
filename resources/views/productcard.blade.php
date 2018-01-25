@@ -29,22 +29,22 @@
 
     <div class="card-gallery">
       <div class="card-slide">
-        <img src="/img/{{ $product[0]->pic }}.jpg" style="width:100%">
+        <img src="/img/{{ $product[0]->pic }}" style="width:100%">
       </div>
       @foreach($sub_pic as $value)
       <div class="card-slide">
-        <img src="/img/{{ $value->sec_pic }}.jpg" style="width:100%">
+        <img src="/img/{{ $value->sec_pic }}" style="width:100%">
       </div>
       @endforeach
 
 
       <div class="row">
         <div class="column">
-          <img class="demo cursor" src="/img/{{ $product[0]->pic }}.jpg" style="width:100%" onclick="currentSlide(1)" alt="Nadoba Augusta">
+          <img class="demo cursor" src="/img/{{ $product[0]->pic }}" style="width:100%" onclick="currentSlide(1)" alt="Nadoba Augusta">
         </div>
         @foreach($sub_pic as $value)
         <div class="column">
-          <img class="demo cursor" src="/img/{{ $value->sec_pic }}.jpeg" style="width:100%" onclick="currentSlide({{ $loop->iteration + 1 }})" alt="Nadoba Augusta">
+          <img class="demo cursor" src="/img/{{ $value->sec_pic }}" style="width:100%" onclick="currentSlide({{ $loop->iteration + 1 }})" alt="Nadoba Augusta">
         </div>
         @endforeach
       </div>
@@ -162,7 +162,7 @@
     @foreach($related_products as $value)
     <div class="catalog-item">
       <label class="VENDOR_CODE" style="display:none">{{ $value->VENDOR_CODE}}</label>
-      <a href="/productcard/{{ $value->VENDOR_CODE}}"><a href="/productcard/{{ $value->VENDOR_CODE}}"><img src="/img/{{ $value->pic }}.jpg" alt="Каталог товаров"></a></a>
+      <a href="/productcard/{{ $value->VENDOR_CODE}}"><a href="/productcard/{{ $value->VENDOR_CODE}}"><img src="/img/{{ $value->pic }}" alt="Каталог товаров"></a></a>
       <p><a href="/productcard/{{ $value->VENDOR_CODE}}">{{ $value->type }} <br><span>{{ $value->brand }} {{ $value->model }}</span></a><p>
       <hr class="promo-line">
       <b>{{ $value->Price }}&#8381;</b>
@@ -234,6 +234,7 @@ jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</di
 
   });
 
+
   //Вставка сессий
   //добавить артикул товара и количество товара в сессию
   //Price - общая сумма товаров
@@ -241,6 +242,7 @@ jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</di
   //VendoreCodes - все артикулы товаров
   //VendoreCount - кол-во каждого товара
   function addCart() {
+      alert("Товар добавлен в корзину");
     var count = $('input[name=quantity]').val();
     var str1 = $('.art').text();
     str1 = str1.split(' ');

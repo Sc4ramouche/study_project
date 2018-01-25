@@ -31,7 +31,7 @@
           </ul>
         </nav>
         <div class="header-auth">
-          <a href="/account">Личный кабинет</a>
+          <a href="/#">Личный кабинет</a>
         </div>
       </div>
     </div>
