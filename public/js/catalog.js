@@ -130,7 +130,7 @@ $(document).ready(function(){
                         var card = '' +
                           '<div class="catalog-grid-item">' +
                             '<div class="grid-item-img">' +
-                              '<img src="/img/' + value.pic + '.jpg" alt="image">' +
+                              '<img src="/img/' + value.pic + '" alt="image">' +
                             '</div>' +
                             '<a href="/productcard/'+ value.VENDOR_CODE +'">' +
                             '<h4 class="grid-item-name">' + value.type + ' ' + '<span class="brand-name">'+ value.brand + ' ' + value.model + '</span></h4>' +

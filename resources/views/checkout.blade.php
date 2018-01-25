@@ -134,8 +134,8 @@
     </div>
     <div class="cart-items">
       <div class="container-item">
-        
-        
+
+
       </div>
       <div class="cart-aftermath">
         <p class="to-pay">К оплате:</p>
@@ -163,13 +163,13 @@
         sum = 0;
         result = "";
         for (var i = 0; i < data.length; i++) {
-          $('.container-item').append('<div class="container-item-image">' + 
-                                        '<img src=/img/"' + data[i]['Picture'] + 'alt="Товар">' + 
+          $('.container-item').append('<div class="container-item-image">' +
+                                        '<img src="/img/' + data[i]['Picture'] + '" alt="Товар">' + 
                                       '/<div>');
-          $('.container-item').append('<div class="container-item-description">' + 
+          $('.container-item').append('<div class="container-item-description">' +
                                         '<h4>' + data[i]['BrendName'] + ' ' + data[i]['ModelName'] + '</h4>' +
-                                        '<b class="art">арт. '+ data[i]['VendoreCode'] + '</b><b class="quantity">(' + data[i]['Count'] + ')</b>' + 
-                                        '<hr class="promo-line-red cart-page-line">' + 
+                                        '<b class="art">арт. '+ data[i]['VendoreCode'] + '</b><b class="quantity">(' + data[i]['Count'] + ')</b>' +
+                                        '<hr class="promo-line-red cart-page-line">' +
                                       '<b class="price">' + data[i]['Price'] * data[i]['Count'] + '&#8381;</b></div>');
           sum += data[i]['Count'] * data[i]['Price'];
         }
@@ -186,11 +186,11 @@
 
       $('.checkout').bind('click', function() {
       var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-      
+
       if (( $('#NameOrder').val() != '' ) && ( $('#TelephoneOrder').val() != '' ) && ( $('#EmailOrder').val() != '') &&
-            ( $('#AdressOrder').val() != '' ) && ( $('#PaymentOrder').val() != null ) && 
+            ( $('#AdressOrder').val() != '' ) && ( $('#PaymentOrder').val() != null ) &&
             ( $('#DeliveryOrder').val() != null )) {
-          
+
           if (($.session.get('VendoreCodes') != undefined) && ($.session.get('VendoreCodes') != '')) {
           var vendoreCodes = $.session.get('VendoreCodes');
           vendoreCodes = vendoreCodes.split(' ');
@@ -205,7 +205,7 @@
             type: "POST",
             url: "/admin/NewOrder",
             data: {_token: CSRF_TOKEN, VendoreCodeArray: vendoreCodes, CountArray: vendoreCount, Email: $('#EmailOrder').val(),
-                    Telephone: $('#TelephoneOrder').val(), Name: $('#NameOrder').val(), Adress: $('#AdressOrder').val(), 
+                    Telephone: $('#TelephoneOrder').val(), Name: $('#NameOrder').val(), Adress: $('#AdressOrder').val(),
                     ID_Payment: $('#PaymentOrder').val(), ID_Delivery: $('#DeliveryOrder').val(), Date: stringDate,
                     Price: $('.result').text().slice(0, -1)},
             success: function(data) {
@@ -220,7 +220,7 @@
               else {
                 alert(data['orderStatus']);
               }
-            },  
+            },
             error: function(data) {
               alert("Ошибка при отправке запроса на сервер!");
             }
@@ -237,9 +237,9 @@
 
   });
 
-  
+
 </script>
-<!-- 
+<!--
         <div class="container-item-image">
           <img src="img/nadoba-augusta.jpg" alt="Товар">
         </div>

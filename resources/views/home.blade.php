@@ -44,7 +44,7 @@
               <div class="catalog-item">
                 <label class="VENDOR_CODE" style="display:none">{{ $value->VENDOR_CODE}}</label>
                 <h6>New</h6>
-                <a href="/productcard/{{ $value->VENDOR_CODE}}"><a href="/productcard/{{ $value->VENDOR_CODE}}"><img src="/img/{{ $value->pic }}.jpg" alt="Каталог товаров"></a></a>
+                <a href="/productcard/{{ $value->VENDOR_CODE}}"><a href="/productcard/{{ $value->VENDOR_CODE}}"><img src="/img/{{ $value->pic }}" alt="Каталог товаров"></a></a>
                 <p><a href="/productcard/{{ $value->VENDOR_CODE}}">{{ $value->type }} <br><span>{{ $value->brand }} {{ $value->model }}</span></a><p>
                 <hr class="promo-line">
                 <b>{{ $value->Price }}&#8381;</b>
@@ -62,7 +62,7 @@
               <div class="catalog-item">
                 <label class="VENDOR_CODE" style="display:none">{{ $value->VENDOR_CODE}}</label>
                 <h6>Top</h6>
-                <a href="/productcard/{{ $value->VENDOR_CODE}}"><a href="/productcard/{{ $value->VENDOR_CODE}}"><img src="/img/{{ $value->pic }}.jpg" alt="Каталог товаров"></a></a>
+                <a href="/productcard/{{ $value->VENDOR_CODE}}"><a href="/productcard/{{ $value->VENDOR_CODE}}"><img src="/img/{{ $value->pic }}" alt="Каталог товаров"></a></a>
                 <p><a href="/productcard/{{ $value->VENDOR_CODE}}">{{ $value->type }} <br><span>{{ $value->brand }} {{ $value->model }}</span></a><p>
                 <hr class="promo-line">
                 <b>{{ $value->Price }}&#8381;</b>
@@ -80,7 +80,7 @@
               <div class="catalog-item">
                 <label class="VENDOR_CODE" style="display:none">{{ $value->VENDOR_CODE}}</label>
                 <h6>Best</h6>
-                <a href="/productcard/{{ $value->VENDOR_CODE}}"><a href="/productcard/{{ $value->VENDOR_CODE}}"><img src="/img/{{ $value->pic }}.jpg" alt="Каталог товаров"></a></a>
+                <a href="/productcard/{{ $value->VENDOR_CODE}}"><a href="/productcard/{{ $value->VENDOR_CODE}}"><img src="/img/{{ $value->pic }}" alt="Каталог товаров"></a></a>
                 <p><a href="/productcard/{{ $value->VENDOR_CODE}}">{{ $value->type }} <br><span>{{ $value->brand }} {{ $value->model }}</span></a><p>
                 <hr class="promo-line">
                 <b>{{ $value->Price }}&#8381;</b>
@@ -178,7 +178,6 @@
     <input type="submit" name="submit" value="Подписаться">
   </form>
 </section>
-
 
 
 <script>

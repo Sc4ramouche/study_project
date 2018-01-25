@@ -85,7 +85,7 @@ jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</di
         for (var i = 0; i < data.length; i++) {
           $('.checkout-page').find('.container').find('.cart-items').append('<div class="container-item checkout-item">' +
                                                 '<div class="container-item-image">' +
-                                                '<img src=/img/"' + data[i]['Picture'] + 'alt="Товар">' +
+                                                '<img src="/img/' + data[i]['Picture'] + '" alt="Товар">' +
                                                 '</div>' +
                                                 '<div class="container-item-description">' +
                                                 '<h2>' + data[i]['BrendName'] + ' ' + data[i]['ModelName'] + '</h2><b class="art">арт. ' + data[i]['VendoreCode'] + '</b>' +
