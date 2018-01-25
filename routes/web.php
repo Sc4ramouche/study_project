@@ -111,4 +111,8 @@ Route::POST('/SendEmail', 'IndexController@SendEmail');
 Route::POST('/SendMailDispatch', 'IndexController@SendMailDispatch');
 
 Route::GET('/admin/GetAllMessages', 'AdminController@GetAllMessages');
-ROute::GET('/admin/getAllEmail', 'AdminController@getAllEmail');
+Route::GET('/admin/getAllEmail', 'AdminController@getAllEmail');
+
+Route::GET('/admin/GetAllNews', 'AdminController@GetAllNews');
+Route::POST('/admin/AddNewNews', 'AdminController@AddNewNews');
+Route::DELETE('/admin/DeleteNews', 'AdminController@DeleteNews');

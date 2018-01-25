@@ -201,6 +201,7 @@
             var stringDate = date.getDate() + " 0" + (date.getMonth() + 1) + " " + date.getFullYear();
           else
             var stringDate = date.getDate() + " " + (date.getMonth() + 1) + " " + date.getFullYear();
+          
           $.ajax({
             type: "POST",
             url: "/admin/NewOrder",
@@ -216,6 +217,8 @@
                 $('.container-item').empty();
                 $('.result').empty();
                 $('.result').append('0');
+                $('#bucketName').text('0 товаров на 0');
+                $('#bucketName').append('&#8381;');
               }
               else {
                 alert(data['orderStatus']);

@@ -816,6 +816,8 @@
         $AllOrders = DB::table('ORDER')->get();
         for ($i = 0; $i < sizeof($AllOrders); $i++) { 
           $StatusOrder = DB::table('STATUSORDER')->where('ID_STATUSORDER', $AllOrders[$i]->ID_STATUSORDER)->first()->Name;
+          $PaymentStatus = DB::table('PaymentMethod')->where('id', $AllOrders[$i]->ID_PaymentMethod)->first()->name;
+          $DeliveryStatus = DB::table('DeliveryMethod')->where('id', $AllOrders[$i]->ID_DeliveryMethod)->first()->name;
 
           $LocalResponse = [
             'id_Order' => $AllOrders[$i]->ID_ORDER,
@@ -825,7 +827,9 @@
             'name' => $AllOrders[$i]->Name,
             'adress' => $AllOrders[$i]->Adress,
             'date' => $AllOrders[$i]->Date,
-            'price' => $AllOrders[$i]->Price
+            'price' => $AllOrders[$i]->Price,
+            'payment' => $PaymentStatus,
+            'delivery' => $DeliveryStatus
           ];
 
           array_push($Response, $LocalResponse);
@@ -974,5 +978,36 @@
           // 'status' => 'success',
           // 'msg' => $request->message,
         }
-      } 
+      }
+
+      public function GetAllNews() {
+        $News = DB::table('News')->get();
+        return json_encode($News);
+      }
+
+      public function AddNewNews(Request $request) {
+        DB::table('News')->insert([
+          'Label' => $request->Label,
+          'ShortText' => $request->ShortDesct,
+          'Text' => $request->Text,
+          'Date' => $request->Date
+        ]);
+
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
+
+      public function DeleteNews(Request $request) {
+        DB::table('News')->where('id', $request->NewsId)->delete();
+        //вернуть ответ на запрос в JSON формате(Успешный ответ)
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
   }

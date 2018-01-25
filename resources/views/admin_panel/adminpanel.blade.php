@@ -112,9 +112,15 @@
 				<span id="List11">
 					<dd><a onclick="ShowAllMessages()" href="#" role="button">Просмотреть письма</a></dd>
 				</span>
-				<dt><a onclick="hidetext('List12')" href="#" role="button">Почты для рассылки</a></dt>
+			<dt><a onclick="hidetext('List12')" href="#" role="button">Почты для рассылки</a></dt>
 				<span id="List12">
 					<dd><a onclick="ShowAllEmails()" href="#" role="button">Просмотреть список</a></dd>
+				</span>
+			<dt><a onclick="hidetext('List13')" href="#" role="button">Новости</a></dt>
+				<span id="List13">
+					<dd><a onclick="ShowAllNews()" href="#" role="button">Просмотреть новости</a></dd>
+					<dd><a onclick="AddNews()" href="#" role="button">Добавить новость</a></dd>
+					<dd><a onclick="DeleteNews()" href="#" role="button">Удалить новость</a></dd>
 				</span>
 		</dl>	
 	</div>
@@ -164,7 +170,69 @@
 		else {
 			elem.style.display = "none";
 		}
-	})
+	});
+
+	function AddNews() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		$('#Response').append("<label>Введите название новости: </label>");
+		$('#Response').append("<input type='text' id='LabelNews'/>");
+
+		$('#Response').append("<br><label>Введите краткое описание новости: </label>");
+		$('#Response').append("<textarea rows='5' cols='70' name='text' id='SmallDescrNews'></textarea>");
+
+		$('#Response').append("<br><label>Введите описание новости: </label>");
+		$('#Response').append("<textarea rows='15' cols='70' name='text' id='DescriptionProduct'></textarea>");
+		$('#ResponseTable').append("<button id='ButtonAddNews'>Добавить</button>");
+	};
+
+	$('body').on('click', '#ButtonAddNews', function() {
+		AddNewNews( $('#LabelNews').val(), $('#SmallDescrNews').val(), $('#DescriptionProduct').val() );
+	});
+
+	function DeleteNews() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllNews(function(AllNews) {
+			$('#Response').append("<table width='1000' border='1'></table>")
+			$('#Response').find('table').append("<tr><td>№</td><td>Название</td>" + 
+														"<td>Краткое описание</td><td>Описание</td><td>Дата</td></tr>");
+			for (var i = 0; i < AllNews.length; i++) {
+				$('#Response').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
+													"<td>" + AllNews[i]['Label'] + "</td>" +
+													"<td>" + AllNews[i]['ShortText'] + "</td>" +  
+													"<td>" + AllNews[i]['Text'] + 
+													"<td>" + AllNews[i]['Date'] + 
+													"<td><input name='NewsId' type='radio' value='" +
+																	AllNews[i]['id'] + "'</td></tr>");
+			}
+			$('#ResponseTable').append("<button id='ButtonDeleteNews'>Удалить выбранную новость</button>");
+		});
+	};
+
+	$('body').on('click', '#ButtonDeleteNews', function() {
+		DeleteCurrentNews( $('input[name="NewsId"]:checked').val() );
+	});
+
+
+	function ShowAllNews() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllNews(function(AllNews) {
+			$('#Response').append("<table width='1000' border='1'></table>")
+			$('#Response').find('table').append("<tr><td>№</td><td>Название</td>" + 
+														"<td>Краткое описание</td><td>Описание</td><td>Дата</td></tr>");
+			for (var i = 0; i < AllNews.length; i++) {
+				$('#Response').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
+													"<td>" + AllNews[i]['Label'] + "</td>" +
+													"<td>" + AllNews[i]['ShortText'] + "</td>" +  
+													"<td>" + AllNews[i]['Text'] + 
+													"<td>" + AllNews[i]['Date'] + "</td></tr>");
+			}
+		});
+
+	}
+
 
 	function ShowAllMessages() {
 		$("#Response").empty();
@@ -177,7 +245,7 @@
 				$('#Response').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
 													"<td>" + AllMessages[i]['From'] + "</td>" +
 													"<td>" + AllMessages[i]['Email From'] + "</td>" +  
-													"<td>" + AllMessages[i]['Text'] + "'</td></tr>");
+													"<td>" + AllMessages[i]['Text'] + "</td></tr>");
 			}
 		});
 	};
@@ -249,10 +317,6 @@
 	$('body').on('change', '#NewProducts', function() {
 		$('input[name="vendore"]').val( $('#NewProducts').val() );
 	})
-
-	$('body').on('click', '#AddSecondPic', function() {
-		AddPictureSecond($('#NewProducts').val(), $('input[name=NameFile]').val());
-	});
 
 	//Делегированная обработка событий для динамически добавленных документов
 	//ищет все нужные элементы в родительском теге (в данном случае - <body>)
@@ -1644,16 +1708,53 @@
 		});
 	}
 
-	function AddPictureSecond(VendoreCode, FileName) {
-		alert(FileName);
+	function GetAllNews(AllNews) {
 		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 		$.ajax({
-			type: "POST",
-			url: "/admin/AddSecondPic",
-			data: {_token: CSRF_TOKEN, VendoreCode: VendoreCode, FileName: FileName},
+			type: "GET",
+			url: "/admin/GetAllNews",
+			data: {_token: CSRF_TOKEN},
+			success: function(data) {
+				AllNews(JSON.parse(data));
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+	function DeleteCurrentNews(NewsId) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "DELETE",
+			url: "/admin/DeleteNews",
+			data: {_token: CSRF_TOKEN, NewsId: NewsId},
 			dataType: 'JSON',
 			success: function(data) {
-				alert("Изображения добавлено к товару успешно!");
+				alert("Выбранная новость успешно удалена!");
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+	function AddNewNews(LabelNews, ShortDescNews, TextNews) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+		var date = new Date();
+          if (date.getMonth() < 9)
+            var stringDate = date.getDate() + " 0" + (date.getMonth() + 1) + " " + date.getFullYear();
+          else
+            var stringDate = date.getDate() + " " + (date.getMonth() + 1) + " " + date.getFullYear();
+
+		$.ajax({
+			type: "POST",
+			url: "/admin/AddNewNews",
+			data: {_token: CSRF_TOKEN, Label: LabelNews, ShortDesct: ShortDescNews, Text: TextNews, Date: stringDate},
+			dataType: 'JSON',
+			success: function(data) {
+				alert("Новость успешно добавлена!");
 			},
 			error: function(data) {
 				alert("Ошибка при отправке запроса на сервер!");
@@ -2183,7 +2284,7 @@
 														"<td>Адрес заказчика</td>" + 
 														"<td>Почта заказчика</td><td>Телефон заказчика</td>" +
 														"<td>Дата заказа</td><td>Общая сумма заказа (Руб.)</td>" + 
-														"<td>Статус заказа</td></tr>");
+														"<td>Статус заказа</td><td>Оплата</td><td>Доставка</td></tr>");
 			for (var i = 0; i < AllOrders.length; i++) {
 				$('#ResponseTable').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
 															"<td>" + AllOrders[i]['id_Order'] + "</td>" +
@@ -2193,7 +2294,9 @@
 															"<td>" + AllOrders[i]['telephone'] + "</td>" +
 															"<td>" + AllOrders[i]['date'] + "</td>" +
 															"<td>" + AllOrders[i]['price'] + "</td>" +
-															"<td>" + AllOrders[i]['status'] + "</td></tr>");
+															"<td>" + AllOrders[i]['status'] + "</td>" + 
+															"<td>" + AllOrders[i]['payment'] + "</td>" + 
+															"<td>" + AllOrders[i]['delivery'] + "</td></tr>");
 			}
 		});
 	}

@@ -168,7 +168,7 @@ class IndexController extends Controller
         DB::table('ORDER')->insert(
         [
             'email' => $request->Email,
-            // 'email' => "admin@mail.ru",
+            // 'email' => "fad@fad.fad",
             'ID_STATUSORDER' => 4,
             'Telephone' => $request->Telephone,
             'Name' => $request->Name,
