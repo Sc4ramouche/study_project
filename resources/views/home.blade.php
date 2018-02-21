@@ -5,7 +5,7 @@
 <section class="jumbotron">
   <div class="promo">
     <div class="promo-text">
-      <h2 class="promo-heading"><span class="promo-capture">Посуда, для уюта</span> <br> Вашего дома</h2>
+      <h2 class="promo-heading"><span class="promo-capture">Посуда, для уюта</span> <br> <span class="promo-text__home">Вашего дома</span></h2>
       <hr class="promo-line">
       <h3 class="promo-slogan">Красивая посуда в каждой кухне</h3>
       <a href="/catalog" class="promo-catalog">Каталог товаров</a>
@@ -28,7 +28,7 @@
 
 <section class="catalog">
   <div class="container">
-    <h2>Каталог товаров</h2>
+    <h2 class="catalog__name">Каталог товаров</h2>
     <hr class="promo-line">
     <div class="catalog-container">
       <div class="catalog-tab">
@@ -97,7 +97,7 @@
 
 <section class="features">
   <div class="container">
-    <ul>
+    <ul class="features__list">
       <li class="feature-item feature-age">15 лет на рынке</li>
       <li class="feature-item feature-quality">Гарантия качества</li>
       <li class="feature-item feature-price">Доступные цены</li>
@@ -171,7 +171,7 @@
 </section>
 
 <section class="home-subscribe">
-  <h3>Подпишитесь на наши новости</h3>
+  <h3 class="home-subscribe__invitation">Подпишитесь на наши новости</h3>
   <form class="subcribe" action="/SendMailDispatch" method="post">
     <input type="email" name="email" placeholder="Ваша электронная почта"></input>
     <input name="_token" type="hidden" value="{{ csrf_token() }}"/>

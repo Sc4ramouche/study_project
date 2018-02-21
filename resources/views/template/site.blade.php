@@ -17,15 +17,15 @@
   <header>
     <div class="header-top">
       <div class="container container-header-top">
-        <a class="toggle open" href="#nav">МЕНЮ</a>
-        <nav class="header-navigation" id="nav">
-          <a class="toggle close" href="#">X</a>
+        <nav class="header-navigation clearfix" id="nav">
+          <label for="show-menu" class="show-menu">МЕНЮ</label>
+          <input type="checkbox" id="show-menu" role="button">
           <ul class="header-menu">
             <li><a href="/">Главная</a></li>
             <li><a href="/about">О нас</a></li>
             <li><a href="/catalog">Каталог товаров</a></li>
             <li><a href="/news">Новости</a></li>
-            <li><a href="#footer">Обратная связь</a></li>
+            <li><a href="#feedback">Обратная связь</a></li>
             <li><a href="/delivery">Доставка</a></li>
             <li><a href="/contacts">Контакты</a></li>
           </ul>
@@ -42,8 +42,8 @@
           <img src="{{ asset('img/logo.svg') }}" alt="Дом посуды">
         </div>
         <div class="header-brand">
-          <h1>Дом посуды</h1>
-          <p>Интернет-магазин уютной посуды</p>
+          <h1 class="header-brand__name">Дом посуды</h1>
+          <p class="header-brand__description">Интернет-магазин уютной посуды</p>
         </div>
         <div class="header-search">
           <form action="">
@@ -182,7 +182,7 @@
       </ul>
     </div>
     <div class="footer-feedback">
-      <h2>Написать нам</h2>
+      <h2 id="feedback">Написать нам</h2>
       <hr class="footer-promo-line promo-line-red">
       <form class="footer-feedback-form" action="/SendEmail" method="post">
         <input type="text" name="username" placeholder="Ваше имя">
