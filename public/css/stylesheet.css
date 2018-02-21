@@ -2414,20 +2414,24 @@
     margin-left: 15px;
   }
 
-  .catalog-amount {
+  .catalog-header .catalog-amount.
+  .catalog-header .catalog-show,
+  .catalog-header .catalog-sort {
     padding: 8px;
+    margin-bottom: 8px;
   }
 
   .catalog-grid {
     margin-top: 40px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;;
+    grid-template-rows: auto;
   }
 
   .catalog-grid-item {
     border: 1px solid rgb(242, 242, 242);
     text-align: center;
+    padding: 16px;
   }
 
   .catalog-amount p {
@@ -2436,7 +2440,7 @@
 
   .grid-item-img img {
     max-width: 300px;
-    max-height: 250px;
+    max-height: 170px;
     object-fit: cover;
   }
 

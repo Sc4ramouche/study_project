@@ -1,6 +1,8 @@
-const elixir = require('laravel-elixir');
+// const elixir = require('laravel-elixir');
+const gulp = require('gulp');
+const cleanCSS = require('gulp-clean-css');
 
-require('laravel-elixir-vue-2');
+// require('laravel-elixir-vue-2');
 
 /*
  |--------------------------------------------------------------------------
@@ -13,7 +15,13 @@ require('laravel-elixir-vue-2');
  |
  */
 
-elixir((mix) => {
-    mix.sass('app.scss')
-       .webpack('app.js');
+// elixir((mix) => {
+//     mix.sass('app.scss')
+//        .webpack('app.js');
+// });
+
+gulp.task('minify-css', () => {
+  return gulp.src('./public/css/*.css')
+    .pipe(cleanCSS({compatibility: 'ie8'}))
+    .pipe(gulp.dest('./public/css/minf.css'));
 });
