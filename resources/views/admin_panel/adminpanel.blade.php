@@ -2360,42 +2360,7 @@
 
 											"</div>" + 
 											"<button type='submit' class='btn btn-default btn-block'>Занести в базу</button>" +
-											"</form>");
-
-
-		// $('#Response').append("<label>Введите Артикул продукта: </label>");
-		// $('#Response').append("<input type='text' id='VendoreCode'/>");
-
-		// $('#Response').append("<br><label>Введите Артикул поставщика: </label>");
-		// $('#Response').append("<input type='text' id='VendoreCodeProvider'/>");
-
-		// $('#Response').append("<br><label>Выберите лицевое изображение товара: </label>");
-		// $('#Response').append("<input type='file' multiple='multiple' accept='image/jpeg' name='NameFile'>");
-
-		// $('#Response').append("<br><label>Введите ширину продукта: </label>");
-		// $('#Response').append("<input type='text' id='WidthProduct'/>");
-
-		// $('#Response').append("<br><label>Введите высоту продукта: </label>");
-		// $('#Response').append("<input type='text' id='HeightProduct'/>");
-
-		// $('#Response').append("<br><label>Введите длину продукта: </label>");
-		// $('#Response').append("<input type='text' id='LengthProduct'/>");
-
-		// $('#Response').append("<br><label>Введите вес продукта: </label>");
-		// $('#Response').append("<input type='text' id='WeightProduct'/>");
-
-		// $('#Response').append("<br><label>Выберите категорию: </label>");
-		// $('#Response').append("<input name='CharacteristicProduct' type='radio' value='1'> Новинка");
-		// $('#Response').append("<input name='CharacteristicProduct' type='radio' value='2'> Рекомендация");
-		// $('#Response').append("<input name='CharacteristicProduct' type='radio' value='3'> Лидер");
-		// $('#Response').append("<input name='CharacteristicProduct' type='radio' value='4' checked> Ничего");
-
-		// $('#Response').append("<br><label>Введите цену продукта: </label>");
-		// $('#Response').append("<input type='text' id='PriceProduct'/><br>");
-
-		// $('#Response').append("<br><label>Введите описание продукта: </label>");
-		// $('#Response').append("<textarea rows='15' cols='70' name='text' id='DescriptionProduct'></textarea>");
-		// $('#Response').append("<input type='text' id='DescriptionProduct'/>");		
+											"</form>");		
 
 
 		GetAllBrends(function(AllBrends) {
