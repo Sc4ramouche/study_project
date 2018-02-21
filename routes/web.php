@@ -92,9 +92,12 @@ Route::PUT('/admin/UpdateModel', 'AdminController@UpdateModel');
 //Для товара
 Route::GET('/admin/GetProduct', 'AdminController@GetProduct');
 Route::POST('/admin/AddProduct', 'AdminController@AddProduct');
+Route::POST('/admin/UpdateOneProduct', 'AdminController@UpdateOneProduct');
 Route::DELETE('/admin/DeleteProduct', 'AdminController@DeleteProduct');
 Route::GET('admin/CountProduct', 'AdminController@CountProduct');
 Route::PUT('/admin/UpdateCountProduct', 'AdminController@UpdateCountProduct');
+Route::GET('/admin/GetOneProduct', 'AdminController@GetOneProduct');
+
 Route::POST('/admin/AddSecondPic', 'AdminController@AddSecondPic');
 Route::POST('/admin/AddFirstPic', 'AdminController@AddFirstPic');
 

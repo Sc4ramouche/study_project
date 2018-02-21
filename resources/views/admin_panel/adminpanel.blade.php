@@ -27,12 +27,10 @@
 		text-align: center;
 	}
 
-	#hiddenHelp {
-		margin-bottom: 20px;
-	}
-
 	table {
-		table-layout: auto;
+		width: 100%;
+		table-layout: fixed;
+		word-wrap: break-word;
 	}
 </style>
 
@@ -67,8 +65,8 @@
 					<dd><a onclick="ShowAllProducts()" href="#" role="button">Просмотреть</a></dd>
 					<dd><a onclick="AddProduct()" href="#" role="button">Добавить</a></dd>
 					<dd><a onclick="DeleteProduct()" href="#" role="button">Удалить</a></dd>
-					<dd><a onclick="AddFirstPhoto()" href="#" role="button">Занести в базу лицевое изображение</a></dd>
-					<dd><a onclick="AddSecondPhoto()" href="#" role="button">Добавить второстепенное изображение</a></dd>
+					<dd><a onclick="RedactProduct()" href="#" role="button">Редактировать</a></dd>
+					<dd><a onclick="AddSecondPhoto()" href="#" role="button">Добавить изображение для карточки товара</a></dd>
 				</span>
 			<dt><a onclick="hidetext('List5')" href="#" role="button">Бренды</a></dt>
 				<span id="List5">
@@ -126,24 +124,6 @@
 	</div>
 
 	<div id="RightBlock">
-		<div>
-			<button id="hiddenHelp">Показать инструкцию</button>	
-		</div>
-		<div id="ResponsePrompt">
-			<p><h3>Добро пожаловать в панель администратора!</h3></p>
-			<p><h3>Подсказки для работы с панелью администратора:</h3></p>
-			<p><h4>1. Просмотр данных.</h4>
-			Слева предоставлена панель, где Вы можете выбрать определенный критерий. При нажатии на кнопку "Просмотреть"<br>
-			Вам будет представлена таблица с данными вашего магазина (бренды, модели, товары и т.д.)</p>
-			<p><h4>2. Редактирование данных.</h4>
-			При нажатии на кнопку "Редактирование" Вам будет предоставлена таблица. Вы должны выбрать из таблицы
-			нужную позицию, после чего внести изменения в представленные поля. ВВОДИТЬ ПОЛЯ СЛЕДУЕТ ВНИМАТЕЛЬНО! Далее необходимо проверить правильность ввода полей и нажать кнопку "Редактировать".</p>
-			<p><h4>3. Удаление данных.</h4>
-			При нажатии на кнопку "Удаление" Вам будет предоставлена таблица. Следует найти нужную позицию для удаления, после чего нажать на кнопку "Удалить". Перед тем как удалить выбранную позицию, следует проверить правильность выбора!</p>
-			<p><h4>4. Добавление данных.</h4>
-			При нажатии на кнопку "Добавить", Вам будет предоставленно несолько полей для ввода, которые следует запонить. ДАННЫЕ СЛЕДУЕТ ЗАПОЛНЯТЬ ВНИМАТЕЛЬНО! После заполнения полей следует проверить правильность ввода и выбора определенных критериев. После чего нажать кнопку "Добавить".</p>
-			<p><h4>При выборе картинки (изображения) для товара, предполагается, что название изображения не должно содержать формат изображения. <br> Формат самого изображения должен быть только JPG.<br>Прежде чем добавить новый товар, надо занести лицевое изображение в базу данных!</h4></p>
-		</div>
 		<div id="Response">
 		</div>
 		<div id="ResponseTable">
@@ -161,16 +141,6 @@
 </form>
 
 <script>
-
-	$("#hiddenHelp").click(function() {
-		elem = document.getElementById("ResponsePrompt");
-		if (elem.style.display == "none") {
-			elem.style.display = "block";
-		}
-		else {
-			elem.style.display = "none";
-		}
-	});
 
 	function AddNews() {
 		$("#Response").empty();
@@ -274,6 +244,159 @@
 											"</form>");
 	};
 
+	function RedactProduct() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllSubCategory(function(AllSubCategory) {
+			$('#Response').append("<br><label id='labelSubCategoty'>Выберите подкатегорию товара: <label>");
+			$('#Response').append("<br><select id='RedactCategoryProduct'></select>");
+			$('#RedactCategoryProduct').append("<option selected='selected' disabled>Выберите подкатегорию</option>");
+			for (var i = 0; i < AllSubCategory.length; i++) {
+				for (var j = 0; j < AllSubCategory[i].SubCategoryArray.length; j++) {
+					$('#RedactCategoryProduct').append("<option value=" + AllSubCategory[i].SubCategoryArray[j].ID_SUBCATEGORY + ">" + 
+																		AllSubCategory[i].SubCategoryArray[j].Name + "</option>");
+
+				}
+			}
+		});
+	}
+
+
+	$('body').on("change", '#RedactCategoryProduct', function() {
+		$("#ResponseTable").empty();
+		$("#labelProduct").remove()
+		$("#SelectProduct").remove();		
+		GetAllProducts(function(AllProducts) {
+				$('#Response').append("<label id='labelProduct'><br>Выберите артикул товара: <label>");
+				$('#Response').append("<select id='SelectProduct'></select>");
+				$('#SelectProduct').append("<option selected='selected' disabled>Выберите артикул товара</option>")
+				var Vendore;
+				for (var i = 0; i < AllProducts.length; i++) {
+					if (i == 0)
+						Vendore = AllProducts[i].VendoreCode;
+					$('#Response').find("#SelectProduct").append("<option value=" + AllProducts[i].VendoreCode + ">" + 
+																			AllProducts[i].VendoreCode + "</option>");
+				}
+			},$('#RedactCategoryProduct').val());
+	});
+
+
+
+	$('body').on('click', '#SelectProduct', function() {
+		GetOneProduct(function(CoutProduct) {
+			$("#ResponseTable").empty();
+			$('#ResponseTable').append("<form action='/admin/UpdateOneProduct' enctype='multipart/form-data' method='post'>" + 
+											"<input name='_token' type='hidden' value='{{ csrf_token() }}'/>" +  
+											"<div class='form-group'>" +
+
+											"<label hidden='true'>Артикул продукта: </label>" +  "<input type='text' hidden='true' name='VendoreCode' id='VendoreCode' value='" + CoutProduct[0]['VENDOR_CODE'] + "'/>" +
+
+											"<label>Артикул поставщика: </label>" + "<input type='text' name='VendoreCodeProvider' id='VendoreCodeProvider' value='" + CoutProduct[0]['VENDOR_CODE_PROVIDER']  + "'/>" +
+
+											"<br><label>Изменить лицевое изображение: </label>" + "<input type='file' name='img' accept='image/jpeg'/>" + 
+											
+											"<br><label>Ширина продукта: </label>" + "<input type='text' name='WidthProduct' id='WidthProduct' value='" + CoutProduct[0]['Width'] + "'/>" + 
+
+											"<br><label>Высота продукта: </label>" + "<input type='text' name='HeightProduct' id='HeightProduct' value='" + CoutProduct[0]['Height'] + "'/>" + 
+
+											"<br><label>Длина продукта: </label>" + "<input type='text' name='LengthProduct' id='LengthProduct' value='" + CoutProduct[0]['length'] + "'/>" +
+
+											"<br><label>Вес продукта: </label>" + "<input type='text' name='WeightProduct' id='WeightProduct' value='" + CoutProduct[0]['Weight'] + "'/>" +
+
+											"<br><label>Категория: </label>" + 
+											"<input id='checked1' name='CharacteristicProduct' type='radio' value='1'> Новинка" + 
+											"<input id='checked2' name='CharacteristicProduct' type='radio' value='2'> Рекомендация" +
+											"<input id='checked3' name='CharacteristicProduct' type='radio' value='3'> Лидер" + 
+											"<input id='checked4' name='CharacteristicProduct' type='radio' value='4'> Ничего" +
+
+											"<br><label>Цена продукта: </label>" + "<input type='text' name='PriceProduct' id='PriceProduct' value='" + CoutProduct[0]['Price'] + "'/>" +
+
+											"<br><label>Бренд: </label>" + "<select name='BrendSelect' id='BrendSelect'></select>" +
+
+											"<br><label>Модель: </label>" + "<select name='ModelSelect' id='ModelSelect'></select>" +
+
+											"<br><label>Страна: </label>" + "<select name='CountrySelect' id='CountrySelect'></select>" +
+
+											"<br><label>Материал: </label>" + "<select name='MaterialSelect' id='MaterialSelect'></select>" +
+
+											"<br><label>Подкатегория: </label>" + "<select name='SubCategorySelect' id='SubCategorySelect'></select>" +
+
+											"<br><label>Описание продукта: </label>" + "<textarea rows='15' cols='70' name='text' id='DescriptionProduct'>" + CoutProduct[0]['Description'] + "</textarea>" +
+
+											"</div>" + 
+											"<button type='submit' class='btn btn-default btn-block'>Редактировать</button>" +
+											"</form>");
+
+			GetAllBrends(function(AllBrends) {
+			for (var i = 0; i < AllBrends.length; i++) {
+				if (AllBrends[i].ID_BREND == CoutProduct[0]['ID_BREND'])
+					$('#BrendSelect').append("<option selected='selected' value=" + AllBrends[i].ID_BREND + ">" + 
+																		AllBrends[i].Name + "</option>");
+				else
+					$('#BrendSelect').append("<option value=" + AllBrends[i].ID_BREND + ">" + 
+																		AllBrends[i].Name + "</option>");
+			}
+		});
+
+		GetAllModels(function(AllModels) {
+			for (var i = 0; i < AllModels.length; i++) {
+				if (AllModels[i].ID_MODEL == CoutProduct[0]['ID_MODEL'])
+					$('#ModelSelect').append("<option selected='selected' value=" + AllModels[i].ID_MODEL + ">" + 
+																		AllModels[i].Name + "</option>");
+				else
+					$('#ModelSelect').append("<option value=" + AllModels[i].ID_MODEL + ">" + 
+																		AllModels[i].Name + "</option>");
+			}
+		});
+
+		GetAllCountrys(function(AllCountrys) {
+			for (var i = 0; i < AllCountrys.length; i++) {
+				if (AllCountrys[i].ID_COUNTRY == CoutProduct[0]['ID_COUNTRY'])
+					$('#CountrySelect').append("<option selected='selected' value=" + AllCountrys[i].ID_COUNTRY + ">" + 
+																		AllCountrys[i].Name + "</option>");
+				else
+					$('#CountrySelect').append("<option value=" + AllCountrys[i].ID_COUNTRY + ">" + 
+																		AllCountrys[i].Name + "</option>");
+			}
+		});
+
+		GetAllMaterials(function(AllMaterials) {
+			for (var i = 0; i < AllMaterials.length; i++) {
+				if (AllMaterials[i].ID_MATERIAL == CoutProduct[0]['ID_MATERIAL'])
+					$('#MaterialSelect').append("<option selected='selected' value=" + AllMaterials[i].ID_MATERIAL + ">" + 
+																		AllMaterials[i].Name + "</option>");
+				else
+					$('#MaterialSelect').append("<option value=" + AllMaterials[i].ID_MATERIAL + ">" + 
+																		AllMaterials[i].Name + "</option>");
+			}
+		});
+
+		GetAllSubCategory(function(AllSubCategory) {
+			for (var i = 0; i < AllSubCategory.length; i++) {
+				for (var j = 0; j < AllSubCategory[i].SubCategoryArray.length; j++) {
+					if (AllSubCategory[i].ID_SUBCATEGORY == CoutProduct[0]['ID_SUBCATEGORY'])
+						$('#SubCategorySelect').append("<option selected='selected' value=" + AllSubCategory[i].SubCategoryArray[j].ID_SUBCATEGORY + ">" + 
+																		AllSubCategory[i].SubCategoryArray[j].Name + "</option>");
+					else
+						$('#SubCategorySelect').append("<option value=" + AllSubCategory[i].SubCategoryArray[j].ID_SUBCATEGORY + ">" + 
+																		AllSubCategory[i].SubCategoryArray[j].Name + "</option>");
+
+				}
+			}
+		});
+
+		if (CoutProduct[0]['IsNew'] != '0')
+			$('#checked1').attr('checked', true);
+		else if (CoutProduct[0]['IsLeader'] != '0')
+			$('#checked3').attr('checked', true);
+		else if (CoutProduct[0]['IsRecomend'] != '0')
+			$('#checked2').attr('checked', true);
+		else
+			$('#checked4').attr('checked', true);
+
+		}, $('#SelectProduct').val());
+	});
+
 	function AddSecondPhoto() {
 		$("#Response").empty();
 		$("#ResponseTable").empty();
@@ -322,8 +445,6 @@
 	//ищет все нужные элементы в родительском теге (в данном случае - <body>)
 	$(document).ready(function() {
 
-		document.getElementById("ResponsePrompt").style.display = "none";
-
 		//Отловить нажатие кнопки с id = InsertCategoryTable
 		//Записать название категории в таблицу Категория
 		$('body').on("click", '#InsertCategoryTable', function() {
@@ -364,6 +485,7 @@
 		//Отловить нажатие на динамической кноки с id = ShowSubCategoryTable
 		//Отображает таблицу выбранной подкатегории товара
 		$('body').on("click", '#ShowSubCategoryTable', function() {
+			alert("kek");
 			$('#ResponseTable').empty();
 			GetAllProducts(function(AllProducts) {
 				$('#ResponseTable').append("<label>Выберите артикул товара: <label>");
@@ -721,7 +843,7 @@
 			$('#ResponseTable').empty();
 			// alert($('#SubCategoryForChar').val());
 			GetAllProducts(function(AllProducts) {
-				$('#ResponseTable').append("<table width='1000' border='1'></table>")
+				$('#ResponseTable').append("<table border='1' ></table>")
 				$('#ResponseTable').find('table').append("<tr><td>№</td><td>Артикул товара</td>" + 
 														"<td>Артикул поставщика</td><td>Подкатегория</td>" + 
 														"<td>Наименование бренда</td><td>Наименование модели</td>" + 
@@ -745,7 +867,7 @@
 																"<td>" + AllProducts[i]['Width'] + "</td>" +
 																"<td>" + AllProducts[i]['Status'] + "</td>" + 
 																"<td>" + AllProducts[i]['Price'] + "</td></tr>" +
-																"<tr><td></td><td>Описание: </td><td colspan='14'>" + AllProducts[i]['Description'] + "</td></tr>");
+																"<tr><td colspan='2'>Описание: </td><td colspan='13'>" + AllProducts[i]['Description'] + "</td></tr>");
 				}
 			}, $('#SubCategoryForChar').val());
 		});
@@ -1762,6 +1884,21 @@
 		});
 	}
 
+	function GetOneProduct(CoutProduct, VendoreCode) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "GET",
+			url: "/admin/GetOneProduct",
+			data: {_token: CSRF_TOKEN, VendoreCode: VendoreCode },
+			success: function(data) {
+				CoutProduct(JSON.parse(data));
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
 	//Отобразить перечень категорий в виде таблицы
 	//Вызвать функцию GetAllCategory и занести полученные данные в таблицу 
 	function ShowCategory() {
@@ -2167,79 +2304,138 @@
 		});
 	}
 
+// function AddFirstPhoto() {
+// 		$("#ResponseTable").empty();
+// 		$('#ResponseTable').append("<br><label>Выберите лицевое изображение товара: </label>");
+// 				$('#ResponseTable').append("<form action='/admin/AddFirstPic' enctype='multipart/form-data' method='post'>" + 
+// 											"<input name='_token' type='hidden' value='{{ csrf_token() }}'/>" + 
+// 											"<div class='form-group'>" + 
+// 											"<input type='file' name='img' accept='image/jpeg'/>" + 
+// 											"<button type='submit' class='btn btn-default btn-block'>Занести в базу</button>" + 
+// 											"</form>");
+// 	};
+
 	//отобразить форму добавления нового товара
 	function AddProduct() {
 		$("#Response").empty();
 		$("#ResponseTable").empty();
-		$('#Response').append("<label>Введите Артикул продукта: </label>");
-		$('#Response').append("<input type='text' id='VendoreCode'/>");
 
-		$('#Response').append("<br><label>Введите Артикул поставщика: </label>");
-		$('#Response').append("<input type='text' id='VendoreCodeProvider'/>");
+		$('#ResponseTable').append("<form action='/admin/AddProduct' enctype='multipart/form-data' method='post'>" + 
+											"<input name='_token' type='hidden' value='{{ csrf_token() }}'/>" + 
+											"<div class='form-group'>" +
 
-		$('#Response').append("<br><label>Выберите лицевое изображение товара: </label>");
-		$('#Response').append("<input type='file' multiple='multiple' accept='image/jpeg' name='NameFile'>");
+											"<label>Введите Артикул продукта: </label>" +  "<input type='text' name='VendoreCode' id='VendoreCode'/>" +
 
-		$('#Response').append("<br><label>Введите ширину продукта: </label>");
-		$('#Response').append("<input type='text' id='WidthProduct'/>");
+											"<br><label>Введите Артикул поставщика: </label>" + "<input type='text' name='VendoreCodeProvider' id='VendoreCodeProvider'/>" +
 
-		$('#Response').append("<br><label>Введите высоту продукта: </label>");
-		$('#Response').append("<input type='text' id='HeightProduct'/>");
+											"<br><label>Выберите лицевое изображение товара: </label>" + "<input type='file' name='img' accept='image/jpeg'/>" + 
+											
+											"<br><label>Введите ширину продукта: </label>" + "<input type='text' name='WidthProduct' id='WidthProduct'/>" + 
 
-		$('#Response').append("<br><label>Введите длину продукта: </label>");
-		$('#Response').append("<input type='text' id='LengthProduct'/>");
+											"<br><label>Введите высоту продукта: </label>" + "<input type='text' name='HeightProduct' id='HeightProduct'/>" + 
 
-		$('#Response').append("<br><label>Введите вес продукта: </label>");
-		$('#Response').append("<input type='text' id='WeightProduct'/>");
+											"<br><label>Введите длину продукта: </label>" + "<input type='text' name='LengthProduct' id='LengthProduct'/>" +
 
-		$('#Response').append("<br><label>Выберите категорию: </label>");
-		$('#Response').append("<input name='CharacteristicProduct' type='radio' value='1'> Новинка");
-		$('#Response').append("<input name='CharacteristicProduct' type='radio' value='2'> Рекомендация");
-		$('#Response').append("<input name='CharacteristicProduct' type='radio' value='3'> Лидер");
-		$('#Response').append("<input name='CharacteristicProduct' type='radio' value='4' checked> Ничего");
+											"<br><label>Введите вес продукта: </label>" + "<input type='text' name='WeightProduct' id='WeightProduct'/>" +
 
-		$('#Response').append("<br><label>Введите цену продукта: </label>");
-		$('#Response').append("<input type='text' id='PriceProduct'/><br>");
+											"<br><label>Выберите категорию: </label>" + 
+											"<input name='CharacteristicProduct' type='radio' value='1'> Новинка" + 
+											"<input name='CharacteristicProduct' type='radio' value='2'> Рекомендация" +
+											"<input name='CharacteristicProduct' type='radio' value='3'> Лидер" + 
+											"<input name='CharacteristicProduct' type='radio' value='4' checked> Ничего" +
 
-		$('#Response').append("<br><label>Введите описание продукта: </label>");
-		$('#Response').append("<textarea rows='15' cols='70' name='text' id='DescriptionProduct'></textarea>");
+											"<br><label>Введите цену продукта: </label>" + "<input type='text' name='PriceProduct' id='PriceProduct'/>" +
+
+											"<br><label>Выберите бренд: </label>" + "<select name='BrendSelect' id='BrendSelect'></select>" +
+
+											"<br><label>Выберите модель: </label>" + "<select name='ModelSelect' id='ModelSelect'></select>" +
+
+											"<br><label>Выберите страну: </label>" + "<select name='CountrySelect' id='CountrySelect'></select>" +
+
+											"<br><label>Выберите материал: </label>" + "<select name='MaterialSelect' id='MaterialSelect'></select>" +
+
+											"<br><label>Выберите подкатегорию: </label>" + "<select name='SubCategorySelect' id='SubCategorySelect'></select>" +
+
+											"<br><label>Введите описание продукта: </label>" + "<textarea rows='15' cols='70' name='text' id='DescriptionProduct'></textarea>" +
+
+											"</div>" + 
+											"<button type='submit' class='btn btn-default btn-block'>Занести в базу</button>" +
+											"</form>");
+
+
+		// $('#Response').append("<label>Введите Артикул продукта: </label>");
+		// $('#Response').append("<input type='text' id='VendoreCode'/>");
+
+		// $('#Response').append("<br><label>Введите Артикул поставщика: </label>");
+		// $('#Response').append("<input type='text' id='VendoreCodeProvider'/>");
+
+		// $('#Response').append("<br><label>Выберите лицевое изображение товара: </label>");
+		// $('#Response').append("<input type='file' multiple='multiple' accept='image/jpeg' name='NameFile'>");
+
+		// $('#Response').append("<br><label>Введите ширину продукта: </label>");
+		// $('#Response').append("<input type='text' id='WidthProduct'/>");
+
+		// $('#Response').append("<br><label>Введите высоту продукта: </label>");
+		// $('#Response').append("<input type='text' id='HeightProduct'/>");
+
+		// $('#Response').append("<br><label>Введите длину продукта: </label>");
+		// $('#Response').append("<input type='text' id='LengthProduct'/>");
+
+		// $('#Response').append("<br><label>Введите вес продукта: </label>");
+		// $('#Response').append("<input type='text' id='WeightProduct'/>");
+
+		// $('#Response').append("<br><label>Выберите категорию: </label>");
+		// $('#Response').append("<input name='CharacteristicProduct' type='radio' value='1'> Новинка");
+		// $('#Response').append("<input name='CharacteristicProduct' type='radio' value='2'> Рекомендация");
+		// $('#Response').append("<input name='CharacteristicProduct' type='radio' value='3'> Лидер");
+		// $('#Response').append("<input name='CharacteristicProduct' type='radio' value='4' checked> Ничего");
+
+		// $('#Response').append("<br><label>Введите цену продукта: </label>");
+		// $('#Response').append("<input type='text' id='PriceProduct'/><br>");
+
+		// $('#Response').append("<br><label>Введите описание продукта: </label>");
+		// $('#Response').append("<textarea rows='15' cols='70' name='text' id='DescriptionProduct'></textarea>");
 		// $('#Response').append("<input type='text' id='DescriptionProduct'/>");		
 
 
 		GetAllBrends(function(AllBrends) {
-			$('#Response').append("<br><select id='BrendSelect'></select>");
+			// $('#Response').append("<br><select id='BrendSelect'></select>");
 			$('#BrendSelect').append("<option selected='selected' disabled>Выберите бренд</option>");
 			for (var i = 0; i < AllBrends.length; i++) {
 				$('#BrendSelect').append("<option value=" + AllBrends[i].ID_BREND + ">" + 
 																		AllBrends[i].Name + "</option>");
 			}
 		});
+
 		GetAllModels(function(AllModels) {
-			$('#Response').append("<br><select id='ModelSelect'></select>");
+			// $('#Response').append("<br><select id='ModelSelect'></select>");
 			$('#ModelSelect').append("<option selected='selected' disabled>Выберите модель</option>");
 			for (var i = 0; i < AllModels.length; i++) {
 				$('#ModelSelect').append("<option value=" + AllModels[i].ID_MODEL + ">" + 
 																		AllModels[i].Name + "</option>");
 			}
 		});
+
 		GetAllCountrys(function(AllCountrys) {
-			$('#Response').append("<br><select id='CountrySelect'></select>");
+			// $('#Response').append("<br><select id='CountrySelect'></select>");
 			$('#CountrySelect').append("<option selected='selected' disabled>Выберите страну</option>");
 			for (var i = 0; i < AllCountrys.length; i++) {
 				$('#CountrySelect').append("<option value=" + AllCountrys[i].ID_COUNTRY + ">" + 
 																		AllCountrys[i].Name + "</option>");
 			}
 		});
+
 		GetAllMaterials(function(AllMaterials) {
-			$('#Response').append("<br><select id='MaterialSelect'></select>");
+			// $('#Response').append("<br><select id='MaterialSelect'></select>");
 			$('#MaterialSelect').append("<option selected='selected' disabled>Выберите материал</option>");
 			for (var i = 0; i < AllMaterials.length; i++) {
 				$('#MaterialSelect').append("<option value=" + AllMaterials[i].ID_MATERIAL + ">" + 
 																		AllMaterials[i].Name + "</option>");
 			}
 		});
+
 		GetAllSubCategory(function(AllSubCategory) {
-			$('#Response').append("<br><select id='SubCategorySelect'></select>");
+			// $('#Response').append("<br><select id='SubCategorySelect'></select>");
 			$('#SubCategorySelect').append("<option selected='selected' disabled>Выберите подкатегорию</option>");
 			for (var i = 0; i < AllSubCategory.length; i++) {
 				for (var j = 0; j < AllSubCategory[i].SubCategoryArray.length; j++) {
@@ -2250,7 +2446,7 @@
 			}
 		});
 
-		$('#ResponseTable').append("<button id='AddProduct'>Добавить</button>");
+		// $('#ResponseTable').append("<button id='AddProduct'>Добавить</button>");
 	}
 
 	//отобразить форму удаления выбранного товара
