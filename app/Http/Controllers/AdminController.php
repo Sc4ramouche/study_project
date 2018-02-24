@@ -167,35 +167,56 @@
       public function AddSubCatChar(Request $request) {
 
         
-        $AllProducts = DB::table('product')->where('ID_SUBCATEGORY', $request->id_subCategory)->get();
+        // $AllProducts = DB::table('product')->where('ID_SUBCATEGORY', $request->id_subCategory)->get();
 
-        $AllChar = DB::table('characteristicsubc')->get();
-        $NewCharId = NULL;
-        $flag = false;
-        for ($i = 0; $i < sizeof($AllChar); $i++) { 
-          if ($AllChar[$i]->Name == $request->nameChar) {
-            $NewCharId = $AllChar[$i];
-            $flag = true;
-            break;
-          }
-        }
 
-        if ($flag == false) {
-          DB::table('characteristicsubc')->insert(
-            ['Name' => $request->nameChar]);
-          $NewCharId = DB::table('characteristicsubc')->where('Name', $request->nameChar)->first();
-        }
+        DB::table('characteristicsubc')->insert([
+          'Name' => $request->nameChar
+        ]);
 
-        for ($i = 0; $i < sizeof($AllProducts); $i++) { 
-          DB::table('allcharacteristics')->insert(
-            [
-              'ID_SUBCATEGORY' => $request->id_subCategory,
-              'ID_CHARACTERISTICSUBC' => $NewCharId->ID_CHARACTERISTICSUBC,
-              'ID_VALUESUBC' => 7,
-              'VENDOR_CODE' => $AllProducts[$i]->VENDOR_CODE
-            ]
-          );
-        }
+        DB::table('valuesubc')->insert([
+          'Name' => $request->CharValue
+        ]);
+
+        $id_NameChar = DB::table('characteristicsubc')->where('Name', $request->nameChar)->get();
+        $id_NameChar = $id_NameChar[sizeof($id_NameChar) - 1]->ID_CHARACTERISTICSUBC;
+        $id_ValueChar = DB::table('valuesubc')->where('Name', $request->CharValue)->get();
+        $id_ValueChar = $id_ValueChar[sizeof($id_ValueChar) - 1]->ID_VALUESUBC;
+
+        DB::table('allcharacteristics')->insert([
+          'ID_SUBCATEGORY' => $request->id_subCategory,
+          'ID_CHARACTERISTICSUBC' => $id_NameChar,
+          'ID_VALUESUBC' => $id_ValueChar,
+          'VENDOR_CODE' => $request->VendoreCode
+        ]);
+
+        // $AllChar = DB::table('characteristicsubc')->get();
+        // $NewCharId = NULL;
+        // $flag = false;
+        // for ($i = 0; $i < sizeof($AllChar); $i++) { 
+        //   if ($AllChar[$i]->Name == $request->nameChar) {
+        //     $NewCharId = $AllChar[$i];
+        //     $flag = true;
+        //     break;
+        //   }
+        // }
+
+        // if ($flag == false) {
+        //   DB::table('characteristicsubc')->insert(
+        //     ['Name' => $request->nameChar]);
+        //   $NewCharId = DB::table('characteristicsubc')->where('Name', $request->nameChar)->first();
+        // }
+
+        // for ($i = 0; $i < sizeof($AllProducts); $i++) { 
+        //   DB::table('allcharacteristics')->insert(
+        //     [
+        //       'ID_SUBCATEGORY' => $request->id_subCategory,
+        //       'ID_CHARACTERISTICSUBC' => $NewCharId->ID_CHARACTERISTICSUBC,
+        //       'ID_VALUESUBC' => 7,
+        //       'VENDOR_CODE' => $AllProducts[$i]->VENDOR_CODE
+        //     ]
+        //   );
+        // }
 
         //вернуть ответ на запрос в JSON формате(Успешный ответ)
         $response = array(
@@ -800,6 +821,34 @@
         }
       }
 
+      public function DeleteCategory(Request $request) {
+        $AllSubCategory = DB::table('subcategory')->where('ID_CATEGORY', $request->IDCat)->get();
+        for ($i = 0; $i < sizeof($AllSubCategory); $i++) {
+          self::CurrentDeleteSubCategory($AllSubCategory[$i]->ID_SUBCATEGORY);
+        }
+
+        DB::table('category')->where('ID_CATEGORY', $request->IDCat)->delete();
+      }
+
+      public function DeleteSubCategory(Request $request) {
+        self::CurrentDeleteSubCategory($request->IDSub);
+      
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
+      }
+
+      public function CurrentDeleteSubCategory($IDSub) {
+        $AllProducts = DB::table('product')->where('ID_SUBCATEGORY', $IDSub)->get();
+        for ($i = 0; $i < sizeof($AllProducts); $i++) {
+          self::CurrentDeleteProduct($AllProducts[$i]->VENDOR_CODE);
+        }
+
+        DB::table('subcategory')->where('ID_SUBCATEGORY', $IDSub)->delete();
+      }
+
       /**
       * Удалить выбранный продукт из БД
       * На вход: артикул продукта
@@ -807,9 +856,7 @@
       **/
       public function DeleteProduct(Request $request) {
 
-        DB::table('product')
-                            ->where('VENDOR_CODE', $request->VendoreCode)
-                            ->delete();
+        self::CurrentDeleteProduct($request->VendoreCode);
 
         //вернуть ответ на запрос в JSON формате(Успешный ответ)
         $response = array(
@@ -817,6 +864,39 @@
           'msg' => $request->message,
         );
         return response()->json($response);
+      }
+
+      public function CurrentDeleteProduct($VendoreCode) {
+        $destinationPath =  public_path() .'/img';
+
+        $id_Pic = DB::table('product')->where('VENDOR_CODE', $VendoreCode)->first()->ID_PICTURE;
+        $NamePic = DB::table('picture')->where('ID_PICTURE', $id_Pic)->first()->Name;
+        $AllPath = $destinationPath . "/" . $NamePic;
+        unlink($AllPath);
+
+        //удалить все второстепенные картинки
+        $AllSecPic = DB::table('secondpicture')->where('VENDOR_CODE', $VendoreCode)->get();
+        for ($i = 0; $i < sizeof($AllSecPic); $i++) { 
+          $AllPath = $destinationPath . "/" . $AllSecPic[$i]->Name;
+          unlink($AllPath);
+          DB::table('secondpicture')->where('Name', $AllSecPic[$i]->Name)->delete();
+        }
+
+        $AllChar = DB::table('allcharacteristics')->where('VENDOR_CODE', $VendoreCode)->get();
+        for ($i = 0; $i < sizeof($AllChar); $i++) {
+          $CharProd = DB::table('allcharacteristics')->where('ID_ALLCHARACTERISTICS', $AllChar[$i]->ID_ALLCHARACTERISTICS)->first();
+          $idName = $CharProd->ID_CHARACTERISTICSUBC;
+          $idVal = $CharProd->ID_VALUESUBC;
+          DB::table('allcharacteristics')->where('ID_ALLCHARACTERISTICS', $AllChar[$i]->ID_ALLCHARACTERISTICS)->delete();
+          DB::table('characteristicsubc')->where('ID_CHARACTERISTICSUBC', $idName)->delete();
+          DB::table('valuesubc')->where('ID_VALUESUBC', $idVal)->delete();
+        }
+
+        DB::table('product')->where('VENDOR_CODE', $VendoreCode)->delete();
+
+        //удалить заглавную картинку
+        DB::table('picture')->where('Name', $NamePic)->delete();
+        
       }
 
       /**
@@ -938,17 +1018,17 @@
       **/
       public function UpdateStatusOrder(Request $request) {
         //если заказ отменен, тогда увеличить количество имеющегося товара в таблице PRODUCT
-        if ($request->id_Status == 2) {
-          //получить все продукты выбранного заказа
-          $AllProductsOrder = DB::table('orer_product')->where('ID_ORDER', $request->id_Order)->get();
-          for ($i = 0; $i < sizeof($AllProductsOrder); $i++) {
-            //найти количество выбранного продукта в БД
-            $ProductCount = DB::table('product')->where('VENDOR_CODE', $AllProductsOrder[$i]->VENDOR_CODE)->first()->Count;
-            DB::table('product')
-                              ->where('VENDOR_CODE', $AllProductsOrder[$i]->VENDOR_CODE)
-                              ->update(['Count' => (int)($ProductCount + $AllProductsOrder[$i]->Count)]);
-          }
-        }
+        // if ($request->id_Status == 2) {
+        //   //получить все продукты выбранного заказа
+        //   $AllProductsOrder = DB::table('orer_product')->where('ID_ORDER', $request->id_Order)->get();
+        //   for ($i = 0; $i < sizeof($AllProductsOrder); $i++) {
+        //     //найти количество выбранного продукта в БД
+        //     $ProductCount = DB::table('product')->where('VENDOR_CODE', $AllProductsOrder[$i]->VENDOR_CODE)->first()->Count;
+        //     DB::table('product')
+        //                       ->where('VENDOR_CODE', $AllProductsOrder[$i]->VENDOR_CODE)
+        //                       ->update(['Count' => (int)($ProductCount + $AllProductsOrder[$i]->Count)]);
+        //   }
+        // }
         DB::table('order')
                         ->where('ID_ORDER', $request->id_Order)
                         ->update(['ID_STATUSORDER' => $request->id_Status]);
@@ -964,7 +1044,20 @@
       //получить все письма для сайта
       public function GetAllMessages() {
         $Email = DB::table('email')->get();
-        return json_encode($Email);
+        return json_encode($Email[0]);
+      }
+
+      public function changeEmail(Request $request) {
+        DB::table('email')->where('id', 1)
+                          ->update([
+                            'Email From' => $request->newEmail
+                          ]);
+
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
       }
 
       //получить все почтовые ящики для рассылки
@@ -978,30 +1071,35 @@
       //img - изображение
       public function AddSecondPic(Request $request) {
 
-        if ($request->hasFile('img')) {
-
-          $file = $request->file('img');
-          $vendore = $request->vendore;
-          $destinationPath =  public_path().'/img';
-          $filename = $file->getClientOriginalName();
-
-          //добавление файла в бд
-          DB::table('secondpicture')->insert([
-            'VENDOR_CODE' => $vendore,
-            'Name' => $filename
-          ]);
-          //добавление файла в репозиторий
-          if ($request->hasFile('img')) {
-              $request->file('img')->move($destinationPath, $filename);
+        $NamesPic = DB::table('secondpicture')->where('VENDOR_CODE', $request->vendore)->get();
+        if ($request->hasFile('img') == true) {
+          // $NameOldPic = DB::table('picture')->where("ID_PICTURE", $Product[0]->ID_PICTURE)->first()->Name;
+          $namePic = $request->file('img')->getClientOriginalName();
+          $namePicFull = self::createNamePicture( $request->file('img')->getClientOriginalName(), $request->vendore);
+          $OldNames = []; $flagOld = false;
+          for ($i = 0; $i < sizeof($NamesPic); $i++) { 
+            $NamesPic[$i] = $NamesPic[$i]->Name;
+            if ($NamesPic[$i] == $namePicFull) $flagOld = true;
+            if ($NamesPic[$i] == $namePic) $flagOld = true;
           }
-          return redirect('/admin');
+
+          if ($flagOld == false ) {
+            $destinationPath =  public_path().'/img';
+            DB::table('secondpicture')->insert([
+              'VENDOR_CODE' => $request->vendore,
+              'Name' => $namePicFull
+            ]);
+            $request->file('img')->move($destinationPath, $namePicFull);
+          }
+          else {
+            return var_dump("Такое изображение уже есть!");
+          }
         }
         else {
-          return redirect('/admin');
-          //  $response = array(
-          // 'status' => 'success',
-          // 'msg' => $request->message,
+          return var_dump("Не выбрана фотография товара!");
         }
+        
+        return redirect('/admin');
       }
 
       //добавить главную фотографию к товару
@@ -1168,4 +1266,30 @@
 
         return redirect('/admin');
       }
+
+      public function GetAllSecPic(Request $request) {
+        $AllPicNames = DB::table('secondpicture')->where('VENDOR_CODE', $request->VendoreCode)->get();
+        for ($i = 0; $i < sizeof($AllPicNames); $i++)
+          $AllPicNames[$i] = $AllPicNames[$i]->Name;
+        return json_encode($AllPicNames);
+      }
+
+      public function DeleteSecondPic(Request $request) {
+        $arrayPictures = explode("|", $request->arrayPic);
+        $destinationPath =  public_path().'/img';
+        array_splice($arrayPictures, sizeof($arrayPictures) - 1);
+        for ($i = 0; $i < sizeof($arrayPictures); $i++) { 
+          DB::table('secondpicture')->where([
+            ['VENDOR_CODE', $request->vendore],
+            ['Name' , $arrayPictures[$i]]
+          ])->delete();
+
+          $AllPath = $destinationPath . "/" . $arrayPictures[$i];
+            //удалить старую картинку из репозитория
+            unlink($AllPath);
+        }
+        return redirect('/admin');
+        // return var_dump($arrayPictures);
+      }
+
   }

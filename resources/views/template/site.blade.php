@@ -100,7 +100,7 @@
 
         //проверить есть ли выбранный товар уже в корзине
         var arrayVendore = allSessionDate.split(' ');
-        var arrayCount = allSessionCounts.split(' ')
+        var arrayCount = allSessionCounts.split(' ');
         for (var i = 0; i < arrayVendore.length; i++) {
           if (vendoreCode == arrayVendore[i]) {    //если такой товар уже есть в корзине (сессии)
             arrayCount[i] = Number(arrayCount[i]) + Number(count); //увеличить кол-во товара

@@ -49,10 +49,12 @@ Route::get('/admin/logout', 'AuthAdmin\LoginController@logout');
 //Для категорий
 Route::GET('/admin/GetCategory', 'AdminController@GetCategory');
 Route::POST('/admin/AddCategory', 'AdminController@AddCategory');
+Route::DELETE('/admin/DeleteCategory', 'AdminController@DeleteCategory');
 
 //Для подкатегорий
 Route::GET('/admin/GetSubCategory', 'AdminController@GetSubCategory');
 Route::POST('/admin/AddSubCategory', 'AdminController@AddSubCategory');
+Route::DELETE('/admin/DeleteSubCategory', 'AdminController@DeleteSubCategory');
 
 //Для характеристик подкатегорий
 Route::GET('/admin/GetSubCatChar', 'AdminController@GetSubCatChar');
@@ -97,6 +99,8 @@ Route::DELETE('/admin/DeleteProduct', 'AdminController@DeleteProduct');
 Route::GET('admin/CountProduct', 'AdminController@CountProduct');
 Route::PUT('/admin/UpdateCountProduct', 'AdminController@UpdateCountProduct');
 Route::GET('/admin/GetOneProduct', 'AdminController@GetOneProduct');
+Route::GET('/admin/GetAllSecPic', 'AdminController@GetAllSecPic');
+Route::POST('/admin/DeleteSecondPic', 'AdminController@DeleteSecondPic');
 
 Route::POST('/admin/AddSecondPic', 'AdminController@AddSecondPic');
 Route::POST('/admin/AddFirstPic', 'AdminController@AddFirstPic');
@@ -119,3 +123,5 @@ Route::GET('/admin/getAllEmail', 'AdminController@getAllEmail');
 Route::GET('/admin/GetAllNews', 'AdminController@GetAllNews');
 Route::POST('/admin/AddNewNews', 'AdminController@AddNewNews');
 Route::DELETE('/admin/DeleteNews', 'AdminController@DeleteNews');
+
+Route::PUT('/admin/changeEmail', 'AdminController@changeEmail');

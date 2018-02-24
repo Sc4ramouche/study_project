@@ -146,24 +146,24 @@ class IndexController extends Controller
         $AllVendors = $request->VendoreCodeArray;
         $AllCounts = $request->CountArray;
         $Product;
-        for ($i = 0; $i < sizeof($AllVendors); $i++) { 
-            $Product = DB::table('PRODUCT')->where('VENDOR_CODE', $AllVendors[$i])->first();
+        // for ($i = 0; $i < sizeof($AllVendors); $i++) { 
+        //     $Product = DB::table('PRODUCT')->where('VENDOR_CODE', $AllVendors[$i])->first();
             
-            if ($Product->Count < $AllCounts[$i]) { //если кол-во меньше кол-ва на складе
-                $response = array(
-                  'status' => 'success',
-                  'msg' => $request->message,
-                  'orderStatus' => "Товара артикул#" . $Product->VENDOR_CODE  . " на складе всего " . $Product->Count . " штук" . " Выберите другое кол-во!",
-                );
-                return response()->json($response);
-            }
-        }
+        //     if ($Product->Count < $AllCounts[$i]) { //если кол-во меньше кол-ва на складе
+        //         $response = array(
+        //           'status' => 'success',
+        //           'msg' => $request->message,
+        //           'orderStatus' => "Товара артикул#" . $Product->VENDOR_CODE  . " на складе всего " . $Product->Count . " штук" . " Выберите другое кол-во!",
+        //         );
+        //         return response()->json($response);
+        //     }
+        // }
 
-        for ($i = 0; $i < sizeof($AllVendors); $i++) { 
-            DB::table('PRODUCT')
-                       ->where('VENDOR_CODE', $AllVendors[$i])
-                       ->update(['Count' => ($Product->Count - $AllCounts[$i])]);
-        }
+        // for ($i = 0; $i < sizeof($AllVendors); $i++) { 
+        //     DB::table('PRODUCT')
+        //                ->where('VENDOR_CODE', $AllVendors[$i])
+        //                ->update(['Count' => ($Product->Count - $AllCounts[$i])]);
+        // }
 
         DB::table('ORDER')->insert(
         [
@@ -201,12 +201,14 @@ class IndexController extends Controller
     }
 
     public function SendEmail(Request $request) {
-        DB::table('Email')->insert(
-            [
-                'From' => $request->username,
-                'Email From' => $request->email,
-                'Text' => $request->message
-        ]);
+        // DB::table('Email')->insert(
+        //     [
+        //         'From' => $request->username,
+        //         'Email From' => $request->email,
+        //         'Text' => $request->message
+        // ]);
+        $request->message .= " \nот " . $request->username;
+        mail($request->email, "Дом посуды", $request->message);
         return redirect('/');
     }
 

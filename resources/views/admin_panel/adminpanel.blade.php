@@ -45,13 +45,14 @@
 				<span id="List1">
 					<dd><a onclick="ShowCategory()" href="#" role="button">Просмотреть</a></dd>
 					<dd><a onclick="AddCategoryForm()" href="#" role="button">Добавить</a></dd>
-					<dd>
+					<dd><a onclick="DeleteCategoryForm()" href="#" role="button">Удалить</a></dd>
 					</dd>
 				</span>
 			<dt><a onclick="hidetext('List2')" href="#" role="button">Подкатегории</a></dt>
 				<span id="List2">
 					<dd><a onclick="ShowSubCategory()" href="#" role="button">Просмотреть</a></dd>
 					<dd><a onclick="AddSubCategoryForm()" href="#" role="button">Добавить</a></dd>
+					<dd><a onclick="DeleteSubCategory()" href="#" role="button">Удалить</a></dd>
 				</span>
 			<dt><a onclick="hidetext('List3')" href="#" role="button">Характеристики подкатегории</a></dt>
 				<span id="List3">
@@ -67,6 +68,7 @@
 					<dd><a onclick="DeleteProduct()" href="#" role="button">Удалить</a></dd>
 					<dd><a onclick="RedactProduct()" href="#" role="button">Редактировать</a></dd>
 					<dd><a onclick="AddSecondPhoto()" href="#" role="button">Добавить изображение для карточки товара</a></dd>
+					<dd><a onclick="DeleteSecondPhoto()" href="#" role="button">Удалить изображение для карточки товара</a></dd>
 				</span>
 			<dt><a onclick="hidetext('List5')" href="#" role="button">Бренды</a></dt>
 				<span id="List5">
@@ -102,14 +104,14 @@
 					<dd><a onclick="ShowAllOrdersProducts()" href="#" role="button">Просмотреть товары заказа</a></dd>
 					<dd><a onclick="ShangeStatusOrder()" href="#" role="button">Изменить статус заказа</a></dd>
 				</span>
-			<dt><a onclick="hidetext('List10')" href="#" role="button">Количество товара</a></dt>
+			<!-- <dt><a onclick="hidetext('List10')" href="#" role="button">Количество товара</a></dt>
 				<span id="List10">
 					<dd><a onclick="ShowCountProduct()" href="#" role="button">Просмотреть и редактировать</a></dd>
-				</span>
-			<dt><a onclick="hidetext('List11')" href="#" role="button">Почта</a></dt>
+				</span> -->
+			<!-- <dt><a onclick="hidetext('List11')" href="#" role="button">Почта</a></dt>
 				<span id="List11">
-					<dd><a onclick="ShowAllMessages()" href="#" role="button">Просмотреть письма</a></dd>
-				</span>
+					<dd><a onclick="ShowAllMessages()" href="#" role="button">Изменить EMAIL</a></dd>
+			 -->	</span>
 			<dt><a onclick="hidetext('List12')" href="#" role="button">Почты для рассылки</a></dt>
 				<span id="List12">
 					<dd><a onclick="ShowAllEmails()" href="#" role="button">Просмотреть список</a></dd>
@@ -208,17 +210,25 @@
 		$("#Response").empty();
 		$("#ResponseTable").empty();
 		GetAllMessages(function(AllMessages) {
-			$('#Response').append("<table width='1000' border='1'></table>")
-			$('#Response').find('table').append("<tr><td>№</td><td>От кого</td>" + 
-														"<td>Почта</td><td>Сообщение</td></tr>");
-			for (var i = 0; i < AllMessages.length; i++) {
-				$('#Response').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
-													"<td>" + AllMessages[i]['From'] + "</td>" +
-													"<td>" + AllMessages[i]['Email From'] + "</td>" +  
-													"<td>" + AllMessages[i]['Text'] + "</td></tr>");
-			}
+			$('#Response').append("<label>Нынешний EMAL: </label>" + AllMessages['Email From']);
+			$('#Response').append("<br><label>Изменить EMAIL: </label>" + 
+									"<input type='text' name='EmailName' id='EmailName'/>" + 
+									"<button id='ButtonChangeEmail'>Изменить</button>");
+			// $('#Response').append("<table width='1000' border='1'></table>")
+			// $('#Response').find('table').append("<tr><td>№</td><td>От кого</td>" + 
+			// 											"<td>Почта</td><td>Сообщение</td></tr>");
+			// for (var i = 0; i < AllMessages.length; i++) {
+			// 	$('#Response').find('table').append("<tr><td>" + (i + 1) + "</td>" + 
+			// 										"<td>" + AllMessages[i]['From'] + "</td>" +
+			// 										"<td>" + AllMessages[i]['Email From'] + "</td>" +  
+			// 										"<td>" + AllMessages[i]['Text'] + "</td></tr>");
+			// }
 		});
 	};
+
+	$('body').on('click', '#ButtonChangeEmail', function() {
+		changeEmail( $('#EmailName').val() );
+	});
 
 	function ShowAllEmails() {
 		$("#Response").empty();
@@ -280,6 +290,31 @@
 			},$('#RedactCategoryProduct').val());
 	});
 
+	function DeleteSubCategory() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllSubCategory(function(AllSubCategory) {
+			$('#Response').append("<label id='labelProduct'>Выберите подкатегорию: <label>");
+			$('#Response').append("<select id='SubCategoryForDelete'></select>");
+			$('#SubCategoryForDelete').append("<option selected='selected' disabled>Выберите подкатегорию</option>");
+			for (var i = 0; i < AllSubCategory.length; i++) {
+				for (var j = 0; j < AllSubCategory[i].SubCategoryArray.length; j++) {
+					$('#SubCategoryForDelete').append("<option value=" + AllSubCategory[i].SubCategoryArray[j].ID_SUBCATEGORY + ">" + 
+																		AllSubCategory[i].SubCategoryArray[j].Name + "</option>");
+
+				}
+			}
+			$('#ResponseTable').append("<button id='ButtonDeleteSubCategory'>Удалить</button>");
+		});	
+	};
+
+	$('body').on('click', '#ButtonDeleteSubCategory', function() {
+		if ($('#SubCategoryForDelete').val() != null) {
+			DeleteSubCategoryAJAX($('#SubCategoryForDelete').val());
+		}
+		else
+			alert("Выберите подкатегорию");
+	});	
 
 
 	$('body').on('click', '#SelectProduct', function() {
@@ -441,6 +476,85 @@
 		$('input[name="vendore"]').val( $('#NewProducts').val() );
 	})
 
+	function DeleteSecondPhoto() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
+		GetAllSubCategory(function(AllSubCategory) {
+			$('#Response').append("<br><select id='DeleteSecondPic'></select>");
+			$('#DeleteSecondPic').append("<option selected='selected' disabled>Выберите подкатегорию</option>");
+			for (var i = 0; i < AllSubCategory.length; i++) {
+				for (var j = 0; j < AllSubCategory[i].SubCategoryArray.length; j++) {
+					$('#DeleteSecondPic').append("<option value=" + AllSubCategory[i].SubCategoryArray[j].ID_SUBCATEGORY + ">" + 
+																		AllSubCategory[i].SubCategoryArray[j].Name + "</option>");
+
+				}
+			}
+		});
+	}
+
+	$('body').on("change", '#DeleteSecondPic', function() {
+		$("#ResponseTable").empty();
+		$("#labelProduct").remove();
+		$("#DeleteSecondPicProd").remove();
+		GetAllProducts(function(AllProducts) {
+				$('#Response').append("<label id='labelProduct'><br>Выберите артикул товара: <label>");
+				$('#Response').append("<select id='DeleteSecondPicProd'></select>");
+				$('#DeleteSecondPicProd').append("<option selected='selected' disabled>Выберите артикул</option>")
+				var Vendore;
+				for (var i = 0; i < AllProducts.length; i++) {
+					if (i == 0)
+						Vendore = AllProducts[i].VendoreCode;
+					$('#DeleteSecondPicProd').append("<option value=" + AllProducts[i].VendoreCode + ">" + 
+																			AllProducts[i].VendoreCode + "</option>");
+
+				}
+			},$('#DeleteSecondPic').val());
+	});
+
+	$('body').on('change', '#DeleteSecondPicProd', function() {
+		$("#ResponseTable").empty();
+		DeleteSecondPic(function(CoutPictures) {
+			$('#ResponseTable').append("<br>");
+
+			Text = "";
+			for (var i = 0; i < CoutPictures.length; i++) {
+				Text += "<input type='checkbox' id='checkbox_id' name='checkBoxName' value='" + CoutPictures[i] + "'/>" + 
+										"<img src='img/" + CoutPictures[i] + "' width='300' height='255' alt='lorem'>" + 
+										"<br>";
+			}
+
+			$('#ResponseTable').append("<form action='/admin/DeleteSecondPic' enctype='multipart/form-data' method='post'>" + 
+											"<input name='_token' type='hidden' value='{{ csrf_token() }}'/>" + 
+											"<div class='form-group'>" + 
+											Text +
+											"<input hidden='true' type='text' name='vendore' value='" + $('#DeleteSecondPicProd').val() + "'/>"+
+											"<input id='arrayPic' hidden='true' type='text' name='arrayPic' value=''/>" + 
+											"</div>" + 
+											"<button type='submit' class='btn btn-default btn-block'>Удалить</button>" + 
+											"</form>");
+			
+		}, $('#DeleteSecondPicProd').val())
+	})
+
+	$('body').on('change', '#checkbox_id', function() {
+		// $('input[name="checkBoxName"]:checked').each(function() {
+			// alert(this.value);
+			// $('[name=checkBoxName]').each(function() {
+			// 	alert(this.val);
+			// })
+		// });
+		ArrayPicters = "";
+		$(':checkbox:checked').each(function(i){
+      		// val[i] = $(this).val();
+      		ArrayPicters += $(this).val() + "|";
+    	});
+    	// alert(ArrayPicters);
+
+    	$('#arrayPic').val(ArrayPicters);
+    	// alert( $('#arrayPic').val() );
+	});
+
+
 	//Делегированная обработка событий для динамически добавленных документов
 	//ищет все нужные элементы в родительском теге (в данном случае - <body>)
 	$(document).ready(function() {
@@ -485,7 +599,6 @@
 		//Отловить нажатие на динамической кноки с id = ShowSubCategoryTable
 		//Отображает таблицу выбранной подкатегории товара
 		$('body').on("click", '#ShowSubCategoryTable', function() {
-			alert("kek");
 			$('#ResponseTable').empty();
 			GetAllProducts(function(AllProducts) {
 				$('#ResponseTable').append("<label>Выберите артикул товара: <label>");
@@ -497,7 +610,7 @@
 				$('#ResponseTable').append("<button id='ShowCharacteristicsProduct'>Просмотреть характеристики продукта</button>");
 			}, $('#SubCategoryForChar').val());
 			
-		});
+		});	
 
 		$('body').on("click", '#ShowCharacteristicsProduct', function() {
 			GetSubCharacteristics(function(SubCharacteristics) {
@@ -543,6 +656,7 @@
 				return;
 			}
 		});
+
 
 
 		//Отлавливает нажатие на динамическую кнопку с id = ShowCharSubForRedact
@@ -633,7 +747,7 @@
 			$('#ResponseTable').empty();
 			GetAllProducts(function(AllProducts) {
 				if (AllProducts.length == 0) {
-					alert("Данная подкатегория не имеет характеристик");
+					alert("Данная подкатегория не имеет товара.");
 					return;
 				}
 				$('#ResponseTable').append("<label>Выберите артикул товара: <label>");
@@ -1237,13 +1351,13 @@
 	//по адресу /admin/AddSubCatChar 
 	//данные, которые передаются по запросу: CSRF токен, название характеристики, 
 	//										ID категории, значение характеристики
-	function AddCharacteristicsSub(CharName, ID_SubCategory) {
+	function AddCharacteristicsSub(CharName, ID_SubCategory, VendoreCore, Value_Char) {
 		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 		$.ajax({
 			type: "POST",
 			url: "/admin/AddSubCatChar",
-			data: {_token: CSRF_TOKEN, nameChar: CharName, 
-					id_subCategory: ID_SubCategory},
+			data: {_token: CSRF_TOKEN, nameChar: CharName, VendoreCode : VendoreCore, 
+				CharValue : Value_Char, id_subCategory: ID_SubCategory},
 			dataType: 'JSON',
 			success: function(data) {
 				alert("Новая характеристика добавлена!");
@@ -1899,6 +2013,66 @@
 		});
 	}
 
+	function changeEmail(newEmail) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "PUT",
+			url: "/admin/changeEmail",
+			data: {_token: CSRF_TOKEN, newEmail: newEmail },
+			success: function(data) {
+				alert("Почтовый адрес успешно изменен!");
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+	function DeleteSecondPic(CoutPictures, VendoreCode) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "GET",
+			url: "/admin/GetAllSecPic",
+			data: {_token: CSRF_TOKEN, VendoreCode: VendoreCode },
+			success: function(data) {
+				CoutPictures(JSON.parse(data));
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+	function DeleteSubCategoryAJAX(ID_SubCategory) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "DELETE",
+			url: "/admin/DeleteSubCategory",
+			data: {_token: CSRF_TOKEN, IDSub: ID_SubCategory },
+			success: function(data) {
+				alert("Выбранная подкатегория успешо удалена!");
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
+	function DeleteCategoryAJAX(ID_Category) {
+		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			type: "DELETE",
+			url: "/admin/DeleteCategory",
+			data: {_token: CSRF_TOKEN, IDCat: ID_Category },
+			success: function(data) {
+				alert("Выбранная категория успешо удалена!");
+			},
+			error: function(data) {
+				alert("Ошибка при отправке запроса на сервер!");
+			}
+		});
+	}
+
 	//Отобразить перечень категорий в виде таблицы
 	//Вызвать функцию GetAllCategory и занести полученные данные в таблицу 
 	function ShowCategory() {
@@ -1917,6 +2091,26 @@
 			}
 		});
 	};
+
+	function DeleteCategoryForm() {
+		GetAllCategory(function(AllCategory) {
+			$("#Response").empty();
+			$("#ResponseTable").empty();
+			$('#Response').append("<label>Выберите категорию: <label>");
+			$('#Response').append("<select id='CategoryForm'></select><br>");
+			for (var i = 0; i < AllCategory.length; i++) {
+				$('#Response').find("select").append("<option value=" + AllCategory[i].ID_CATEGORY + ">" + 
+																		AllCategory[i].Name + "</option>");					
+			}
+			$('#Response').append("<button id='DeleteCategory'>Удалить</button>");
+		});
+	};
+
+	$('body').on('click', '#DeleteCategory', function() {
+		// alert('kek');
+		DeleteCategoryAJAX( $('#CategoryForm').val() );
+
+	});
 
 	//Отобразить перечень категорий в виде таблицы
 	//Вызвать функцию GetAllSubCategory и занести полученные данные в таблицу
@@ -2034,13 +2228,50 @@
 	//Дополнить форму форму для добавления новой характеристики, для подкатегории
 	//Отправить GET-запрос на сервер (GetAllSubCategory), чтобы получить перечень подкатегорий
 	function AddCharFromSub() {
+		$("#Response").empty();
+		$("#ResponseTable").empty();
 		GetAllSubCategory(function(AllSubCategory) {
-			ResponeForChar(AllSubCategory);
-			$('#Response').append("<label>Введите новую характеристику: </label>");
-			$('#Response').append("<input type='text' id='NewCharForSub'/>  ");
-			$('#Response').append("<br><button id='InsertNewCharForSub'>Добавить</button>");
+			$('#Response').append("<br><label id='labelSubCategoty'>Выберите подкатегорию товара: <label>");
+			$('#Response').append("<br><select id='AddCharProd'></select>");
+			$('#AddCharProd').append("<option selected='selected' disabled>Выберите подкатегорию</option>");
+			for (var i = 0; i < AllSubCategory.length; i++) {
+				for (var j = 0; j < AllSubCategory[i].SubCategoryArray.length; j++) {
+					$('#AddCharProd').append("<option value=" + AllSubCategory[i].SubCategoryArray[j].ID_SUBCATEGORY + ">" + 
+																		AllSubCategory[i].SubCategoryArray[j].Name + "</option>");
+
+				}
+			}
 		});
 	};
+
+	$('body').on('change', '#AddCharProd', function() {
+		$("#ResponseTable").empty();
+		GetAllProducts(function(AllProducts) {
+				$('#ResponseTable').append("<label id='labelProduct'>Выберите артикул товара: <label>");
+				$('#ResponseTable').append("<select id='SelectProductForChar'></select>");
+				$('#SelectProductForChar').append("<option selected='selected' disabled>Выберите артикул товара</option>")
+				var Vendore;
+				for (var i = 0; i < AllProducts.length; i++) {
+					if (i == 0)
+						Vendore = AllProducts[i].VendoreCode;
+					$('#ResponseTable').find("#SelectProductForChar").append("<option value=" + AllProducts[i].VendoreCode + ">" + 
+																			AllProducts[i].VendoreCode + "</option>");
+				}
+
+
+				$('#ResponseTable').append("<br><label>Введите название характеристики: </label>");
+				$('#ResponseTable').append("<input type='text' id='NameChar'/>  ");
+				$('#ResponseTable').append("<br><label>Введите значение характеристики: </label>");
+				$('#ResponseTable').append("<input type='text' id='ValueChar'/>  ");
+				$('#ResponseTable').append("<br><button id='AddCharForProd'>Добавить характеристику</button>")
+			},$('#AddCharProd').val());
+	});
+
+	$('body').on('click', '#AddCharForProd', function() {
+		// alert('kek');
+		AddCharacteristicsSub($('#NameChar').val(), $('#AddCharProd').val(), 
+			$('#SelectProductForChar').val(), $('#ValueChar').val());
+	});
 
 	//Дополнить форму для редактирования характеристик подкатегории
 	//Отправить GET-запрос на сервер (GetAllSubCategory), чтобы получить перечень подкатегорий
